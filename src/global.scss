@@ -24,3 +24,26 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+/*estilos alertas*/
+
+ion-alert.custom-alert {
+    --backdrop-opacity: 0.5;
+}
+
+/* title + subtitle*/
+.alert-head.sc-ion-alert-md {
+  text-align: center;
+}
+
+/*only title*/
+.alert-title.sc-ion-alert-ios{
+    font-size: 1.5rem;
+}
+
+/*only sub-title*/
+.alert-sub-title.sc-ion-alert-ios {
+    margin: 1rem 0;
+}
+

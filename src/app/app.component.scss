@@ -3,50 +3,58 @@ ion-menu ion-content {
 }
 
 ion-menu.md ion-content {
-  --padding-start: 8px;
-  --padding-end: 8px;
-  --padding-top: 20px;
-  --padding-bottom: 20px;
+  --padding-start: .8rem;
+  --padding-end: .8rem;
+  --padding-top: 2rem;
+  --padding-bottom: 2rem;
 }
 
 ion-menu.md ion-list {
-  padding: 20px 0;
+  padding: 1rem 0;
+}
+
+/*img logo*/
+.img-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo{
+  height: 50%;
+  width: 50%;
+  border: 10px solid var(--ion-color-step-150, #d7d8da);
+  border-radius: 50%;
 }
 
 ion-menu.md ion-note {
-  margin-bottom: 30px;
+  width: 100%;
+  min-height: 3rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--ion-color-step-150, #d7d8da);
 }
 
 ion-menu.md ion-list-header,
 ion-menu.md ion-note {
-  padding-left: 10px;
+  text-align: center !important;
+  padding-left: 1rem;
+  letter-spacing: .05rem;
 }
 
-ion-menu.md ion-list#inbox-list {
+ion-menu.md ion-list.border{
   border-bottom: 1px solid var(--ion-color-step-150, #d7d8da);
 }
 
-ion-menu.md ion-list#inbox-list ion-list-header {
-  font-size: 22px;
+ion-menu.md ion-title {
+  font-size: 1.5rem;
   font-weight: 600;
-
-  min-height: 20px;
-}
-
-ion-menu.md ion-list#labels-list ion-list-header {
-  font-size: 16px;
-
-  margin-bottom: 18px;
-
-  color: #757575;
-
-  min-height: 26px;
+  padding: 1rem;
 }
 
 ion-menu.md ion-item {
-  --padding-start: 10px;
-  --padding-end: 10px;
-  border-radius: 4px;
+  --padding-start: .5rem;
+  --padding-end: 1rem;
+  border-radius: 5px;
 }
 
 ion-menu.md ion-item.selected {
@@ -59,10 +67,6 @@ ion-menu.md ion-item.selected ion-icon {
 
 ion-menu.md ion-item ion-icon {
   color: #616e7e;
-}
-
-ion-menu.md ion-item ion-label {
-  font-weight: 500;
 }
 
 ion-menu.ios ion-content {
@@ -93,10 +97,6 @@ ion-menu.ios ion-item ion-icon {
   color: #73849a;
 }
 
-ion-menu.ios ion-list#labels-list ion-list-header {
-  margin-bottom: 8px;
-}
-
 ion-menu.ios ion-list-header,
 ion-menu.ios ion-note {
   padding-left: 16px;
@@ -109,8 +109,7 @@ ion-menu.ios ion-note {
 
 ion-note {
   display: inline-block;
-  font-size: 16px;
-
+  font-size: .9rem;
   color: var(--ion-color-medium-shade);
 }
 

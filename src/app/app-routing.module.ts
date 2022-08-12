@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { ActividadesCustomComponent } from './components/actividades-custom/actividades-custom.component';
+import { ActividadesStandarComponent } from './components/actividades-standar/actividades-standar.component';
+import { EstimacionComponent } from './components/estimacion/estimacion.component';
+import { HistorialComponent } from './components/historial/historial.component';
+import { InicioComponent } from './components/inicio/inicio.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'folder/Inbox',
-    pathMatch: 'full'
-  },
-  {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  }
+  { path: '', redirectTo: 'inicio', pathMatch: 'full' },
+  { path:'inicio', component:InicioComponent, pathMatch:'full' },
+  { path:'actividades/standar', component:ActividadesStandarComponent, pathMatch: 'full'},
+  { path:'actividades/custom', component:ActividadesCustomComponent, pathMatch: 'full'},
+  { path:'historial', component:HistorialComponent, pathMatch:'full'},
+  { path:'estimacion', component:EstimacionComponent, pathMatch:'full'}
 ];
 
 @NgModule({
