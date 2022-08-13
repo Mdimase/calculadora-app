@@ -8,22 +8,16 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { InicioComponent } from './components/inicio/inicio.component';
-import { EncabezadoComponent } from './components/encabezado/encabezado.component';
-import { ActividadesStandarComponent } from './components/actividades-standar/actividades-standar.component';
-import { ActividadesCustomComponent } from './components/actividades-custom/actividades-custom.component';
-import { HistorialComponent } from './components/historial/historial.component';
-import { EstimacionComponent } from './components/estimacion/estimacion.component';
 import { InicioPageModule } from './pages/inicio/inicio.module';
 import { ComponentsModule } from './components/components.module';
+import { HistorialPageModule } from './pages/historial/historial.module';
+import { ActividadesCustomPageModule } from './pages/actividades-custom/actividades-custom.module';
+import { EstimacionPageModule } from './pages/estimacion/estimacion.module';
+import { ActividadesStandarPageModule } from './pages/actividades-standar/actividades-standar.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ActividadesStandarComponent,
-    ActividadesCustomComponent,
-    HistorialComponent,
-    EstimacionComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +26,11 @@ import { ComponentsModule } from './components/components.module';
     CommonModule,
     FormsModule,
     ComponentsModule,
-    InicioPageModule
+    InicioPageModule,
+    HistorialPageModule,
+    ActividadesCustomPageModule,
+    EstimacionPageModule,
+    ActividadesStandarPageModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

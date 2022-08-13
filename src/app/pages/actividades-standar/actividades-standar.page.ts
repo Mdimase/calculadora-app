@@ -1,13 +1,13 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { Actividad } from 'src/app/interfaces/actividad';
 
 @Component({
   selector: 'app-actividades-standar',
-  templateUrl: './actividades-standar.component.html',
-  styleUrls: ['./actividades-standar.component.scss'],
+  templateUrl: './actividades-standar.page.html',
+  styleUrls: ['./actividades-standar.page.scss'],
 })
-export class ActividadesStandarComponent implements OnInit {
+export class ActividadesStandarPage implements OnInit {
 
   actividades: Actividad[] = [
     {nombre:'Actividad 1', descripcion:'descripcion de esta actividad la verdad que es muy buena',tiempo:45},
@@ -28,7 +28,8 @@ export class ActividadesStandarComponent implements OnInit {
 
   constructor(private alertController: AlertController) { }
 
-  ngOnInit(){}
+  ngOnInit() {
+  }
 
   async presentAlert(actividad: Actividad) {
     const alert = await this.alertController.create({
