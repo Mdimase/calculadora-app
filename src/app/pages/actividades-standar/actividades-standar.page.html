@@ -1,5 +1,5 @@
 <app-encabezado [title]="'Actividades Standar'">
-  <ion-icon name="help-circle-sharp" slot="end" class="icon-help"></ion-icon>
+  <ion-icon name="help-circle-sharp" slot="end" class="icon-help" (click)="mostrarPopover($event)"></ion-icon>
 </app-encabezado>
 
 <ion-content>
@@ -8,11 +8,24 @@
         <ion-title size="large">Actividades Standar</ion-title>
       </ion-toolbar>
     </ion-header>
-    
+
+    <!--search bar-->
+    <ion-searchbar placeholder="Buscar" (ionChange)="buscar($event)"></ion-searchbar>
+
+
     <ion-list lines="full">
-      <ion-item *ngFor="let actividad of actividades;" (click)="presentAlert(actividad)">
+      <ion-item *ngFor="let actividad of actividades | filtro:busqueda:'nombre'" (click)="presentAlert(actividad)">
         <ion-label class="ion-text-wrap">{{actividad.nombre}}</ion-label>
       </ion-item>
     </ion-list>
+
+    <!-- infinte scroll-->
+    <!--treshold al 10% del fondo activa el spinner y carga el resto de elementos-->
+    <ion-infinite-scroll threshold="10%" (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Cargando...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 
 </ion-content>

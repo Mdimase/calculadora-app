@@ -14,6 +14,7 @@ import { HistorialPageModule } from './pages/historial/historial.module';
 import { ActividadesCustomPageModule } from './pages/actividades-custom/actividades-custom.module';
 import { EstimacionPageModule } from './pages/estimacion/estimacion.module';
 import { ActividadesStandarPageModule } from './pages/actividades-standar/actividades-standar.module';
+import { PipesModule } from './pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ActividadesStandarPageModule } from './pages/actividades-standar/activi
     HistorialPageModule,
     ActividadesCustomPageModule,
     EstimacionPageModule,
-    ActividadesStandarPageModule
+    ActividadesStandarPageModule,
+    PipesModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

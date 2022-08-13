@@ -26,7 +26,7 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 
-/*estilos alertas*/
+/************estilos alertas*********/
 
 ion-alert.custom-alert {
     --backdrop-opacity: 0.5;
@@ -47,3 +47,8 @@ ion-alert.custom-alert {
     margin: 1rem 0;
 }
 
+/***** estilos popover *******/
+
+ion-popover{
+    --box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.6);
+}

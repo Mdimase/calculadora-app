@@ -15,7 +15,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
     FormsModule,
     IonicModule,
     ActividadesCustomPageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
   ],
   declarations: [ActividadesCustomPage]
 })
