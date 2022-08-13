@@ -21,10 +21,10 @@ ion-menu.md ion-list {
 }
 
 .logo{
-  height: 50%;
-  width: 50%;
-  border: 10px solid var(--ion-color-step-150, #d7d8da);
-  border-radius: 50%;
+  min-height: 120px;
+  min-width: 120px;
+  border: 7px solid var(--ion-color-step-150, #d7d8da);
+  object-fit: cover;
 }
 
 ion-menu.md ion-note {

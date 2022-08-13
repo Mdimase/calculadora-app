@@ -14,12 +14,12 @@ import { ActividadesStandarComponent } from './components/actividades-standar/ac
 import { ActividadesCustomComponent } from './components/actividades-custom/actividades-custom.component';
 import { HistorialComponent } from './components/historial/historial.component';
 import { EstimacionComponent } from './components/estimacion/estimacion.component';
+import { InicioPageModule } from './pages/inicio/inicio.module';
+import { ComponentsModule } from './components/components.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    InicioComponent,
-    EncabezadoComponent,
     ActividadesStandarComponent,
     ActividadesCustomComponent,
     HistorialComponent,
@@ -31,6 +31,8 @@ import { EstimacionComponent } from './components/estimacion/estimacion.componen
     AppRoutingModule,
     CommonModule,
     FormsModule,
+    ComponentsModule,
+    InicioPageModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

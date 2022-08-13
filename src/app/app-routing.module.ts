@@ -4,11 +4,15 @@ import { ActividadesCustomComponent } from './components/actividades-custom/acti
 import { ActividadesStandarComponent } from './components/actividades-standar/actividades-standar.component';
 import { EstimacionComponent } from './components/estimacion/estimacion.component';
 import { HistorialComponent } from './components/historial/historial.component';
-import { InicioComponent } from './components/inicio/inicio.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
-  { path:'inicio', component:InicioComponent, pathMatch:'full' },
+
+  {
+    path: 'inicio',
+    loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule)
+  },
+
   { path:'actividades/standar', component:ActividadesStandarComponent, pathMatch: 'full'},
   { path:'actividades/custom', component:ActividadesCustomComponent, pathMatch: 'full'},
   { path:'historial', component:HistorialComponent, pathMatch:'full'},
