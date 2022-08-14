@@ -8,8 +8,24 @@
       <ion-title size="large">Actividades Custom</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-buttons>
-    <ion-icon name="ellipsis-vertical-sharp" slot="end" (click)="actionSheet()"></ion-icon>
-  </ion-buttons>
+
+  <!-- barra de busqueda -->
+  <ion-searchbar placeholder="Buscar" (ionChange)="buscar($event)"></ion-searchbar>
+
+  <!-- listado de actividades-->
+  <ion-list lines="full">
+    <ion-item *ngFor="let actividad of actividades | filtro:busqueda:'nombre'">
+      <ion-label class="ion-text-wrap" (click)="presentAlert(actividad)">{{actividad.nombre}}</ion-label>
+      <ion-buttons>
+        <ion-icon name="ellipsis-vertical-sharp" slot="end" (click)="mostrarEditOptions($event, actividad)"></ion-icon>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed" class="bottom-5">
+    <ion-fab-button (click)="mostrarAgregarModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
 </ion-content>
-  

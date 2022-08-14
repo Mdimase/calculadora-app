@@ -1,13 +1,21 @@
-.container{
+ion-list{
+    margin: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 20px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
-    font-size: 1.5rem;
+    flex-direction: column;
 }
 
+ion-item{
+    margin: .5rem 0; 
+    font-size: 1.2rem;
+}
 
 .icon-help{
     font-size: 1.8rem;
-    flex: .5 1 0;
+    flex: .3 1 0;
+}
+
+.bottom-5{
+    bottom: 50px !important;
 }

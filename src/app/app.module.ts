@@ -17,6 +17,7 @@ import { ActividadesStandarPageModule } from './pages/actividades-standar/activi
 import { PipesModule } from './pipes/pipes.module';
 import { PopoverService } from './services/popover.service';
 import { AlertService } from './services/alert.service';
+import { ActividadesService } from './services/actividades.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { AlertService } from './services/alert.service';
     ActividadesStandarPageModule,
     PipesModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, PopoverService, AlertService],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, PopoverService, AlertService, ActividadesService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

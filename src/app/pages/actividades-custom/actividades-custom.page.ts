@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Actividad } from 'src/app/interfaces/actividad';
+import { ActividadesService } from 'src/app/services/actividades.service';
+import { AlertService } from 'src/app/services/alert.service';
 import { PopoverService } from 'src/app/services/popover.service';
 
 @Component({
@@ -8,9 +11,17 @@ import { PopoverService } from 'src/app/services/popover.service';
 })
 export class ActividadesCustomPage implements OnInit {
 
-  constructor(private popoverService: PopoverService) { }
+  busqueda = '';
+  actividades: Actividad[] = [];
 
-  ngOnInit() {
+  constructor(private popoverService: PopoverService,
+              private alertService: AlertService,
+              private actividadesService: ActividadesService){}
+
+  ngOnInit(){
+    this.actividadesService.getActividades$().subscribe(actividades =>{
+      this.actividades = actividades;
+    });
   }
 
   /* popover info*/
@@ -19,8 +30,22 @@ export class ActividadesCustomPage implements OnInit {
     this.popoverService.simpleMessage(message,evento);
   }
 
-  actionSheet(){
-    console.log('action');
+  /* alert -> informacion extra de una actividad*/
+  async presentAlert(actividad: Actividad) {
+    this.alertService.itemDescription(actividad);
+  }
+
+  /*buscar en la lista -> search bar*/
+  buscar(event){
+    this.busqueda = event.detail.value;
+  }
+
+  async mostrarEditOptions(event, actividad: Actividad){
+    this.popoverService.editOptions(event, actividad);
+  }
+
+  mostrarAgregarModal(){
+    console.log('modal add act');
   }
 
 }

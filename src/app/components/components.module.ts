@@ -4,11 +4,13 @@ import { EncabezadoComponent } from './encabezado/encabezado.component';
 import { PopoverHelpIconComponent } from './popover-help-icon/popover-help-icon.component';
 import { IonicModule } from '@ionic/angular';
 import { PipesModule } from '../pipes/pipes.module';
+import { PopoverEditOptionsComponent } from './popover-edit-options/popover-edit-options.component';
 
 @NgModule({
   declarations: [
     EncabezadoComponent,
-    PopoverHelpIconComponent
+    PopoverHelpIconComponent,
+    PopoverEditOptionsComponent
   ],
   imports: [
     CommonModule,
@@ -17,7 +19,8 @@ import { PipesModule } from '../pipes/pipes.module';
   ],
   exports:[
     EncabezadoComponent,
-    PopoverHelpIconComponent
+    PopoverHelpIconComponent,
+    PopoverEditOptionsComponent
   ]
 })
 export class ComponentsModule { }
