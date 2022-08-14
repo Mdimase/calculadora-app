@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AlertController, IonInfiniteScroll, PopoverController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { Actividad } from 'src/app/interfaces/actividad';
 import { ActividadesService } from 'src/app/services/actividades.service';
 import { AlertService } from 'src/app/services/alert.service';
@@ -10,11 +11,11 @@ import { PopoverService } from 'src/app/services/popover.service';
   templateUrl: './actividades-standar.page.html',
   styleUrls: ['./actividades-standar.page.scss'],
 })
-export class ActividadesStandarPage implements OnInit {
+export class ActividadesStandarPage implements OnInit, OnDestroy {
 
   busqueda = '';
-
   actividades: Actividad[];
+  private suscripcion: Subscription;
 
   constructor(private popoverService: PopoverService,
               private alertService: AlertService,
@@ -22,9 +23,13 @@ export class ActividadesStandarPage implements OnInit {
               ) { }
 
   ngOnInit(){
-    this.actividadesService.getActividades$().subscribe(actividades =>{
+    this.suscripcion = this.actividadesService.getActividades$().subscribe(actividades =>{
       this.actividades = actividades;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.suscripcion.unsubscribe();
   }
 
   /* popover info page*/

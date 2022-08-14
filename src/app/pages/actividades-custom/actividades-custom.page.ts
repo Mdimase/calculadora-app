@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Actividad } from 'src/app/interfaces/actividad';
 import { ActividadesService } from 'src/app/services/actividades.service';
 import { AlertService } from 'src/app/services/alert.service';
@@ -9,19 +10,24 @@ import { PopoverService } from 'src/app/services/popover.service';
   templateUrl: './actividades-custom.page.html',
   styleUrls: ['./actividades-custom.page.scss'],
 })
-export class ActividadesCustomPage implements OnInit {
+export class ActividadesCustomPage implements OnInit, OnDestroy {
 
   busqueda = '';
   actividades: Actividad[] = [];
+  private suscripcion: Subscription;
 
   constructor(private popoverService: PopoverService,
               private alertService: AlertService,
               private actividadesService: ActividadesService){}
 
   ngOnInit(){
-    this.actividadesService.getActividades$().subscribe(actividades =>{
+    this.suscripcion = this.actividadesService.getActividades$().subscribe(actividades =>{
       this.actividades = actividades;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.suscripcion.unsubscribe();
   }
 
   /* popover info*/
