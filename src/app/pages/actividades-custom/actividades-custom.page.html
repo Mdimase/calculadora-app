@@ -2,12 +2,14 @@
   <ion-icon name="help-circle-sharp" slot="end" class="icon-help" (click)="mostrarPopover($event)"></ion-icon>
 </app-encabezado>
 
-<div class="container">
+<ion-content>
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Actividades Custom</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-buttons>
+    <ion-icon name="ellipsis-vertical-sharp" slot="end" (click)="actionSheet()"></ion-icon>
+  </ion-buttons>
+</ion-content>
   
-  <strong class="capitalize">Actividades Custom</strong>
-</div>

@@ -15,6 +15,8 @@ import { ActividadesCustomPageModule } from './pages/actividades-custom/activida
 import { EstimacionPageModule } from './pages/estimacion/estimacion.module';
 import { ActividadesStandarPageModule } from './pages/actividades-standar/actividades-standar.module';
 import { PipesModule } from './pipes/pipes.module';
+import { PopoverService } from './services/popover.service';
+import { AlertService } from './services/alert.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,7 @@ import { PipesModule } from './pipes/pipes.module';
     ActividadesStandarPageModule,
     PipesModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, PopoverService, AlertService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -3,29 +3,19 @@
 </app-encabezado>
 
 <ion-content>
-    <ion-header collapse="condense">
-      <ion-toolbar>
-        <ion-title size="large">Actividades Standar</ion-title>
-      </ion-toolbar>
-    </ion-header>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Actividades Standar</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
-    <!--search bar-->
-    <ion-searchbar placeholder="Buscar" (ionChange)="buscar($event)"></ion-searchbar>
+  <!--search bar-->
+<ion-searchbar placeholder="Buscar" (ionChange)="buscar($event)"></ion-searchbar>
 
-
-    <ion-list lines="full">
-      <ion-item *ngFor="let actividad of actividades | filtro:busqueda:'nombre'" (click)="presentAlert(actividad)">
-        <ion-label class="ion-text-wrap">{{actividad.nombre}}</ion-label>
-      </ion-item>
-    </ion-list>
-
-    <!-- infinte scroll-->
-    <!--treshold al 10% del fondo activa el spinner y carga el resto de elementos-->
-    <ion-infinite-scroll threshold="10%" (ionInfinite)="loadData($event)">
-      <ion-infinite-scroll-content
-        loadingSpinner="bubbles"
-        loadingText="Cargando...">
-      </ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+<ion-list lines="full">
+  <ion-item *ngFor="let actividad of actividades | filtro:busqueda:'nombre'">
+    <ion-label class="ion-text-wrap" (click)="presentAlert(actividad)">{{actividad.nombre}}</ion-label>
+  </ion-item>
+</ion-list>
 
 </ion-content>

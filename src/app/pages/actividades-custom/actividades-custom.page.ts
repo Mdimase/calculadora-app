@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
-import { PopoverHelpIconComponent } from 'src/app/components/popover-help-icon/popover-help-icon.component';
+import { PopoverService } from 'src/app/services/popover.service';
 
 @Component({
   selector: 'app-actividades-custom',
@@ -9,7 +8,7 @@ import { PopoverHelpIconComponent } from 'src/app/components/popover-help-icon/p
 })
 export class ActividadesCustomPage implements OnInit {
 
-  constructor(private popoverController: PopoverController) { }
+  constructor(private popoverService: PopoverService) { }
 
   ngOnInit() {
   }
@@ -17,14 +16,11 @@ export class ActividadesCustomPage implements OnInit {
   /* popover info*/
   async mostrarPopover(evento){
     const message = 'actividades academicas creadas por el usuario';
-    const popover = await this.popoverController.create({
-      component:PopoverHelpIconComponent,
-      componentProps:{message},
-      animated:true,
-      event:evento,
-      mode:'ios'
-    });
-    await popover.present();
+    this.popoverService.simpleMessage(message,evento);
+  }
+
+  actionSheet(){
+    console.log('action');
   }
 
 }

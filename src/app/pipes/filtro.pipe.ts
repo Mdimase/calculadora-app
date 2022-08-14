@@ -10,7 +10,8 @@ export class FiltroPipe implements PipeTransform {
       return arreglo;
     }
     texto = texto.toLowerCase();
-    return arreglo.filter(item =>item[propiedad].toLowerCase().includes(texto));
+    const arregloFiltrado = arreglo.filter(item =>item[propiedad].toLowerCase().includes(texto));
+    return arregloFiltrado.slice(0);
   }
 
 }
