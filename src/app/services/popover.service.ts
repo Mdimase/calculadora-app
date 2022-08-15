@@ -24,6 +24,8 @@ export class PopoverService {
     await popover.present();
   }
 
+  /* muestra las opciones de edicion de una actividad */
+  /* retorna la eleccion del usuario */
   async editOptions(evento: any, actividad: Actividad){
     const popover = await this.popoverController.create({
       component:PopoverEditOptionsComponent,
@@ -33,16 +35,7 @@ export class PopoverService {
       side:'bottom'
     });
     await popover.present();
-    /* opcion elegida por el usuario*/
-    const { data } = await popover.onWillDismiss();
-    if(data === 'Eliminar'){
-      this.actividadesService.borrarActividad(actividad);
-    }
-    if(data === 'Editar'){
-      // editar
-      console.log(actividad);
-      //this.actividadesService.editarActividad(actividad.nombre);
-    }
+    return await popover.onWillDismiss(); /* opcion elegida por el usuario*/
   }
 
 }

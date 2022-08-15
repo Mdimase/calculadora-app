@@ -13,13 +13,27 @@ export class AlertService {
   async itemDescription(actividad: Actividad){
     const alert = await this.alertController.create({
       header: actividad.nombre,
-      mode:'ios',
-      cssClass:'custom-alert',
       subHeader: actividad.descripcion,
       message: 'tiempo estimado: ' + actividad.tiempo.toString() + ' minutos',
+      mode:'ios',
+      cssClass:'custom-alert',
       buttons: ['OK']
     });
     await alert.present();
+  }
+
+  /* alerta de confirmacion */
+  /* retorna la eleccion del usuario */
+  async confirm(actividad: Actividad, action: string){
+    const alert = await this.alertController.create({
+      header: 'Confirmar',
+      subHeader:'¿ Deseas ' + action.toLowerCase() + ' de forma permanente ' + actividad.nombre + ' ?',
+      mode:'ios',
+      cssClass:'custom-alert',
+      buttons: [{ text:'Cancelar', role:'cancel' },{ text:action, role:'confirm'}]
+    });
+    await alert.present();
+    return (await alert.onWillDismiss()).role; /* opcion elegida por el usuario */
   }
 
 }

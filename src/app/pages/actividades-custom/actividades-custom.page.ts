@@ -47,7 +47,17 @@ export class ActividadesCustomPage implements OnInit, OnDestroy {
   }
 
   async mostrarEditOptions(event, actividad: Actividad){
-    this.popoverService.editOptions(event, actividad);
+    const { data } = await this.popoverService.editOptions(event, actividad);
+    if(data === 'Eliminar'){
+      if( await this.alertService.confirm(actividad, 'Eliminar') === 'confirm'){
+        this.actividadesService.borrarActividad(actividad);
+      }
+    }
+    if(data === 'Editar'){
+      // editar
+      // console.log(actividad);
+      //this.actividadesService.editarActividad(actividad.nombre);
+    }
   }
 
   mostrarAgregarModal(){
