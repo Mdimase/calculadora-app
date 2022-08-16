@@ -18,6 +18,9 @@ import { PipesModule } from './pipes/pipes.module';
 import { PopoverService } from './services/popover.service';
 import { AlertService } from './services/alert.service';
 import { ActividadesService } from './services/actividades.service';
+import { AgregarActividadModalPageModule } from './pages/agregar-actividad-modal/agregar-actividad-modal.module';
+import { ModalService } from './services/modal.service';
+import { EditarActividadModalPageModule } from './pages/editar-actividad-modal/editar-actividad-modal.module';
 
 @NgModule({
   declarations: [
@@ -35,9 +38,17 @@ import { ActividadesService } from './services/actividades.service';
     ActividadesCustomPageModule,
     EstimacionPageModule,
     ActividadesStandarPageModule,
-    PipesModule
+    PipesModule,
+    AgregarActividadModalPageModule,
+    EditarActividadModalPageModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, PopoverService, AlertService, ActividadesService],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    PopoverService,
+    AlertService,
+    ActividadesService,
+    ModalService
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -93,13 +93,16 @@ export class ActividadesService {
   }
 
   /* editar una actividad */
+  /* TO DO: reemplazar nombre por id */
   editarActividad(id: string, actividadActualizada: Actividad){
     this.actividades.map(a => {
-      if(a.nombre === id){
-        a = actividadActualizada;
+      if (a.nombre === id) {
+        a.nombre = actividadActualizada.nombre;
+        a.tiempo = actividadActualizada.tiempo;
+        a.descripcion = actividadActualizada.descripcion;
       }
     });
-    // this.actividades$.next(this.actividades);
+    this.actividades$.next(this.actividades);
   }
 
 }

@@ -1,0 +1,33 @@
+
+  <ion-list class="ion-align-items-center ion-margin ion-padding border-radius">
+    <form [formGroup]="actividadForm" novalidate (ngSubmit)="onSubmit()">
+      <ion-item>
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input inputmode="text" formControlName="nombre"></ion-input>
+        <div *ngFor="let error of mensajesError.nombre">
+          <ng-container *ngIf="isInvalid('nombre',error)">
+            <small class="error-message">{{error.message}}</small>
+          </ng-container>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Tiempo estimado</ion-label>
+        <ion-input inputmode="numeric" type="number" formControlName="tiempo"></ion-input>
+        <div *ngFor="let error of mensajesError.tiempo">
+          <ng-container *ngIf="isInvalid('tiempo',error)">
+            <small class="error-message">{{error.message}}</small>
+          </ng-container>
+        </div>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Descripcion</ion-label>
+        <ion-textarea cols="50" rows="8" formControlName="descripcion"></ion-textarea>
+        <div *ngFor="let error of mensajesError.descripcion">
+          <ng-container *ngIf="isInvalid('descripcion',error)">
+            <small class="error-message">{{error.message}}</small>
+          </ng-container>
+        </div>
+      </ion-item>
+      <ion-button expand="block" class="ion-margin-horizontal" [disabled]="actividadForm.invalid" type="submit">Enviar</ion-button>
+    </form>
+  </ion-list>

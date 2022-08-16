@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { Actividad } from 'src/app/interfaces/actividad';
 import { ActividadesService } from 'src/app/services/actividades.service';
 import { AlertService } from 'src/app/services/alert.service';
+import { ModalService } from 'src/app/services/modal.service';
 import { PopoverService } from 'src/app/services/popover.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class ActividadesCustomPage implements OnInit, OnDestroy {
 
   constructor(private popoverService: PopoverService,
               private alertService: AlertService,
-              private actividadesService: ActividadesService){}
+              private actividadesService: ActividadesService,
+              private modalService: ModalService){}
 
   ngOnInit(){
     this.suscripcion = this.actividadesService.getActividades$().subscribe(actividades =>{
@@ -46,6 +48,8 @@ export class ActividadesCustomPage implements OnInit, OnDestroy {
     this.busqueda = event.detail.value;
   }
 
+  /* primero renderiza el popover de acciones sobre una actividad */
+  /* luego, dependiendo de lo que el usuario selecciona, realiza dicha accion */
   async mostrarEditOptions(event, actividad: Actividad){
     const { data } = await this.popoverService.editOptions(event, actividad);
     if(data === 'Eliminar'){
@@ -54,14 +58,18 @@ export class ActividadesCustomPage implements OnInit, OnDestroy {
       }
     }
     if(data === 'Editar'){
-      // editar
-      // console.log(actividad);
-      //this.actividadesService.editarActividad(actividad.nombre);
+      const actividadEditada: Actividad = await this.modalService.editarActividad(actividad);
+      this.actividadesService.editarActividad(actividad.nombre, actividadEditada);
     }
   }
 
-  mostrarAgregarModal(){
-    console.log('modal add act');
+  /* primero renderiza el modal de agregar actividad*/
+  /* luego, si el usuario agrego una actividad, la persiste */
+  async mostrarAgregarModal(){
+    const actividad: Actividad = await this.modalService.agregarActividad();
+    if(actividad){
+      this.actividadesService.agregarActividad(actividad);
+    }
   }
 
 }

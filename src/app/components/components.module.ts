@@ -5,22 +5,27 @@ import { PopoverHelpIconComponent } from './popover-help-icon/popover-help-icon.
 import { IonicModule } from '@ionic/angular';
 import { PipesModule } from '../pipes/pipes.module';
 import { PopoverEditOptionsComponent } from './popover-edit-options/popover-edit-options.component';
+import { ActividadFormComponent } from './actividad-form/actividad-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     EncabezadoComponent,
     PopoverHelpIconComponent,
-    PopoverEditOptionsComponent
+    PopoverEditOptionsComponent,
+    ActividadFormComponent,
   ],
   imports: [
     CommonModule,
     IonicModule.forRoot(),
-    PipesModule
+    PipesModule,
+    ReactiveFormsModule,
   ],
   exports:[
     EncabezadoComponent,
     PopoverHelpIconComponent,
-    PopoverEditOptionsComponent
+    PopoverEditOptionsComponent,
+    ActividadFormComponent
   ]
 })
 export class ComponentsModule { }
