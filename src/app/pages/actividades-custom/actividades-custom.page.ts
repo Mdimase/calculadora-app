@@ -59,7 +59,9 @@ export class ActividadesCustomPage implements OnInit, OnDestroy {
     }
     if(data === 'Editar'){
       const actividadEditada: Actividad = await this.modalService.editarActividad(actividad);
-      this.actividadesService.editarActividad(actividad.nombre, actividadEditada);
+      if(actividadEditada){
+        this.actividadesService.editarActividad(actividad.id, actividadEditada);
+      }
     }
   }
 

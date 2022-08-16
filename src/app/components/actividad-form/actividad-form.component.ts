@@ -52,7 +52,7 @@ export class ActividadFormComponent implements OnInit {
     return field.hasError(error.type) && (field.dirty || field.touched);
   }
 
-  /* emite la actividad al al modal page */
+  /* emite la actividad al modal page */
   onSubmit(){
     this.actividad.emit(this.actividadForm.value);
   }

@@ -14,7 +14,7 @@
 
 <ion-list lines="full">
   <ion-item *ngFor="let actividad of actividades | filtro:busqueda:'nombre'">
-    <ion-label class="ion-text-wrap" (click)="presentAlert(actividad)">{{actividad.nombre}}</ion-label>
+    <ion-label class="ion-text-wrap ion-text-capitalize" (click)="presentAlert(actividad)">{{actividad.nombre}}</ion-label>
   </ion-item>
 </ion-list>
 

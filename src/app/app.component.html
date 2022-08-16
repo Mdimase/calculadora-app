@@ -1,17 +1,22 @@
 <ion-app>
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
-      <ion-content>
-        <ion-list class="border">
+
+      <div class="menu-header">
+        <div class="menu-header-content">
           <div class="img-container">
             <ion-avatar class="logo">
               <img src="../assets/usuario-perfil (2).png" alt="usuario-perfil">
             </ion-avatar>
           </div>
-          <ion-list-header>
-            <ion-title>Username</ion-title> 
-          </ion-list-header>
+          <ion-title>Username</ion-title>
           <ion-note>username@gmail.com</ion-note>
+        </div>
+      </div>
+      
+      <ion-content>
+
+        <ion-list class="border">      
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of menuPages">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">

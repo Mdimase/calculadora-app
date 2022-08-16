@@ -14,11 +14,4 @@ export class PopoverHelpIconComponent implements OnInit {
 
   ngOnInit() {}
 
-  /* enviar contenido al detonando del popover*/
-  onClick(valor){
-    this.popoverController.dismiss({
-      item:valor
-    });
-  }
-
 }
