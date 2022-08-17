@@ -15,15 +15,15 @@ export class ActividadFormComponent implements OnInit {
 
   public mensajesError = {
     nombre:[
-      { type:'required', message: 'nombre es requerido'},
-      { type:'minlength', message: 'nombre no puede ser menor de 5 caracteres'},
-      { type:'maxlength', message: 'nombre no puede ser mayor de 50 caracteres'}
+      { type:'required', message: 'campo nombre es obligatorio'},
+      { type:'minlength', message: 'campo nombre no puede ser menor de 5 caracteres'},
+      { type:'maxlength', message: 'campo nombre no puede ser mayor de 50 caracteres'}
     ],
     tiempo:[
-      { type:'required', message: 'tiempo es requerido'},
+      { type:'required', message: 'campo tiempo es obligatorio'},
     ],
     descripcion:[
-      { type:'maxlength', message: 'descripcion no puede ser mayor de 255 caracteres'}
+      { type:'maxlength', message: 'campo descripcion no puede ser mayor de 255 caracteres'}
     ]
   };
 

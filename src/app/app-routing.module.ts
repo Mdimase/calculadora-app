@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'inicio', pathMatch: 'full' },
+  { path: '', redirectTo: 'acceso', pathMatch: 'full' },
 
   {
     path: 'inicio',
@@ -24,7 +24,16 @@ const routes: Routes = [
   {
     path: 'actividades/standar',
     loadChildren: () => import('./pages/actividades-standar/actividades-standar.module').then( m => m.ActividadesStandarPageModule)
-  }
+  },
+  {
+    path: 'acceso',
+    loadChildren: () => import('./pages/acceso/acceso.module').then( m => m.AccesoPageModule)
+  },
+  {
+    path: 'registro',
+    loadChildren: () => import('./pages/registro/registro.module').then( m => m.RegistroPageModule)
+  },
+  {path:'**', redirectTo:'acceso', pathMatch:'full'}
 ];
 
 @NgModule({

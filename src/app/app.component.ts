@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -12,5 +13,11 @@ export class AppComponent {
     { title: 'Actividades Custom', url: '/actividades/custom', icon: 'heart' },
     { title: 'Historial', url: '/historial', icon: 'archive' }
   ];
-  constructor() {}
+  constructor(private router: Router) {}
+
+  /*IMPORTANTE: desligarlo al authService*/
+  cerrarSesion(){
+    this.router.navigate(['acceso']);
+  }
+
 }

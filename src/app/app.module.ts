@@ -21,6 +21,9 @@ import { ActividadesService } from './services/actividades.service';
 import { AgregarActividadModalPageModule } from './pages/agregar-actividad-modal/agregar-actividad-modal.module';
 import { ModalService } from './services/modal.service';
 import { EditarActividadModalPageModule } from './pages/editar-actividad-modal/editar-actividad-modal.module';
+import { AccesoPageModule } from './pages/acceso/acceso.module';
+import { RegistroPageModule } from './pages/registro/registro.module';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -40,14 +43,17 @@ import { EditarActividadModalPageModule } from './pages/editar-actividad-modal/e
     ActividadesStandarPageModule,
     PipesModule,
     AgregarActividadModalPageModule,
-    EditarActividadModalPageModule
+    EditarActividadModalPageModule,
+    AccesoPageModule,
+    RegistroPageModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     PopoverService,
     AlertService,
     ActividadesService,
-    ModalService
+    ModalService,
+    AuthService
   ],
   bootstrap: [AppComponent],
 })

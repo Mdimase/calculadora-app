@@ -29,7 +29,7 @@
 
         <ion-list>
           <ion-menu-toggle autoHide="false">
-            <ion-item routerDirection="root" routerlink="'login'" lines="none" detail="false">
+            <ion-item routerDirection="root" (click)="cerrarSesion()" lines="none" detail="false">
               <ion-icon slot="start" [ios]="'log-out-outline'" [md]="'log-out-sharp'"></ion-icon>
               <ion-label>Cerrar Sesion</ion-label>
             </ion-item>
