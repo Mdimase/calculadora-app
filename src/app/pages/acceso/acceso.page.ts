@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-acceso',
@@ -18,11 +20,11 @@ export class AccesoPage implements OnInit {
     ],
     password:[
       { type:'required', message: 'campo contraseña es obligatorio'},
-      { type:'minlength', message: 'campo contraseña no puede ser menor de 5 caracteres'},
+      { type:'minlength', message: 'campo contraseña no puede ser menor de 6 caracteres'},
     ]
   };
 
-  constructor(private formBuilder: FormBuilder){}
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router){}
 
   ngOnInit(){
     this.accesoForm = this.initForm();
@@ -42,8 +44,16 @@ export class AccesoPage implements OnInit {
   }
 
   /* iniciar sesion */
-  onSubmit(){
-    // hacer login exitoso y erroneo con alertas o toast
+  iniciarSesion(){
+    const email: string = this.accesoForm.get('email')?.value;
+    const password: string = this.accesoForm.get('password')?.value;
+    if(this.authService.iniciarSesion(email,password)){
+      console.log('sesion iniciada');
+      this.router.navigate(['inicio']);
+    }
+    else{
+      console.log('email/contraseña erronea. intente nuevamente');
+    }
   }
 
 }

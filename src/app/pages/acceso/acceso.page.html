@@ -9,11 +9,11 @@
   <div class="form-container">
     <ion-card>
       <ion-card-content>
-        <form [formGroup]="accesoForm" novalidate (ngSubmit)="onSubmit()">
+        <form [formGroup]="accesoForm" novalidate (ngSubmit)="iniciarSesion()">
           <ion-list lines="full">
             <ion-title class="list-title">Iniciar Sesion</ion-title>
             <ion-item>
-                <ion-icon slot="start" name="mail-outline"></ion-icon>
+                <ion-icon slot="start" name="mail"></ion-icon>
                 <ion-label position="floating">E-mail</ion-label>
                 <ion-input type="email" inputmode="email" formControlName="email"></ion-input>
               <div *ngFor="let error of mensajesError.email" class="ion-align-self-start">
@@ -23,7 +23,7 @@
               </div>
             </ion-item>
             <ion-item>
-              <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
+              <ion-icon slot="start" name="lock-closed-sharp"></ion-icon>
               <ion-label position="floating">Contraseña</ion-label>
               <ion-input type="password" formControlName="password"></ion-input>
               <div *ngFor="let error of mensajesError.password" class="ion-align-self-start">
@@ -38,9 +38,9 @@
               </ion-note>
             </ion-item>
           </ion-list>
-          <ion-button shape="round" expand="block" class="ion-padding-horizontal">Ingresar</ion-button>
+          <ion-button shape="round" type="submit" [disabled]="accesoForm.invalid" expand="block" class="ion-padding-horizontal">Ingresar</ion-button>
           <ion-item>
-            <ion-label class="ion-padding-end">Todavia no tienen una cuenta ?</ion-label>
+            <ion-label class="ion-margin-end">Aun no tenes una cuenta ?</ion-label>
             <a href="registro">Registrate</a>
           </ion-item>
         </form>
