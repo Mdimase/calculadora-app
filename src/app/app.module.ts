@@ -24,6 +24,7 @@ import { EditarActividadModalPageModule } from './pages/editar-actividad-modal/e
 import { AccesoPageModule } from './pages/acceso/acceso.module';
 import { RegistroPageModule } from './pages/registro/registro.module';
 import { AuthService } from './services/auth.service';
+import { RestablecerPageModule } from './pages/restablecer/restablecer.module';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { AuthService } from './services/auth.service';
     AgregarActividadModalPageModule,
     EditarActividadModalPageModule,
     AccesoPageModule,
-    RegistroPageModule
+    RegistroPageModule,
+    RestablecerPageModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

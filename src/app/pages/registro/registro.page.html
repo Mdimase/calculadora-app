@@ -1,6 +1,7 @@
 <ion-content>
   <div class="header">
-      <ion-icon name="arrow-back-sharp" slot="start" size="large" class="ion-margin-start" (click)="regresar()"></ion-icon>
+    <ion-icon name="arrow-back-sharp" slot="start" size="large" class="ion-margin-start" (click)="regresar()">
+    </ion-icon>
     <ion-avatar>
       <ion-img src="../../../assets/app-icon.png" alt="App Icon"></ion-img>
     </ion-avatar>
@@ -17,9 +18,9 @@
           <ion-list lines="full">
             <ion-title class="list-title">Registrarse</ion-title>
             <ion-item>
-                <ion-icon slot="start" name="mail"></ion-icon>
-                <ion-label position="floating">E-mail</ion-label>
-                <ion-input type="email" inputmode="email" formControlName="email"></ion-input>
+              <ion-icon slot="start" name="mail"></ion-icon>
+              <ion-label position="floating">E-mail</ion-label>
+              <ion-input type="email" inputmode="email" formControlName="email"></ion-input>
               <div *ngFor="let error of mensajesError.email" class="ion-align-self-start">
                 <ng-container *ngIf="isInvalid('email',error)">
                   <small class="error-message">{{error.message}}</small>
@@ -30,12 +31,12 @@
               <ion-icon slot="start" name="person-sharp"></ion-icon>
               <ion-label position="floating">Nombre usuario</ion-label>
               <ion-input type="text" inputmode="text" formControlName="username"></ion-input>
-            <div *ngFor="let error of mensajesError.username" class="ion-align-self-start">
-              <ng-container *ngIf="isInvalid('username',error)">
-                <small class="error-message">{{error.message}</small>
-              </ng-container>
-            </div>
-          </ion-item>
+              <div *ngFor="let error of mensajesError.username" class="ion-align-self-start">
+                <ng-container *ngIf="isInvalid('username',error)">
+                  <small class="error-message">{{error.message}}</small>
+                </ng-container>
+              </div>
+            </ion-item>
             <ion-item>
               <ion-icon slot="start" name="lock-closed-sharp"></ion-icon>
               <ion-label position="floating">Contraseña</ion-label>
@@ -46,8 +47,19 @@
                 </ng-container>
               </div>
             </ion-item>
+            <ion-item>
+              <ion-icon slot="start" name="lock-closed-sharp"></ion-icon>
+              <ion-label position="floating">Confirmar Contraseña</ion-label>
+              <ion-input type="password" formControlName="confirmPassword"></ion-input>
+              <div class="ion-align-self-start">
+                <ng-container *ngIf="registroForm.errors?.notEqual">
+                  <small class="error-message">las contraseñas deben coincidir</small>
+                </ng-container>
+              </div>
+            </ion-item>
           </ion-list>
-          <ion-button shape="round" type="submit" [disabled]="registroForm.invalid" expand="block" class="ion-padding-horizontal">Registrar</ion-button>
+          <ion-button shape="round" type="submit" [disabled]="registroForm.invalid" expand="block"
+            class="ion-padding-horizontal">Registrar</ion-button>
         </form>
       </ion-card-content>
     </ion-card>

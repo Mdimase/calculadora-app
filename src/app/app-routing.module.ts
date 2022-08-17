@@ -33,7 +33,11 @@ const routes: Routes = [
     path: 'registro',
     loadChildren: () => import('./pages/registro/registro.module').then( m => m.RegistroPageModule)
   },
-  {path:'**', redirectTo:'acceso', pathMatch:'full'}
+  {
+    path: 'restablecer',
+    loadChildren: () => import('./pages/restablecer/restablecer.module').then( m => m.RestablecerPageModule)
+  },
+  {path:'**', redirectTo:'acceso', pathMatch:'full'},
 ];
 
 @NgModule({

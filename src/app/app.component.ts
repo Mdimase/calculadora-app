@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 @Component({
@@ -6,7 +6,7 @@ import { AuthService } from './services/auth.service';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
 
   email: string;
   username: string;
@@ -18,7 +18,10 @@ export class AppComponent {
     { title: 'Actividades Custom', url: '/actividades/custom', icon: 'heart' },
     { title: 'Historial', url: '/historial', icon: 'archive' }
   ];
-  constructor(private router: Router, private authService: AuthService){
+
+  constructor(private router: Router, private authService: AuthService){}
+
+  ngOnInit(): void {
     this.email = this.authService.getEmail();
     this.username = this.authService.getUsername();
   }

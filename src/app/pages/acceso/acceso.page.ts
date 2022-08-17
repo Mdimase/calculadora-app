@@ -14,13 +14,12 @@ export class AccesoPage implements OnInit {
 
   public mensajesError = {
     email:[
-      { type:'required', message: 'campo email es obligatorio'},
-      { type:'minlength', message: 'campo email no puede ser menor de 5 caracteres'},
+      { type:'required', message: 'campo obligatorio'},
       { type:'pattern', message: 'ingrese un email valido'}
     ],
     password:[
-      { type:'required', message: 'campo contraseña es obligatorio'},
-      { type:'minlength', message: 'campo contraseña no puede ser menor de 6 caracteres'},
+      { type:'required', message: 'campo obligatorio'},
+      { type:'minlength', message: 'longitud minima 6 caracteres'},
     ]
   };
 
@@ -32,7 +31,7 @@ export class AccesoPage implements OnInit {
 
   initForm(): FormGroup {
     return this.formBuilder.group({
-      email: ['', [Validators.required, Validators.minLength(5),Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}')],],
+      email: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}')],],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -14,17 +14,16 @@ export class RegistroPage implements OnInit {
 
   public mensajesError = {
     email:[
-      { type:'required', message: 'campo email es obligatorio'},
-      { type:'minlength', message: 'campo email no puede ser menor de 5 caracteres'},
+      { type:'required', message: 'campo obligatorio'},
       { type:'pattern', message: 'ingrese un email valido'}
     ],
     username:[
-      { type:'required', message: 'campo nombre usuario es obligatorio'},
-      { type:'maxlength', message: 'campo nombre usuario no puede ser mayor de 50 caracteres'},
+      { type:'required', message: 'campo obligatorio'},
+      { type:'maxlength', message: 'longitud maxima 50 caracteres'},
     ],
     password:[
-      { type:'required', message: 'campo contraseña es obligatorio'},
-      { type:'minlength', message: 'campo contraseña no puede ser menor de 6 caracteres'},
+      { type:'required', message: 'campo obligatorio'},
+      { type:'minlength', message: 'longitud minima 6 caracteres'},
     ]
   };
 
@@ -36,10 +35,11 @@ export class RegistroPage implements OnInit {
 
   initForm(): FormGroup {
     return this.formBuilder.group({
-      email: ['', [Validators.required, Validators.minLength(5),Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}')],],
+      email: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}')],],
       username: ['',[Validators.required, Validators.maxLength(50)],],
-      password: ['', [Validators.required, Validators.minLength(6)]]
-    });
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword:['']
+    }, {validators: this.checkPasswords()});
   }
 
   /* determina si un input presenta un determinado tipo de error */
@@ -59,5 +59,15 @@ export class RegistroPage implements OnInit {
     this.authService.registro(email,username,password);
     this.router.navigate(['acceso']);
   }
+
+  /* validator custom => si son iguales retorna null, sino retorna {notEqual:true}*/
+  private checkPasswords(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const formGroup = control as FormGroup;
+      const password = formGroup.get('password')?.value;
+      const confirmPassword = formGroup.get('confirmPassword')?.value;
+      return password === confirmPassword ? null : { notEqual: true };
+    };
+  };
 
 }
