@@ -48,7 +48,7 @@ export class AccesoPage implements OnInit {
     const password: string = this.accesoForm.get('password')?.value;
     if(this.authService.iniciarSesion(email,password)){
       console.log('sesion iniciada');
-      this.router.navigate(['inicio']);
+      this.router.navigate(['principal/inicio']);
     }
     else{
       console.log('email/contraseña erronea. intente nuevamente');
