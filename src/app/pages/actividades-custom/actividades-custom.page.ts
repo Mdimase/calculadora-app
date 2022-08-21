@@ -23,7 +23,7 @@ export class ActividadesCustomPage implements OnInit, OnDestroy {
               private modalService: ModalService){}
 
   ngOnInit(){
-    this.suscripcion = this.actividadesService.getActividades$().subscribe(actividades =>{
+    this.suscripcion = this.actividadesService.getActividadesCustom$().subscribe(actividades =>{
       this.actividades = actividades;
     });
   }

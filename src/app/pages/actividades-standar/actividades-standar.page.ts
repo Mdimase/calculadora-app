@@ -23,7 +23,7 @@ export class ActividadesStandarPage implements OnInit, OnDestroy {
               ) { }
 
   ngOnInit(){
-    this.suscripcion = this.actividadesService.getActividades$().subscribe(actividades =>{
+    this.suscripcion = this.actividadesService.getActividadesStandar$().subscribe(actividades =>{
       this.actividades = actividades;
     });
   }
