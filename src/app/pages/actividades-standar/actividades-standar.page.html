@@ -2,6 +2,9 @@
   <ion-icon name="help-circle-sharp" slot="end" class="icon-help" (click)="mostrarPopover($event)"></ion-icon>
 </app-encabezado>
 
+<!--search bar-->
+<ion-searchbar placeholder="Buscar" (ionChange)="buscar($event)"></ion-searchbar>
+
 <ion-content>
   <ion-header collapse="condense">
     <ion-toolbar>
@@ -9,13 +12,12 @@
     </ion-toolbar>
   </ion-header>
 
-  <!--search bar-->
-<ion-searchbar placeholder="Buscar" (ionChange)="buscar($event)"></ion-searchbar>
-
-<ion-list lines="full">
-  <ion-item *ngFor="let actividad of actividades | filtro:busqueda:'nombre'">
-    <ion-label class="ion-text-wrap ion-text-capitalize" (click)="presentAlert(actividad)">{{actividad.nombre}}</ion-label>
-  </ion-item>
-</ion-list>
+  <cdk-virtual-scroll-viewport itemSize="50" minBufferPx="800" maxBufferPx="1000">
+    <ion-list lines="full">
+      <ion-item *cdkVirtualFor="let actividad of actividades | filtro:busqueda:'nombre'">
+        <ion-label class="ion-text-wrap ion-text-capitalize" (click)="presentAlert(actividad)">{{actividad.nombre}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </cdk-virtual-scroll-viewport>
 
 </ion-content>
