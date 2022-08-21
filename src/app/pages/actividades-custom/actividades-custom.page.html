@@ -2,6 +2,9 @@
   <ion-icon name="help-circle-sharp" slot="end" class="icon-help" (click)="mostrarPopover($event)"></ion-icon>
 </app-encabezado>
 
+<!-- barra de busqueda -->
+<ion-searchbar placeholder="Buscar" (ionChange)="buscar($event)"></ion-searchbar>
+
 <ion-content>
   <ion-header collapse="condense">
     <ion-toolbar>
@@ -9,18 +12,19 @@
     </ion-toolbar>
   </ion-header>
 
-  <!-- barra de busqueda -->
-  <ion-searchbar placeholder="Buscar" (ionChange)="buscar($event)"></ion-searchbar>
-
-  <!-- listado de actividades-->
-  <ion-list lines="full">
-    <ion-item *ngFor="let actividad of actividades | filtro:busqueda:'nombre'">
-      <ion-label class="ion-text-wrap ion-text-capitalize" (click)="presentAlert(actividad)">{{actividad.nombre}}</ion-label>
-      <ion-buttons>
-        <ion-icon name="ellipsis-vertical-sharp" slot="end" (click)="mostrarEditOptions($event, actividad)"></ion-icon>
-      </ion-buttons>
-    </ion-item>
-  </ion-list>
+  <cdk-virtual-scroll-viewport itemSize="50" minBufferPx="800" maxBufferPx="1000">
+    <!-- listado de actividades-->
+    <ion-list lines="full">
+      <ion-item *cdkVirtualFor="let actividad of actividades | filtro:busqueda:'nombre'">
+        <ion-label class="ion-text-wrap ion-text-capitalize" (click)="presentAlert(actividad)">{{actividad.nombre}}
+        </ion-label>
+        <ion-buttons>
+          <ion-icon name="ellipsis-vertical-sharp" slot="end" (click)="mostrarEditOptions($event, actividad)">
+          </ion-icon>
+        </ion-buttons>
+      </ion-item>
+    </ion-list>
+  </cdk-virtual-scroll-viewport>
 
   <ion-fab vertical="bottom" horizontal="center" slot="fixed" class="bottom-5">
     <ion-fab-button (click)="mostrarAgregarModal()">

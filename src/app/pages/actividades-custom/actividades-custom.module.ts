@@ -9,6 +9,7 @@ import { ActividadesCustomPageRoutingModule } from './actividades-custom-routing
 import { ActividadesCustomPage } from './actividades-custom.page';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     IonicModule,
     ActividadesCustomPageRoutingModule,
     ComponentsModule,
-    PipesModule
+    PipesModule,
+    ScrollingModule
   ],
   declarations: [ActividadesCustomPage]
 })
