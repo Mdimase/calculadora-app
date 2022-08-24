@@ -20,9 +20,17 @@ export class PrincipalPage implements OnInit{
     { title: 'Historial', url: '/principal/historial', icon: 'archive' }
   ];
 
-  constructor(private router: Router, private authService: AuthService){}
+  constructor(private router: Router, private authService: AuthService){
+  }
+
+  ionViewWillEnter(){
+    console.log('ion principal view');
+    this.email = this.authService.getEmail();
+    this.username = this.authService.getUsername();
+  }
 
   ngOnInit(){
+    console.log('principal init');
     this.email = this.authService.getEmail();
     this.username = this.authService.getUsername();
   }

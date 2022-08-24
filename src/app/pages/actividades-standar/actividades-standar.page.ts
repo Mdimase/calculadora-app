@@ -23,7 +23,14 @@ export class ActividadesStandarPage implements OnInit, OnDestroy {
               ) { }
 
   ngOnInit(){
-    console.log('init');
+    console.log('standar init');
+    this.suscripcion = this.actividadesService.getActividadesStandar$().subscribe(actividades =>{
+      this.actividades = actividades;
+    });
+  }
+
+  ionViewWillEnter(){
+    console.log('ion standar view');
     this.suscripcion = this.actividadesService.getActividadesStandar$().subscribe(actividades =>{
       this.actividades = actividades;
     });

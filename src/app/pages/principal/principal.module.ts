@@ -16,12 +16,6 @@ import { ActividadesStandarPageModule } from '../actividades-standar/actividades
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { AgregarActividadModalPageModule } from '../agregar-actividad-modal/agregar-actividad-modal.module';
 import { EditarActividadModalPageModule } from '../editar-actividad-modal/editar-actividad-modal.module';
-import { RouteReuseStrategy } from '@angular/router';
-import { PopoverService } from 'src/app/services/popover.service';
-import { AlertService } from 'src/app/services/alert.service';
-import { ActividadesService } from 'src/app/services/actividades.service';
-import { ModalService } from 'src/app/services/modal.service';
-import { AuthService } from 'src/app/services/auth.service';
 
 @NgModule({
   imports: [
@@ -41,12 +35,6 @@ import { AuthService } from 'src/app/services/auth.service';
   ],
   declarations: [PrincipalPage],
   providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    PopoverService,
-    AlertService,
-    ActividadesService,
-    ModalService,
-    AuthService
   ],
 })
 export class PrincipalPageModule {}

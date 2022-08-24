@@ -17,6 +17,7 @@ export class ActividadesService {
 
   getActividadesStandar$(): Observable<Actividad[]>{
 
+    if(this.actividadesStandar.length === 0){
       this.actividadesStandar = [
         {id:1,nombre:'Actividad 1', descripcion:'descripcion de esta actividad la verdad que es muy buena',tiempo:50},
         {id:2,nombre:'Actividad 2', descripcion:'descripcion de esta actividad la verdad que es muy buena',tiempo:25},
@@ -77,7 +78,9 @@ export class ActividadesService {
       ];
 
       //peticion http + actualizacion de this.actividades
-      this.actividadesStandar$.next(this.actividadesStandar);
+      console.log('peticion http');
+    }
+    this.actividadesStandar$.next(this.actividadesStandar);
     return this.actividadesStandar$.asObservable();
   }
 

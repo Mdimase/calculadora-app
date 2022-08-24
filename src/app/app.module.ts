@@ -17,6 +17,7 @@ import { RegistroPageModule } from './pages/registro/registro.module';
 import { AuthService } from './services/auth.service';
 import { RestablecerPageModule } from './pages/restablecer/restablecer.module';
 import { PrincipalPageModule } from './pages/principal/principal.module';
+import { ActividadesService } from './services/actividades.service';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { PrincipalPageModule } from './pages/principal/principal.module';
     PopoverService,
     AlertService,
     ModalService,
+    ActividadesService,
     AuthService
   ],
   bootstrap: [AppComponent],
