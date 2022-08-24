@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { Actividad } from 'src/app/interfaces/actividad';
+import { ActividadesService } from 'src/app/services/actividades.service';
 import { PopoverService } from 'src/app/services/popover.service';
 
 @Component({
@@ -6,11 +9,23 @@ import { PopoverService } from 'src/app/services/popover.service';
   templateUrl: './estimacion.page.html',
   styleUrls: ['./estimacion.page.scss'],
 })
-export class EstimacionPage implements OnInit {
+export class EstimacionPage implements OnInit, OnDestroy {
 
-  constructor(private popoverService: PopoverService) { }
+  actividades: Actividad[] = [];
+  private suscripcion: Subscription;
 
-  ngOnInit() {
+  constructor(private popoverService: PopoverService, private actividadesService: ActividadesService) { }
+
+  ngOnInit(){
+   this.suscripcion = this.actividadesService.getActividades$().subscribe( actividades =>{
+      this.actividades = actividades;
+      console.log(this.actividades);
+    });
+  }
+
+  ngOnDestroy(): void {
+    console.log('estimacion destruida');
+    this.suscripcion.unsubscribe();
   }
 
   /* popover info page*/

@@ -29,6 +29,7 @@ export class ActividadesCustomPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    console.log('destruido');
     this.suscripcion.unsubscribe();
   }
 

@@ -12,10 +12,8 @@
     </ion-toolbar>
   </ion-header>
 
-  <cdk-virtual-scroll-viewport itemSize="50" minBufferPx="800" maxBufferPx="1000">
-    <!-- listado de actividades-->
     <ion-list lines="full">
-      <ion-item *cdkVirtualFor="let actividad of actividades | filtro:busqueda:'nombre'">
+      <ion-item *ngFor="let actividad of actividades | filtro:busqueda:'nombre'">
         <ion-label class="ion-text-wrap ion-text-capitalize" (click)="presentAlert(actividad)">{{actividad.nombre}}
         </ion-label>
         <ion-buttons>
@@ -24,7 +22,6 @@
         </ion-buttons>
       </ion-item>
     </ion-list>
-  </cdk-virtual-scroll-viewport>
 
   <ion-fab vertical="bottom" horizontal="center" slot="fixed" class="bottom-5">
     <ion-fab-button (click)="mostrarAgregarModal()">
