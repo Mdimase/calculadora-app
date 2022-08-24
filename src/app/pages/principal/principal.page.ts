@@ -7,17 +7,17 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './principal.page.html',
   styleUrls: ['./principal.page.scss'],
 })
-export class PrincipalPage implements OnInit {
+export class PrincipalPage implements OnInit{
 
   email: string;
   username: string;
 
   public menuPages = [
-    { title: 'Inicio', url: '/inicio', icon: 'home' },
-    { title: 'Estimacion', url: '/estimacion', icon: 'calculator' },
-    { title: 'Actividades Standar', url: '/actividades/standar', icon: 'albums' },
-    { title: 'Actividades Custom', url: '/actividades/custom', icon: 'heart' },
-    { title: 'Historial', url: '/historial', icon: 'archive' }
+    { title: 'Inicio', url: '/principal/inicio', icon: 'home' },
+    { title: 'Estimacion', url: '/principal/estimacion', icon: 'calculator' },
+    { title: 'Actividades Standar', url: '/principal/actividades/standar', icon: 'albums' },
+    { title: 'Actividades Custom', url: '/principal/actividades/custom', icon: 'heart' },
+    { title: 'Historial', url: '/principal/historial', icon: 'archive' }
   ];
 
   constructor(private router: Router, private authService: AuthService){}

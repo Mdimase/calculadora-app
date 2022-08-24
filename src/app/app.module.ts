@@ -11,7 +11,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { ComponentsModule } from './components/components.module';
 import { PopoverService } from './services/popover.service';
 import { AlertService } from './services/alert.service';
-import { ActividadesService } from './services/actividades.service';
 import { ModalService } from './services/modal.service';
 import { AccesoPageModule } from './pages/acceso/acceso.module';
 import { RegistroPageModule } from './pages/registro/registro.module';
@@ -39,7 +38,6 @@ import { PrincipalPageModule } from './pages/principal/principal.module';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     PopoverService,
     AlertService,
-    ActividadesService,
     ModalService,
     AuthService
   ],
