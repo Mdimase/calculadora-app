@@ -18,7 +18,7 @@ export class ActividadesService {
   constructor(){}
 
   getActividadesStandar$(): Observable<Actividad[]>{
-    if(this.actividades.length === 0){
+    if(this.actividadesStandar.length === 0){
       this.actividadesStandar = [
         {id:1,nombre:'Actividad 1', descripcion:'descripcion de esta actividad la verdad que es muy buena',tiempo:50},
         {id:2,nombre:'Actividad 2', descripcion:'descripcion de esta actividad la verdad que es muy buena',tiempo:25},
@@ -110,6 +110,7 @@ export class ActividadesService {
       ];
 
       //peticion http + actualizacion de this.actividades
+      console.log('peticion http');
     this.actividadesCustom$.next(this.actividadesCustom);
     return this.actividadesCustom$.asObservable();
   }

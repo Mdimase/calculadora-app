@@ -11,7 +11,7 @@ import { PopoverService } from 'src/app/services/popover.service';
   templateUrl: './actividades-custom.page.html',
   styleUrls: ['./actividades-custom.page.scss'],
 })
-export class ActividadesCustomPage implements OnInit, OnDestroy {
+export class ActividadesCustomPage implements OnDestroy {
 
   busqueda = '';
   actividades: Actividad[] = [];
@@ -22,7 +22,7 @@ export class ActividadesCustomPage implements OnInit, OnDestroy {
               private actividadesService: ActividadesService,
               private modalService: ModalService){}
 
-  ngOnInit(){
+  ionViewWillEnter(){
     this.suscripcion = this.actividadesService.getActividadesCustom$().subscribe(actividades =>{
       this.actividades = actividades;
     });

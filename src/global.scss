@@ -28,21 +28,43 @@
 
 /************estilos alertas*********/
 
+ion-alert.select-alert{
+    --backdrop-opacity: 0.5;
+}
+
 ion-alert.custom-alert {
     --backdrop-opacity: 0.5;
 }
 
-/* title + subtitle*/
+/* titulo de select alert*/
+.alert-title.sc-ion-alert-md {
+    font-size: 1.8rem;
+    letter-spacing: 0.1rem;
+    text-align: center;
+}
+
+/* message del select alert */
+.alert-head.sc-ion-alert-md+.alert-message.sc-ion-alert-md{
+    text-align: center;
+    line-height: 1.2rem;
+}
+
+/* opciones del select alert*/
+.alert-checkbox-group.sc-ion-alert-md{
+    max-height: 40vh;
+}
+
+/* title + subtitle actividades info alert*/
 .alert-head.sc-ion-alert-md {
   text-align: center;
 }
 
-/*only title*/
+/*only title actividades info alert*/
 .alert-title.sc-ion-alert-ios{
     font-size: 1.5rem;
 }
 
-/*only sub-title*/
+/*only sub-title actividades info alert*/
 .alert-sub-title.sc-ion-alert-ios {
     margin: 1rem 0;
 }

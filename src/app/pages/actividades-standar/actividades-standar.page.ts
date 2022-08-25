@@ -11,7 +11,7 @@ import { PopoverService } from 'src/app/services/popover.service';
   templateUrl: './actividades-standar.page.html',
   styleUrls: ['./actividades-standar.page.scss'],
 })
-export class ActividadesStandarPage implements OnInit, OnDestroy {
+export class ActividadesStandarPage implements OnDestroy {
 
   busqueda = '';
   actividades: Actividad[];
@@ -22,15 +22,7 @@ export class ActividadesStandarPage implements OnInit, OnDestroy {
               private actividadesService: ActividadesService
               ) { }
 
-  ngOnInit(){
-    console.log('standar init');
-    this.suscripcion = this.actividadesService.getActividadesStandar$().subscribe(actividades =>{
-      this.actividades = actividades;
-    });
-  }
-
   ionViewWillEnter(){
-    console.log('ion standar view');
     this.suscripcion = this.actividadesService.getActividadesStandar$().subscribe(actividades =>{
       this.actividades = actividades;
     });

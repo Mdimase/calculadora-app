@@ -9,4 +9,13 @@
     </ion-toolbar>
   </ion-header>
   
-  
+  <ion-content>
+    <ion-item>
+      <ion-select [compareWith]="compareWith" placeholder="Seleccionar Actividades" [selectedText]="seleccionadas"
+      (ionChange)="handleChange($event)" [multiple]="true" cancelText="Cancelar" okText="Confirmar" [interfaceOptions]="alertaPersonalizada">
+        <ion-select-option *ngFor="let actividad of actividades" [value]="actividad">{{ actividad.nombre }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-content>
+
+ 

@@ -31,7 +31,7 @@ import { EditarActividadModalPageModule } from '../editar-actividad-modal/editar
     PipesModule,
     AgregarActividadModalPageModule,
     EditarActividadModalPageModule,
-    PrincipalPageRoutingModule
+    PrincipalPageRoutingModule,
   ],
   declarations: [PrincipalPage],
   providers: [
