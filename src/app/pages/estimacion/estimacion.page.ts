@@ -19,8 +19,7 @@ export class EstimacionPage implements OnDestroy {
   };
 
   actividades: Actividad[] = [];
-  actividadesSeleccionadas: Actividad[]=[];
-  seleccionadas = '1,2,3';
+  seleccionadas = '';
 
   private suscripcion: Subscription;
 
@@ -53,23 +52,6 @@ export class EstimacionPage implements OnDestroy {
       seleccionMap.set(data[0],data[1]);
     });
     return [...seleccionMap.values()];  //retorno los items
-  }
-
-  handleChange(ev) {
-    this.actividadesSeleccionadas = this.eliminarDuplicados(ev.target.value);
-    console.log(this.actividadesSeleccionadas);
-  }
-
-  compareWith(o1, o2) {
-    if (!o1 || !o2) {
-      return o1 === o2;
-    }
-
-    if (Array.isArray(o2)) {
-      return o2.some((o) => o.id === o1.id);
-    }
-
-    return o1.id === o2.id;
   }
 
 }

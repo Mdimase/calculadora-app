@@ -87,6 +87,7 @@ export class ActividadesService {
 
   getActividadesCustom$(): Observable<Actividad[]>{
 
+    if(this.actividadesCustom.length === 0){
       this.actividadesCustom = [
         {id:1,nombre:'Actividad 1', descripcion:'descripcion de esta actividad la verdad que es muy buena',tiempo:50},
         {id:2,nombre:'Actividad 2', descripcion:'descripcion de esta actividad la verdad que es muy buena',tiempo:25},
@@ -111,7 +112,9 @@ export class ActividadesService {
 
       //peticion http + actualizacion de this.actividades
       console.log('peticion http');
-    this.actividadesCustom$.next(this.actividadesCustom);
+      this.actividadesCustom$.next(this.actividadesCustom);
+    }
+
     return this.actividadesCustom$.asObservable();
   }
 
@@ -121,8 +124,8 @@ export class ActividadesService {
         this.getActividadesCustom$().subscribe(actividadesCustom =>{
           this.actividades = [...this.actividades, ...actividadesCustom];
           this.actividades$.next(this.actividades);
-        }).unsubscribe();
-      }).unsubscribe();
+        });
+      });
       return this.actividades$.asObservable();
   }
 
