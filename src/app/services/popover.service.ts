@@ -2,23 +2,23 @@ import { Injectable } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { PopoverEditOptionsComponent } from '../components/popover-edit-options/popover-edit-options.component';
 import { PopoverHelpIconComponent } from '../components/popover-help-icon/popover-help-icon.component';
-import { Actividad } from '../interfaces/actividad';
-import { ActividadesService } from './actividades.service';
+import { Activity } from '../interfaces/activity';
+import { ActivitiesService } from './activities.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PopoverService {
 
-  constructor(private popoverController: PopoverController, private actividadesService: ActividadesService){}
+  constructor(private popoverController: PopoverController, private activitiesService: ActivitiesService){}
 
   /* mensaje simple unicamente de texto */
-  async simpleMessage(message: string, evento: any){
+  async simpleMessage(message: string, event: any){
     const popover = await this.popoverController.create({
       component:PopoverHelpIconComponent,
       componentProps:{message},
       animated:true,
-      event:evento,
+      event,
       mode:'ios'
     });
     await popover.present();
@@ -26,11 +26,11 @@ export class PopoverService {
 
   /* muestra las opciones de edicion de una actividad */
   /* retorna la eleccion del usuario */
-  async editOptions(evento: any, actividad: Actividad){
+  async editOptions(event: any, activity: Activity){
     const popover = await this.popoverController.create({
       component:PopoverEditOptionsComponent,
       animated:true,
-      event:evento,
+      event,
       mode:'ios',
       side:'bottom'
     });

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Actividad } from '../interfaces/actividad';
-import { AgregarActividadModalPage } from '../pages/agregar-actividad-modal/agregar-actividad-modal.page';
-import { EditarActividadModalPage } from '../pages/editar-actividad-modal/editar-actividad-modal.page';
+import { Activity } from '../interfaces/activity';
+import { AddActivityModalPage } from '../pages/add-activity-modal/add-activity-modal.page';
+import { EditActivityModalPage } from '../pages/edit-activity-modal/edit-activity-modal.page';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +13,9 @@ export class ModalService {
 
   /* modal con formulario para agregar una nueva actividad */
   /* retorna la actividad creada por el usuario */
-  async agregarActividad(){
+  async addActivity(){
     const modal = await this.modalController.create({
-      component: AgregarActividadModalPage,
+      component: AddActivityModalPage,
     });
     await modal.present();
     return (await modal.onWillDismiss())?.data;
@@ -23,10 +23,10 @@ export class ModalService {
 
   /* modal con formulario para editar una actividad */
   /* retorna la actividad editada por el usuario */
-  async editarActividad(actividadActual: Actividad){
+  async editActivity(currentActivity: Activity){
     const modal = await this.modalController.create({
-      component: EditarActividadModalPage,
-      componentProps: { actividadActual }
+      component: EditActivityModalPage,
+      componentProps: { currentActivity }
     });
     await modal.present();
     return (await modal.onWillDismiss()).data;

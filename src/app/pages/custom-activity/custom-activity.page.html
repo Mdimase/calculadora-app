@@ -1,0 +1,32 @@
+<app-header [title]="'Actividades Personalizadas'">
+  <ion-icon name="help-circle-sharp" slot="end" class="icon-help" (click)="showPopover($event)"></ion-icon>
+</app-header>
+
+<!-- barra de busqueda -->
+<ion-searchbar placeholder="Buscar" (ionChange)="search($event)"></ion-searchbar>
+
+<ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Actividades Personalizadas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list lines="full">
+    <ion-item *ngFor="let activity of activities | filter:searchValue:'name'">
+      <ion-label class="ion-text-wrap ion-text-capitalize" (click)="presentAlert(activity)">{{activity.name}}
+      </ion-label>
+      <ion-buttons>
+        <ion-icon name="ellipsis-vertical-sharp" slot="end" (click)="showEditOptions($event, activity)">
+        </ion-icon>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed" class="bottom-5">
+    <ion-fab-button (click)="showAddModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

@@ -12,12 +12,12 @@ import { ComponentsModule } from './components/components.module';
 import { PopoverService } from './services/popover.service';
 import { AlertService } from './services/alert.service';
 import { ModalService } from './services/modal.service';
-import { AccesoPageModule } from './pages/acceso/acceso.module';
-import { RegistroPageModule } from './pages/registro/registro.module';
 import { AuthService } from './services/auth.service';
-import { RestablecerPageModule } from './pages/restablecer/restablecer.module';
-import { PrincipalPageModule } from './pages/principal/principal.module';
-import { ActividadesService } from './services/actividades.service';
+import { ActivitiesService } from './services/activities.service';
+import { LoginPageModule } from './pages/login/login.module';
+import { RegistrationPageModule } from './pages/registration/registration.module';
+import { ResetPasswordPageModule } from './pages/reset-password/reset-password.module';
+import { MainPageModule } from './pages/main/main.module';
 
 @NgModule({
   declarations: [
@@ -30,18 +30,18 @@ import { ActividadesService } from './services/actividades.service';
     CommonModule,
     FormsModule,
     ComponentsModule,
-    AccesoPageModule,
-    RegistroPageModule,
-    RestablecerPageModule,
-    PrincipalPageModule
+    LoginPageModule,
+    RegistrationPageModule,
+    ResetPasswordPageModule,
+    MainPageModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     PopoverService,
     AlertService,
     ModalService,
-    ActividadesService,
-    AuthService
+    AuthService,
+    ActivitiesService
   ],
   bootstrap: [AppComponent],
 })

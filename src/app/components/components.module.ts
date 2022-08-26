@@ -1,22 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EncabezadoComponent } from './encabezado/encabezado.component';
 import { PopoverHelpIconComponent } from './popover-help-icon/popover-help-icon.component';
 import { IonicModule } from '@ionic/angular';
 import { PipesModule } from '../pipes/pipes.module';
 import { PopoverEditOptionsComponent } from './popover-edit-options/popover-edit-options.component';
-import { ActividadFormComponent } from './actividad-form/actividad-form.component';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MenuComponent } from './menu/menu.component';
 import { RouterModule } from '@angular/router';
+import { FormActivityComponent } from './form-activity/form-activity.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
-    EncabezadoComponent,
+    HeaderComponent,
     PopoverHelpIconComponent,
     PopoverEditOptionsComponent,
-    ActividadFormComponent,
-    MenuComponent
+    FormActivityComponent,
   ],
   imports: [
     CommonModule,
@@ -27,11 +26,10 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
   ],
   exports:[
-    EncabezadoComponent,
+    HeaderComponent,
     PopoverHelpIconComponent,
     PopoverEditOptionsComponent,
-    ActividadFormComponent,
-    MenuComponent
+    FormActivityComponent,
   ]
 })
 export class ComponentsModule { }

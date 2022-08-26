@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { Actividad } from '../interfaces/actividad';
+import { Activity } from '../interfaces/activity';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +10,11 @@ export class AlertService {
   constructor(private alertController: AlertController){}
 
   /* alerta informativa con los datos de una actividad */
-  async itemDescription(actividad: Actividad){
+  async itemDescription(activity: Activity){
     const alert = await this.alertController.create({
-      header: actividad.nombre,
-      subHeader: actividad.descripcion,
-      message: 'tiempo estimado: ' + actividad.tiempo.toString() + ' minutos',
+      header: activity.name,
+      subHeader: activity.description,
+      message: 'tiempo estimado: ' + activity.time.toString() + ' minutos',
       mode:'ios',
       cssClass:'custom-alert',
       buttons: ['OK']
@@ -24,10 +24,10 @@ export class AlertService {
 
   /* alerta de confirmacion */
   /* retorna la eleccion del usuario */
-  async confirm(actividad: Actividad, action: string){
+  async confirm(activity: Activity, action: string){
     const alert = await this.alertController.create({
       header: 'Confirmar',
-      subHeader:'¿ Deseas ' + action.toLowerCase() + ' de forma permanente ' + actividad.nombre + ' ?',
+      subHeader:'¿ Deseas ' + action.toLowerCase() + ' de forma permanente ' + activity.name + ' ?',
       mode:'ios',
       cssClass:'custom-alert',
       buttons: [{ text:'Cancelar', role:'cancel' },{ text:action, role:'confirm'}]

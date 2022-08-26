@@ -1,0 +1,21 @@
+<app-header [title]="'Estimacion'">
+  <ion-icon name="help-circle-sharp" slot="end" class="icon-help" (click)="showPopover($event)"></ion-icon>
+</app-header>
+
+
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Estimacion</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <ion-item>
+      <ion-select placeholder="Seleccionar Actividades" [(ngModel)]="selected"
+       [multiple]="true" cancelText="Cancelar" okText="Confirmar" [interfaceOptions]="customAlert">
+        <ion-select-option *ngFor="let activity of activities" [value]="activity">{{ activity.name }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-content>
+
+ 

@@ -26,7 +26,7 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 
-/************estilos alertas*********/
+/*********** alerts styles ********/
 
 ion-alert.select-alert{
     --backdrop-opacity: 0.5;
@@ -36,40 +36,40 @@ ion-alert.custom-alert {
     --backdrop-opacity: 0.5;
 }
 
-/* titulo de select alert*/
+/* select alert title */
 .alert-title.sc-ion-alert-md {
     font-size: 1.8rem;
     letter-spacing: 0.1rem;
     text-align: center;
 }
 
-/* message del select alert */
+/* select alert message */
 .alert-head.sc-ion-alert-md+.alert-message.sc-ion-alert-md{
     text-align: center;
     line-height: 1.2rem;
 }
 
-/* opciones del select alert*/
+/* select alert options*/
 .alert-checkbox-group.sc-ion-alert-md{
     max-height: 40vh;
 }
 
-/* title + subtitle actividades info alert*/
+/* activities info alert title and subtitle */
 .alert-head.sc-ion-alert-md {
   text-align: center;
 }
 
-/*only title actividades info alert*/
+/* activities info alert title */
 .alert-title.sc-ion-alert-ios{
     font-size: 1.5rem;
 }
 
-/*only sub-title actividades info alert*/
+/*actividades info alert sub-title*/
 .alert-sub-title.sc-ion-alert-ios {
     margin: 1rem 0;
 }
 
-/***** estilos popover *******/
+/***** popover styles *******/
 
 ion-popover{
     --box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.6);

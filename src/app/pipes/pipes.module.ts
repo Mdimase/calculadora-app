@@ -1,18 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FiltroPipe } from './filtro.pipe';
-
-
+import { FilterPipe } from './filter.pipe';
 
 @NgModule({
   declarations: [
-    FiltroPipe
+    FilterPipe
   ],
   imports: [
     CommonModule
   ],
   exports:[
-    FiltroPipe
+    FilterPipe
   ]
 })
 export class PipesModule { }
