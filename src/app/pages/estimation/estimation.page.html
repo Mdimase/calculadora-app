@@ -10,9 +10,8 @@
 </ion-header>
 
 <ion-content>
-
   <ion-list class="ion-align-items-center">
-    <form [formGroup]="estimationForm" novalidate (ngSubmit)="onSubmit()">
+    <form [formGroup]="estimationForm" novalidate (ngSubmit)="onSubmit()" #form>
       <ion-item>
         <ion-icon slot="start" name="business"></ion-icon>
         <ion-label position="floating">Institucion</ion-label>
@@ -23,6 +22,7 @@
           </ng-container>
         </div>
       </ion-item>
+
       <ion-item>
         <ion-icon slot="start" name="library"></ion-icon>
         <ion-label position="floating">Materia</ion-label>
@@ -35,11 +35,51 @@
       </ion-item>
 
       <ion-item>
-        <ion-select placeholder="Seleccionar Actividades" formControlName="activities" [multiple]="true" cancelText="Cancelar"
-          okText="Confirmar" [interfaceOptions]="customAlert">
-          <ion-select-option *ngFor="let activity of activities" [value]="activity">{{ activity.name + " (" +activity.time +
-            " min)"}}</ion-select-option>
+        <ion-select placeholder="Seleccionar Periodo Lectivo" formControlName="periods" cancelText="Cancelar"
+          okText="Confirmar">
+          <ion-select-option *ngFor="let period of periods" [value]="period">{{period}}</ion-select-option>
         </ion-select>
+        <div class="error-message" *ngFor="let error of errorMessages.periods">
+          <ng-container *ngIf="isInvalid('periods',error)">
+            <small>{{error.message}}</small>
+          </ng-container>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon slot="start" name="time"></ion-icon>
+        <ion-label position="floating">Carga Horaria</ion-label>
+        <ion-input inputmode="numeric" type="number" formControlName="workload"></ion-input>
+        <div class="error-message" *ngFor="let error of errorMessages.workload">
+          <ng-container *ngIf="isInvalid('workload',error)">
+            <small>{{error.message}}</small>
+          </ng-container>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon slot="start" name="calculator"></ion-icon>
+        <ion-label position="floating">Virtualizacion %</ion-label>
+        <ion-input inputmode="numeric" type="number" formControlName="percent"></ion-input>
+        <div class="error-message" *ngFor="let error of errorMessages.percent">
+          <ng-container *ngIf="isInvalid('percent',error)">
+            <small>{{error.message}}</small>
+          </ng-container>
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <ion-select placeholder="Seleccionar Actividades" formControlName="activities" [multiple]="true" cancelText="Cancelar"
+          okText="Confirmar" [interfaceOptions]="customAlert" (ionChange)="handleChange()">
+          <ion-select-option *ngFor="let activity of activities" [value]="activity">
+            {{ activity.name + " (" +activity.time + " min)"}}
+          </ion-select-option>
+        </ion-select>
+        <div class="error-message" *ngFor="let error of errorMessages.activities">
+          <ng-container *ngIf="isInvalid('activities',error)">
+            <small>{{error.message}}</small>
+          </ng-container>
+        </div>
       </ion-item>
       
       <ion-button expand="block" shape="round" class="ion-margin-horizontal" [disabled]="estimationForm.invalid"

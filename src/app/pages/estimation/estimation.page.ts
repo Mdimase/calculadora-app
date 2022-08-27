@@ -22,6 +22,21 @@ export class EstimationPage implements OnInit,OnDestroy {
       { type:'required', message: 'campo obligatorio'},
       { type:'maxlength', message: 'contenido maximo 50 caracteres'}
     ],
+    periods:[
+      { type:'required', message: 'campo obligatorio'},
+    ],
+    activities:[
+      { type:'required', message: 'campo obligatorio'},
+    ],
+    workload:[
+      { type:'required', message: 'campo obligatorio'},
+      { type:'min', message: 'valor minimo 0'},
+    ],
+    percent:[
+      { type:'required', message: 'campo obligatorio'},
+      { type:'min', message: 'valor minimo 0'},
+      { type:'max', message: 'valor maximo 100'},
+    ]
   };
 
   customAlert = {
@@ -33,6 +48,7 @@ export class EstimationPage implements OnInit,OnDestroy {
 
   estimationForm!: FormGroup;
   activities: Activity[] = [];
+  periods: string[] = ['1er cuatrimestre', '2do cuatrimestre', 'anual'];
   pipe = new DatePipe('en-US');
   today = this.pipe.transform(Date.now(), 'dd/MM/yyyy');
   private suscription: Subscription;
@@ -53,7 +69,10 @@ export class EstimationPage implements OnInit,OnDestroy {
     return this.formBuilder.group({
       subject: ['', [Validators.required, Validators.maxLength(50)],],
       institution: ['',[Validators.required, Validators.maxLength(50)],],
-      activities:[''],
+      periods:['',[Validators.required]],
+      workload:[0,[Validators.required,Validators.min(0)]],
+      percent:[0,[Validators.required,Validators.min(0),Validators.max(100)]],
+      activities:['',[Validators.required]],
     });
   }
 
@@ -87,6 +106,31 @@ export class EstimationPage implements OnInit,OnDestroy {
       selectionMap.set(data[0],data[1]);
     });
     return [...selectionMap.values()];  //retorno los items
+  }
+
+  /* equivalente en minutos de horas */
+  toMinutes(hours: number): number{
+    return hours*60;
+  }
+
+  /* devuelve el valor del porcentaje sobre el valor ingresado */
+  valueOfPercent(value: number, percent: number): number{
+    return (percent*value)/100;
+  }
+
+  handleChange(){
+    const workload: number = this.estimationForm.get('workload')?.value;
+    const percent: number = this.estimationForm.get('percent')?.value;
+    const activities: Activity[] = this.estimationForm.get('activities')?.value;
+    const minutesObjetive: number = this.valueOfPercent(this.toMinutes(workload),percent);  //carga horaria a virtualizar (minutos)
+    let selectedMinutesActivities = 0;  // sumatoria de la carga horaria de las actividades seleccionadas (minutos)
+    activities.map(a =>{
+      selectedMinutesActivities+=a.time;
+    });
+    if(selectedMinutesActivities > minutesObjetive){
+      // alert warning
+      console.log('exceso de actividades');
+    }
   }
 
 }

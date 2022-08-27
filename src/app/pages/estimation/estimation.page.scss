@@ -5,7 +5,6 @@
 }
 
 .error-message{
-    //min-width: 100% !important;
     text-align: center;
     color: var(--ion-color-danger);
 }
@@ -26,5 +25,5 @@ ion-button{
 }
 
 .item-label-floating{
-    --min-height:75px;
+    --min-height:60px;
 }
