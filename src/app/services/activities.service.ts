@@ -20,8 +20,8 @@ export class ActivitiesService {
   getActivitiesStandar$(): Observable<Activity[]>{
     if(this.activitiesStandar.length === 0){
       this.activitiesStandar = [
-        {id:2,name:'Actividad 2', description:'descripcion de esta actividad la verdad que es muy buena',time:25},
-        {id:1,name:'Actividad 1', description:'descripcion de esta actividad la verdad que es muy buena',time:50},
+        {id:2,name:'Lectura de unidad de un libro (30 pag)',description:'descripcion de esta actividad la verdad que es muy buena',time:25},
+        {id:1,name:'presentacion en grupos de tp final', description:'descripcion de esta actividad la verdad que es muy buena',time:50},
         {id:3,name:'Actividad 3', description:'descripcion de esta actividad la verdad que es muy buena',time:45},
         {id:4,name:'Actividad 4', description:'descripcion de esta actividad la verdad que es muy buena',time:15},
         {id:5,name:'Actividad 5', description:'descripcion de esta actividad la verdad que es muy buena',time:30},

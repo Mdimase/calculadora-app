@@ -19,11 +19,11 @@ export class RegistrationPage implements OnInit {
     ],
     username:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'maxlength', message: 'longitud maxima 50 caracteres'},
+      { type:'maxlength', message: 'contenido maximo 50 caracteres'},
     ],
     password:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'minlength', message: 'longitud minima 6 caracteres'},
+      { type:'minlength', message: 'contenido minimo 6 caracteres'},
     ]
   };
 

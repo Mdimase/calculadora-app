@@ -15,15 +15,15 @@ export class FormActivityComponent implements OnInit {
 
   public errorMessages = {
     name:[
-      { type:'required', message: 'campo nombre es obligatorio'},
-      { type:'minlength', message: 'campo nombre no puede ser menor de 5 caracteres'},
-      { type:'maxlength', message: 'campo nombre no puede ser mayor de 50 caracteres'}
+      { type:'required', message: 'campo obligatorio'},
+      { type:'minlength', message: 'contenido minimo 5 caracteres'},
+      { type:'maxlength', message: 'contenido maximo 50 caracteres'}
     ],
     time:[
-      { type:'required', message: 'campo tiempo es obligatorio'},
+      { type:'required', message: 'campo obligatorio'},
     ],
     description:[
-      { type:'maxlength', message: 'campo descripcion no puede ser mayor de 255 caracteres'}
+      { type:'maxlength', message: 'contenido 255 caracteres'}
     ]
   };
 

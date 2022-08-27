@@ -19,7 +19,7 @@ export class LoginPage implements OnInit {
     ],
     password:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'minlength', message: 'longitud minima 6 caracteres'},
+      { type:'minlength', message: 'contenido minimo 6 caracteres'},
     ]
   };
 
