@@ -14,6 +14,7 @@ export class ResetPasswordPage implements OnInit {
   public errorMessages = {
     email:[
       { type:'required', message: 'campo obligatorio'},
+      { type:'maxlength', message: 'contenido maximo 50 caracteres'},
       { type:'pattern', message: 'ingrese un email valido'}
     ]
   };
@@ -26,7 +27,7 @@ export class ResetPasswordPage implements OnInit {
 
   initForm(): FormGroup {
     return this.formBuilder.group({
-      email: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}')],]
+      email: ['', [Validators.required,Validators.maxLength(50),Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}')],]
     });
   }
 

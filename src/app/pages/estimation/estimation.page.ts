@@ -16,11 +16,11 @@ export class EstimationPage implements OnInit,OnDestroy {
   public errorMessages = {
     subject:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'maxlength', message: 'contenido maximo 50 caracteres'}
+      { type:'maxlength', message: 'contenido maximo 255 caracteres'}
     ],
-    institution:[
+    institute:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'maxlength', message: 'contenido maximo 50 caracteres'}
+      { type:'maxlength', message: 'contenido maximo 255 caracteres'}
     ],
     periods:[
       { type:'required', message: 'campo obligatorio'},
@@ -67,8 +67,8 @@ export class EstimationPage implements OnInit,OnDestroy {
 
   initForm(): FormGroup {
     return this.formBuilder.group({
-      subject: ['', [Validators.required, Validators.maxLength(50)],],
-      institution: ['',[Validators.required, Validators.maxLength(50)],],
+      subject: ['', [Validators.required, Validators.maxLength(255)],],
+      institute: ['',[Validators.required, Validators.maxLength(255)],],
       periods:['',[Validators.required]],
       workload:[0,[Validators.required,Validators.min(0)]],
       percent:[0,[Validators.required,Validators.min(0),Validators.max(100)]],

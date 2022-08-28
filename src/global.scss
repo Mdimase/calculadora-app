@@ -73,6 +73,29 @@ ion-alert.custom-alert {
     margin: 1rem 0;
 }
 
+.alert-input.sc-ion-alert-ios{
+    font-size: 1rem;
+    min-height: 2.5rem;
+}
+
+textarea.alert-input.sc-ion-alert-ios {
+    min-height: 8rem;
+}
+
+.alert-message.sc-ion-alert-ios:empty{
+     padding: 0;
+}
+
+.validation-errors {
+    padding-top: 5px;
+    text-align: center;
+  }
+  
+  .error-message {
+    color: var(--ion-color-danger);
+    font-size: 12px;
+  }
+
 /***** popover styles *******/
 
 ion-popover{

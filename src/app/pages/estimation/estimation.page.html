@@ -15,9 +15,9 @@
       <ion-item>
         <ion-icon slot="start" name="business"></ion-icon>
         <ion-label position="floating">Institucion</ion-label>
-        <ion-input inputmode="text" formControlName="institution"></ion-input>
-        <div class="error-message" *ngFor="let error of errorMessages.institution">
-          <ng-container *ngIf="isInvalid('institution',error)">
+        <ion-input inputmode="text" formControlName="institute"></ion-input>
+        <div class="error-message" *ngFor="let error of errorMessages.institute">
+          <ng-container *ngIf="isInvalid('institute',error)">
             <small>{{error.message}}</small>
           </ng-container>
         </div>

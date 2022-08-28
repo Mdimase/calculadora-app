@@ -156,4 +156,15 @@ export class ActivitiesService {
     this.activitiesCustom$.next(this.activitiesCustom);
   }
 
+  /* actividades iguales cuando todos sus atributos tienen los mismos valores */
+  equal(act1: Activity, act2: Activity): boolean{
+    if(!act1 && !act2){
+      return true;
+    }
+    if(act1.id === act2.id && act1.name === act2.name && act1.time === act2.time && act1.description=== act2.description){
+      return true;
+    }
+    return false;
+  }
+
 }

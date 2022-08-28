@@ -11,7 +11,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { ComponentsModule } from './components/components.module';
 import { PopoverService } from './services/popover.service';
 import { AlertService } from './services/alert.service';
-import { ModalService } from './services/modal.service';
 import { AuthService } from './services/auth.service';
 import { ActivitiesService } from './services/activities.service';
 import { LoginPageModule } from './pages/login/login.module';
@@ -39,7 +38,6 @@ import { MainPageModule } from './pages/main/main.module';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     PopoverService,
     AlertService,
-    ModalService,
     AuthService,
     ActivitiesService
   ],

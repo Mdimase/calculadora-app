@@ -7,7 +7,6 @@ import { PopoverEditOptionsComponent } from './popover-edit-options/popover-edit
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { FormActivityComponent } from './form-activity/form-activity.component';
 import { HeaderComponent } from './header/header.component';
 
 @NgModule({
@@ -15,7 +14,6 @@ import { HeaderComponent } from './header/header.component';
     HeaderComponent,
     PopoverHelpIconComponent,
     PopoverEditOptionsComponent,
-    FormActivityComponent,
   ],
   imports: [
     CommonModule,
@@ -29,7 +27,6 @@ import { HeaderComponent } from './header/header.component';
     HeaderComponent,
     PopoverHelpIconComponent,
     PopoverEditOptionsComponent,
-    FormActivityComponent,
   ]
 })
 export class ComponentsModule { }

@@ -3,7 +3,6 @@ import { Subscription } from 'rxjs';
 import { Activity } from 'src/app/interfaces/activity';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { AlertService } from 'src/app/services/alert.service';
-import { ModalService } from 'src/app/services/modal.service';
 import { PopoverService } from 'src/app/services/popover.service';
 
 @Component({
@@ -19,8 +18,7 @@ export class CustomActivityPage implements OnDestroy {
 
   constructor(private popoverService: PopoverService,
               private alertService: AlertService,
-              private activitiesService: ActivitiesService,
-              private modalService: ModalService) { }
+              private activitiesService: ActivitiesService) { }
 
   ionViewWillEnter(): void{
     this.suscription = this.activitiesService.getActivitiesCustom$().subscribe((activities: Activity[]) =>{
@@ -58,18 +56,18 @@ export class CustomActivityPage implements OnDestroy {
       }
     }
     if(data === 'Editar'){
-      const modifiedActivity: Activity = await this.modalService.editActivity(activity);
-      if(modifiedActivity){
+      const modifiedActivity: Activity = await this.alertService.editForm(activity);
+      if(!this.activitiesService.equal(activity,modifiedActivity)){
         this.activitiesService.editActivity(activity.id, modifiedActivity);
       }
     }
   }
 
-  /* primero renderiza el modal de agregar actividad*/
+  /* primero renderiza el alert input de agregar actividad */
   /* luego, si el usuario agrego una actividad, la persiste */
-  async showAddModal(){
-    const activity: Activity = await this.modalService.addActivity();
-    if(activity){
+  async showAddForm(){
+    const activity: Activity = await this.alertService.addForm();
+    if(activity.name !== ''){
       this.activitiesService.addActivity(activity);
     }
   }

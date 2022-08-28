@@ -14,8 +14,6 @@ import { CustomActivityPageModule } from '../custom-activity/custom-activity.mod
 import { EstimationPageModule } from '../estimation/estimation.module';
 import { StandarActivityPageModule } from '../standar-activity/standar-activity.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
-import { AddActivityModalPageModule } from '../add-activity-modal/add-activity-modal.module';
-import { EditActivityModalPageModule } from '../edit-activity-modal/edit-activity-modal.module';
 
 @NgModule({
   imports: [
@@ -30,8 +28,6 @@ import { EditActivityModalPageModule } from '../edit-activity-modal/edit-activit
     EstimationPageModule,
     StandarActivityPageModule,
     PipesModule,
-    AddActivityModalPageModule,
-    EditActivityModalPageModule,
     MainPageRoutingModule,
   ],
   declarations: [MainPage]
