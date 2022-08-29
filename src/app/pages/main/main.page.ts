@@ -17,7 +17,7 @@ export class MainPage implements OnInit {
     { title: 'Estimacion', url: '/main/estimation', icon: 'calculator' },
     { title: 'Actividades Standar', url: '/main/standar/activity', icon: 'albums' },
     { title: 'Actividades Personalizadas', url: '/main/custom/activity', icon: 'heart' },
-    { title: 'Historial', url: '/main/estimation/history', icon: 'archive' }
+    { title: 'Historial', url: '/main/history', icon: 'archive' }
   ];
 
   constructor(private router: Router, private authService: AuthService){}

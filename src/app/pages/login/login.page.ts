@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,10 @@ export class LoginPage implements OnInit {
     ]
   };
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router){}
+  constructor(private formBuilder: FormBuilder,
+              private toastService: ToastService,
+              private authService: AuthService,
+              private router: Router){}
 
   ngOnInit(){
     this.loginForm = this.initForm();
@@ -48,6 +52,8 @@ export class LoginPage implements OnInit {
     const email: string = this.loginForm.get('email')?.value;
     const password: string = this.loginForm.get('password')?.value;
     if(this.authService.login(email,password)){
+      //this.toastService.showWelcomeMessage('Bienvenido ' + email);
+      setTimeout(()=>this.toastService.showWelcomeMessage('Bienvenido ' + email),500);
       this.router.navigate(['main/home']);
     }
     else{

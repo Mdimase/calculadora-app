@@ -4,6 +4,7 @@ import { Activity } from 'src/app/interfaces/activity';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { PopoverService } from 'src/app/services/popover.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-custom-activity',
@@ -18,7 +19,8 @@ export class CustomActivityPage implements OnDestroy {
 
   constructor(private popoverService: PopoverService,
               private alertService: AlertService,
-              private activitiesService: ActivitiesService) { }
+              private activitiesService: ActivitiesService,
+              private toastService: ToastService) { }
 
   ionViewWillEnter(): void{
     this.suscription = this.activitiesService.getActivitiesCustom$().subscribe((activities: Activity[]) =>{
@@ -51,14 +53,17 @@ export class CustomActivityPage implements OnDestroy {
   async showEditOptions(event, activity: Activity){
     const { data } = await this.popoverService.editOptions(event, activity);
     if(data === 'Eliminar'){
-      if( await this.alertService.confirm(activity, 'Eliminar') === 'confirm'){
+      const message = '¿ Deseas eliminar de forma permanente ' + activity.name + ' ?';
+      if( await this.alertService.confirm(message,'Eliminar','alert-button-delete') === 'confirm'){
         this.activitiesService.deleteActivity(activity);
+        this.toastService.showMessage('Actividad eliminada correctamente');
       }
     }
     if(data === 'Editar'){
       const modifiedActivity: Activity = await this.alertService.editForm(activity);
       if(!this.activitiesService.equal(activity,modifiedActivity)){
         this.activitiesService.editActivity(activity.id, modifiedActivity);
+        this.toastService.showMessage('Actividad editada correctamente');
       }
     }
   }
@@ -69,6 +74,7 @@ export class CustomActivityPage implements OnDestroy {
     const activity: Activity = await this.alertService.addForm();
     if(activity.name !== ''){
       this.activitiesService.addActivity(activity);
+      this.toastService.showMessage('Actividad creada correctamente');
     }
   }
 

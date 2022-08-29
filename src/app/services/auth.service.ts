@@ -33,6 +33,7 @@ export class AuthService {
     if(userLogged.length > 0){ //logueo exitoso
       localStorage.setItem('email',userLogged[0].email);
       localStorage.setItem('username',userLogged[0].username);
+      // set token
       return true;
     }
     return false;

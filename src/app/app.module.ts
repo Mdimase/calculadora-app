@@ -17,6 +17,7 @@ import { LoginPageModule } from './pages/login/login.module';
 import { RegistrationPageModule } from './pages/registration/registration.module';
 import { ResetPasswordPageModule } from './pages/reset-password/reset-password.module';
 import { MainPageModule } from './pages/main/main.module';
+import { ToastService } from './services/toast.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { MainPageModule } from './pages/main/main.module';
     PopoverService,
     AlertService,
     AuthService,
-    ActivitiesService
+    ActivitiesService,
+    ToastService
   ],
   bootstrap: [AppComponent],
 })

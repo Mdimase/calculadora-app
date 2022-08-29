@@ -18,27 +18,57 @@ export class AlertService {
       message: 'tiempo estimado: ' + activity.time.toString() + ' minutos',
       mode:'ios',
       cssClass:'custom-alert',
-      buttons: ['OK']
+      buttons: [{text:'OK', cssClass:'alert-button-OK'}]
     });
     await alert.present();
   }
 
   /* alerta de confirmacion */
   /* retorna la eleccion del usuario */
-  async confirm(activity: Activity, action: string): Promise<string>{
+  async confirm(message: string, buttonText: string, cssClass: string, dialog: string = ''): Promise<string>{
     const alert = await this.alertController.create({
       header: 'Confirmar',
-      subHeader:'¿ Deseas ' + action.toLowerCase() + ' de forma permanente ' + activity.name + ' ?',
+      subHeader:message,
+      message:dialog,
       mode:'ios',
       cssClass:'custom-alert',
-      buttons: [{ text:'Cancelar', role:'cancel' },{ text:action, role:'confirm'}]
+      buttons: [{ text:'Cancelar', role:'cancel',cssClass:'alert-button-cancel' },{ text:buttonText, role:'confirm',cssClass}]
     });
     await alert.present();
     return (await alert.onWillDismiss()).role; /* opcion elegida por el usuario */
   }
 
+  /* genera una alert con un form validado adentro solicitando
+  nombre(required,maxlength(255), tiempo(required,>0) y descripcion(maxlength(255)))
+  finalmente retorna los valores ingresados en una promesa de activity */
+  async addForm(): Promise<Activity> {
+    return await this.initAlertForm('Agregar Actividad');
+  }
+
+  /* genera una alert con un form validado adentro solicitando
+  nombre(required,maxlength(255), tiempo(required,>0) y descripcion(maxlength(255)))
+  finalmente retorna los valores ingresados en una promesa de activity */
+  async editForm(currentActivity: Activity): Promise<Activity>{
+    const res=await this.initAlertForm('Editar Actividad',currentActivity.name,currentActivity.time.toString(),currentActivity.description);
+    res.id = currentActivity.id;
+    res.time = Number(res.time);
+    return res;
+  }
+
+  async showAlert(title: string ,message: string){
+    const alert = await this.alertController.create({
+      header:title,
+      subHeader:message,
+      mode:'ios',
+      cssClass:'custom-alert',
+      buttons: [{text:'OK', cssClass:'alert-button-OK',}],
+    });
+    await alert.present();
+    setTimeout(()=>alert.dismiss(), 8000);
+  }
+
   /* inserta los mensajes de error en el dom debajo del correspondiente input */
-  showError(alert, position: number, message: string) {
+  private showError(alert, position: number, message: string) {
     if (!alert.getElementsByClassName('validation-errors').length) {
       const input = alert.getElementsByTagName('input')[position];
 
@@ -57,14 +87,14 @@ export class AlertService {
   }
 
   /* quita del dom el error correspondiente */
-  hideError() {
+  private hideError() {
     const element = document.getElementById('validation-errors');
     if (element) {
       element.remove();
     }
   }
 
-  async initAlertForm(header: string, name: string = '', time: string = '', description: string = ''): Promise<Activity>{
+  private async initAlertForm(header: string, name: string = '', time: string = '', description: string = ''): Promise<Activity>{
     const alert = await this.alertController.create({
       header,
       subHeader:'crea tu propia actividad',
@@ -104,10 +134,12 @@ export class AlertService {
         {
            text: 'Cancelar',
            role: 'Cancel',
+           cssClass:'alert-button-cancel',
            handler:(formData => formData)
         },
         {
           text: 'Enviar',
+          cssClass:'alert-button-send',
           handler: (formData: { name: string; time: string; description: string }) => {
             if(!formData.name) {
               this.showError(alert, 0,'Campo obligatorio');
@@ -138,23 +170,6 @@ export class AlertService {
 
     await alert.present();
     return (await alert.onWillDismiss())?.data;
-  }
-
-  /* genera una alert con un form validado adentro solicitando
-  nombre(required,maxlength(255), tiempo(required,>0) y descripcion(maxlength(255)))
-  finalmente retorna los valores ingresados en una promesa de activity */
-  async addForm(): Promise<Activity> {
-    return await this.initAlertForm('Agregar Actividad');
-  }
-
-  /* genera una alert con un form validado adentro solicitando
-  nombre(required,maxlength(255), tiempo(required,>0) y descripcion(maxlength(255)))
-  finalmente retorna los valores ingresados en una promesa de activity */
-  async editForm(currentActivity: Activity): Promise<Activity>{
-    const res=await this.initAlertForm('Editar Actividad',currentActivity.name,currentActivity.time.toString(),currentActivity.description);
-    res.id = currentActivity.id;
-    res.time = Number(res.time);
-    return res;
   }
 
 }
