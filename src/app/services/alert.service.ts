@@ -40,19 +40,44 @@ export class AlertService {
 
   /* genera una alert con un form validado adentro solicitando
   nombre(required,maxlength(255), tiempo(required,>0) y descripcion(maxlength(255)))
-  finalmente retorna los valores ingresados en una promesa de activity */
-  async addForm(): Promise<Activity> {
-    return await this.initAlertForm('Agregar Actividad');
+  finalmente retorna los valores ingresados en una promesa de activity o null si presiona cancelar */
+  async addForm(): Promise<Activity>{
+    let res: Activity = null;
+    await this.initAlertForm('Agregar Actividad').then((r)=>{
+      if(r.role !== 'Cancel'){
+        res = r.data;
+      }
+    });
+    return res;
   }
 
   /* genera una alert con un form validado adentro solicitando
   nombre(required,maxlength(255), tiempo(required,>0) y descripcion(maxlength(255)))
-  finalmente retorna los valores ingresados en una promesa de activity */
-  async editForm(currentActivity: Activity): Promise<Activity>{
-    const res=await this.initAlertForm('Editar Actividad',currentActivity.name,currentActivity.time.toString(),currentActivity.description);
-    res.id = currentActivity.id;
-    res.time = Number(res.time);
-    return res;
+  finalmente retorna los valores ingresados en una promesa de activity o null si presiona cancelar */
+  async editForm(currentActivity: Activity) {
+    let res: Activity = null;
+    await this.initAlertForm('Editar Actividad',currentActivity.name,currentActivity.time.toString(),currentActivity.description)
+      .then((r)=> {
+        if(r.role !== 'Cancel'){
+          res = r.data;
+          res.id = currentActivity.id;
+          res.time = Number(r.data.time);
+        }
+      });
+      return res;
+  }
+
+  /* back button hardware close alert input previous redirection*/
+  async hideAlert(){
+    try {
+      const element = await this.alertController.getTop();
+      if (element) {
+          element.dismiss();
+          return;
+      }
+  } catch (error) {
+    throw new error('can\'t hide alert');
+  }
   }
 
   async showAlert(title: string ,message: string){
@@ -94,7 +119,7 @@ export class AlertService {
     }
   }
 
-  private async initAlertForm(header: string, name: string = '', time: string = '', description: string = ''): Promise<Activity>{
+  private async initAlertForm(header: string, name: string = '', time: string = '', description: string = '') {
     const alert = await this.alertController.create({
       header,
       subHeader:'crea tu propia actividad',
@@ -135,7 +160,7 @@ export class AlertService {
            text: 'Cancelar',
            role: 'Cancel',
            cssClass:'alert-button-cancel',
-           handler:(formData => formData)
+           handler:(formData => null)
         },
         {
           text: 'Enviar',
@@ -169,7 +194,7 @@ export class AlertService {
     });
 
     await alert.present();
-    return (await alert.onWillDismiss())?.data;
+    return await alert.onWillDismiss();
   }
 
 }

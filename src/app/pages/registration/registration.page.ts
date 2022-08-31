@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -28,7 +29,11 @@ export class RegistrationPage implements OnInit {
     ]
   };
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router, private platform: Platform){
+    this.platform.backButton.subscribeWithPriority(10,()=>{
+      this.router.navigate(['login']);
+    });
+  }
 
   ngOnInit(){
     this.registrationForm = this.initForm();

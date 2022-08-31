@@ -24,7 +24,7 @@ export class ToastService {
   async showWelcomeMessage(message: string){
     const toast = await this.toastController.create({
       message,
-      duration: 2000,
+      duration: 1500,
       position:'top',
       animated:true,
       mode:'ios',

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { App } from '@capacitor/app';
+import { Platform } from '@ionic/angular';
+import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
 
@@ -28,7 +31,11 @@ export class LoginPage implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private toastService: ToastService,
               private authService: AuthService,
-              private router: Router){}
+              private router: Router, private platform: Platform){
+                this.platform.backButton.subscribeWithPriority(10,()=>{
+                  App.exitApp();
+                });
+              }
 
   ngOnInit(){
     this.loginForm = this.initForm();
@@ -53,7 +60,7 @@ export class LoginPage implements OnInit {
     const password: string = this.loginForm.get('password')?.value;
     if(this.authService.login(email,password)){
       //this.toastService.showWelcomeMessage('Bienvenido ' + email);
-      setTimeout(()=>this.toastService.showWelcomeMessage('Bienvenido ' + email),500);
+      setTimeout(()=>this.toastService.showWelcomeMessage('Bienvenido ' + email),200);
       this.router.navigate(['main/home']);
     }
     else{

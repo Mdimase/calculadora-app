@@ -2,10 +2,12 @@ import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Activity } from 'src/app/interfaces/activity';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { AlertService } from 'src/app/services/alert.service';
+import { NavigationService } from 'src/app/services/navigation.service';
 import { PopoverService } from 'src/app/services/popover.service';
 import { ToastService } from 'src/app/services/toast.service';
 
@@ -62,7 +64,11 @@ export class EstimationPage implements OnInit,OnDestroy {
               private alertService: AlertService,
               private activitiesService: ActivitiesService,
               private formBuilder: FormBuilder,
-              private router: Router){}
+              private router: Router, private platform: Platform, private navigationService: NavigationService){
+                this.platform.backButton.subscribeWithPriority(10,()=>{
+                  this.navigationService.back();
+                });
+              }
 
   ngOnInit(): void {
     console.log(this.today);

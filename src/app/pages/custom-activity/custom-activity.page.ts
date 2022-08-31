@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Activity } from 'src/app/interfaces/activity';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { AlertService } from 'src/app/services/alert.service';
+import { NavigationService } from 'src/app/services/navigation.service';
 import { PopoverService } from 'src/app/services/popover.service';
 import { ToastService } from 'src/app/services/toast.service';
 
@@ -20,7 +22,13 @@ export class CustomActivityPage implements OnDestroy {
   constructor(private popoverService: PopoverService,
               private alertService: AlertService,
               private activitiesService: ActivitiesService,
-              private toastService: ToastService) { }
+              private toastService: ToastService, private platform: Platform, private navigationService: NavigationService){
+                this.platform.backButton.subscribeWithPriority(10,async ()=>{
+                  await this.alertService.hideAlert().then(()=>{
+                    this.navigationService.back();
+                  });
+                });
+              }
 
   ionViewWillEnter(): void{
     this.suscription = this.activitiesService.getActivitiesCustom$().subscribe((activities: Activity[]) =>{
@@ -61,7 +69,7 @@ export class CustomActivityPage implements OnDestroy {
     }
     if(data === 'Editar'){
       const modifiedActivity: Activity = await this.alertService.editForm(activity);
-      if(!this.activitiesService.equal(activity,modifiedActivity)){
+      if(modifiedActivity && !this.activitiesService.equal(activity,modifiedActivity)){
         this.activitiesService.editActivity(activity.id, modifiedActivity);
         this.toastService.showMessage('Actividad editada correctamente');
       }
@@ -71,11 +79,12 @@ export class CustomActivityPage implements OnDestroy {
   /* primero renderiza el alert input de agregar actividad */
   /* luego, si el usuario agrego una actividad, la persiste */
   async showAddForm(){
-    const activity: Activity = await this.alertService.addForm();
-    if(activity.name !== ''){
-      this.activitiesService.addActivity(activity);
-      this.toastService.showMessage('Actividad creada correctamente');
-    }
+    await this.alertService.addForm().then((res: Activity)=>{
+      if(res){
+        this.activitiesService.addActivity(res);
+        this.toastService.showMessage('Actividad creada correctamente');
+      }
+    });
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-reset-password',
@@ -19,7 +20,11 @@ export class ResetPasswordPage implements OnInit {
     ]
   };
 
-  constructor(private formBuilder: FormBuilder, private router: Router){}
+  constructor(private formBuilder: FormBuilder, private router: Router, private platform: Platform){
+    this.platform.backButton.subscribeWithPriority(10,()=>{
+      this.router.navigate(['login']);
+    });
+  }
 
   ngOnInit(){
     this.resetForm = this.initForm();
