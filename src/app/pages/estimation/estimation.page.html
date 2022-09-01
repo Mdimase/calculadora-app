@@ -35,6 +35,17 @@
       </ion-item>
 
       <ion-item>
+        <ion-icon slot="start" name="calendar-number"></ion-icon>
+        <ion-label position="floating">Año Academico</ion-label>
+        <ion-input inputmode="numeric" type="number" formControlName="year"></ion-input>
+        <div class="error-message" *ngFor="let error of errorMessages.year">
+          <ng-container *ngIf="isInvalid('year',error)">
+            <small>{{error.message}}</small>
+          </ng-container>
+        </div>
+      </ion-item>
+
+      <ion-item>
         <ion-select placeholder="Seleccionar Periodo Lectivo" formControlName="periods" cancelText="Cancelar"
           okText="Confirmar">
           <ion-select-option *ngFor="let period of periods" [value]="period">{{period}}</ion-select-option>

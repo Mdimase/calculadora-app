@@ -1,11 +1,16 @@
 <app-header [title]="'historial'"></app-header>
 
-<div class="container">
+<ion-content>
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Historial</ion-title>
     </ion-toolbar>
   </ion-header>
   
-  <strong class="capitalize">Historial</strong>
-</div>
+  <ion-list lines="full">
+    <ion-item *ngFor="let estimation of estimations">
+      <ion-label class="ion-text-wrap ion-text-capitalize">{{estimation | json}}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

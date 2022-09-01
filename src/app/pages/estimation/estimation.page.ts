@@ -5,8 +5,10 @@ import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Activity } from 'src/app/interfaces/activity';
+import { Estimation } from 'src/app/interfaces/estimation';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { AlertService } from 'src/app/services/alert.service';
+import { EstimationService } from 'src/app/services/estimation.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { PopoverService } from 'src/app/services/popover.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -26,6 +28,11 @@ export class EstimationPage implements OnInit,OnDestroy {
     institute:[
       { type:'required', message: 'campo obligatorio'},
       { type:'maxlength', message: 'contenido maximo 255 caracteres'}
+    ],
+    year:[
+      { type:'required', message: 'campo obligatorio'},
+      { type:'min', message: 'valor minimo 1000'},
+      { type:'max', message: 'valor maximo 2100'}
     ],
     periods:[
       { type:'required', message: 'campo obligatorio'},
@@ -56,13 +63,12 @@ export class EstimationPage implements OnInit,OnDestroy {
   selectedMinutesActivities = 0;
   activities: Activity[] = [];
   periods: string[] = ['1er cuatrimestre', '2do cuatrimestre', 'anual'];
-  pipe = new DatePipe('en-US');
-  today = this.pipe.transform(Date.now(), 'dd/MM/yyyy');
   private suscription: Subscription;
 
   constructor(private popoverService: PopoverService,
               private alertService: AlertService,
               private activitiesService: ActivitiesService,
+              private estimationService: EstimationService,
               private formBuilder: FormBuilder,
               private router: Router, private platform: Platform, private navigationService: NavigationService){
                 this.platform.backButton.subscribeWithPriority(10,()=>{
@@ -71,7 +77,6 @@ export class EstimationPage implements OnInit,OnDestroy {
               }
 
   ngOnInit(): void {
-    console.log(this.today);
     this.estimationForm = this.initForm();
   }
 
@@ -79,12 +84,14 @@ export class EstimationPage implements OnInit,OnDestroy {
     this.suscription = this.activitiesService.getActivities$().subscribe( activities =>{
        this.activities = activities;
      });
+    this.estimationService.getEstimations$();  //eliminarlo al tener el backend
   }
 
   initForm(): FormGroup {
     return this.formBuilder.group({
       subject: ['', [Validators.required, Validators.maxLength(255)],],
       institute: ['',[Validators.required, Validators.maxLength(255)],],
+      year:['',[Validators.required, Validators.min(1000), Validators.max(2100)]],
       periods:['',[Validators.required]],
       workload:['',[Validators.required,Validators.min(0)]],
       percent:['',[Validators.required,Validators.min(0),Validators.max(100)]],
@@ -112,7 +119,8 @@ export class EstimationPage implements OnInit,OnDestroy {
       dialog = ' desea confirmar el envio igualmente ?';
     }
     if(await this.alertService.confirm(dialog,'Enviar','alert-button-send',message) === 'confirm'){
-      console.log('enviar estimacion');
+      this.estimationService.addEstimation(this.estimationForm.value);
+    // toast succesfully
       this.estimationForm.reset({activities:[]});
       this.router.navigate(['main/home']);
     }

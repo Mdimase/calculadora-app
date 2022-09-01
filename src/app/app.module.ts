@@ -19,6 +19,7 @@ import { ResetPasswordPageModule } from './pages/reset-password/reset-password.m
 import { MainPageModule } from './pages/main/main.module';
 import { ToastService } from './services/toast.service';
 import { NavigationService } from './services/navigation.service';
+import { EstimationService } from './services/estimation.service';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { NavigationService } from './services/navigation.service';
     AuthService,
     ActivitiesService,
     ToastService,
-    NavigationService
+    NavigationService,
+    EstimationService
   ],
   bootstrap: [AppComponent],
 })
