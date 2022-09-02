@@ -81,7 +81,13 @@
         </div>
       </ion-item>
 
-      <ion-item>
+      <ion-item detail>
+        <ion-label>
+          <a (click)="showSelectModal()">Seleccionar Actividades</a>
+        </ion-label>
+      </ion-item>
+
+      <!--<ion-item>
         <ion-select placeholder="Seleccionar Actividades" formControlName="activities" [multiple]="true" cancelText="Cancelar"
           okText="Confirmar" [interfaceOptions]="customAlert" (ionChange)="handleChange()">
           <ion-select-option *ngFor="let activity of activities" [value]="activity">
@@ -93,7 +99,8 @@
             <small>{{error.message}}</small>
           </ng-container>
         </div>
-      </ion-item>
+      </ion-item>-->
+
       <ion-item [ngClass]="{'text-danger': selectedMinutesActivities > minutesObjetive}">
         <ion-label slot="end">{{toStr(selectedMinutesActivities) + " / " + toStr(minutesObjetive) + " (min)"}}</ion-label>
       </ion-item>

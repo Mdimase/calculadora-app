@@ -9,4 +9,6 @@ export interface Activity{
     description: string;
     time: number;
     type: Type;
+    cantidad?: number;    //cantidad seleccionada en la estimacion modal
+    checked?: boolean;    //checkbox selected modal
 }

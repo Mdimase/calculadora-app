@@ -49,4 +49,22 @@ export class EstimationService {
     this.estimations$.next(this.estimations);  // notificacion a los subcriptos
   }
 
+  /* equivalente en minutos de horas */
+  toMinutes(hours: number): number{
+    return hours*60;
+  }
+
+  /* devuelve el valor del porcentaje sobre el valor ingresado */
+  valueOfPercent(value: number, percent: number): number{
+    return (percent*value)/100;
+  }
+
+  getMinutesSelected(activities: Activity[]): number{
+    let selectedMinutesActivities = 0;  // sumatoria de la carga horaria de las actividades seleccionadas (minutos)
+    activities.map(a =>{
+      selectedMinutesActivities += (a.time * a.cantidad);
+    });
+    return selectedMinutesActivities;
+  }
+
 }

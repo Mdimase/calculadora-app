@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -9,6 +9,7 @@ import { Estimation } from 'src/app/interfaces/estimation';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { EstimationService } from 'src/app/services/estimation.service';
+import { ModalService } from 'src/app/services/modal.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { PopoverService } from 'src/app/services/popover.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -62,11 +63,14 @@ export class EstimationPage implements OnInit,OnDestroy {
   minutesObjetive = 0;
   selectedMinutesActivities = 0;
   activities: Activity[] = [];
+  selectedActivities: Activity[] = [];
   periods: string[] = ['1er cuatrimestre', '2do cuatrimestre', 'anual'];
   private suscription: Subscription;
 
   constructor(private popoverService: PopoverService,
               private alertService: AlertService,
+              private toastService: ToastService,
+              private modalService: ModalService,
               private activitiesService: ActivitiesService,
               private estimationService: EstimationService,
               private formBuilder: FormBuilder,
@@ -120,7 +124,7 @@ export class EstimationPage implements OnInit,OnDestroy {
     }
     if(await this.alertService.confirm(dialog,'Enviar','alert-button-send',message) === 'confirm'){
       this.estimationService.addEstimation(this.estimationForm.value);
-    // toast succesfully
+      this.toastService.showMessage('estimacion creada correctamente');
       this.estimationForm.reset({activities:[]});
       this.router.navigate(['main/home']);
     }
@@ -148,45 +152,19 @@ export class EstimationPage implements OnInit,OnDestroy {
     this.popoverService.simpleMessage(message,event);
   }
 
-  /* elimina objetos duplicados mediante su id unico */
-  /* mover a un utils service */
-  deleteRepetead(array){
-    const selectionMapArry = array.map(item=>[item.id,item]);  // arreglo de arreglos -> [[id,item],[id,item]]
-    const selectionMap = new Map();
-    selectionMapArry.map(data =>{  // seteo en el mapa cada arreglo, como no acepta claves repetidas (mismo id) no inserta duplicados
-      selectionMap.set(data[0],data[1]);
-    });
-    return [...selectionMap.values()];  //retorno los items
-  }
-
   toStr(num: number): string{
     return num.toString();
-  }
-
-  /* equivalente en minutos de horas */
-  toMinutes(hours: number): number{
-    return hours*60;
-  }
-
-  toHours(minutes: number): number{
-    return minutes / 60;
-  }
-
-  /* devuelve el valor del porcentaje sobre el valor ingresado */
-  valueOfPercent(value: number, percent: number): number{
-    return (percent*value)/100;
   }
 
   getMinutesObjetive(): number{
     const workload: number = this.estimationForm.get('workload')?.value;
     const percent: number = this.estimationForm.get('percent')?.value;
-    return this.valueOfPercent(this.toMinutes(workload),percent);  //carga horaria a virtualizar (minutos)
+    return this.estimationService.valueOfPercent(this.estimationService.toMinutes(workload),percent);  //carga horaria a virtualizar (min)
   }
 
   handle(){
-    const selectActivities: Activity[] = this.estimationForm.get('activities')?.value;
-    if(selectActivities.length > 0){
-      this.handleChange();
+    if(this.selectedActivities.length > 0){
+      this.handleChange(this.selectedActivities);
     }
     else{
       this.minutesObjetive = this.getMinutesObjetive();
@@ -194,20 +172,23 @@ export class EstimationPage implements OnInit,OnDestroy {
     }
   }
 
-  handleChange(){
-    const minutesObjetive: number = this.getMinutesObjetive();
-    const selectActivities: Activity[] = this.estimationForm.get('activities')?.value;
-    let selectedMinutesActivities = 0;  // sumatoria de la carga horaria de las actividades seleccionadas (minutos)
-    selectActivities.map(a =>{
-      selectedMinutesActivities+=a.time;
-    });
-    if(selectedMinutesActivities > minutesObjetive && minutesObjetive !== 0){
+  handleChange(selectedActivities: Activity[]){
+    this.minutesObjetive = this.getMinutesObjetive();
+    const selectedMinutesActivities = this.estimationService.getMinutesSelected(selectedActivities);
+    if(selectedMinutesActivities > this.minutesObjetive && this.minutesObjetive !== 0){
       const message = 'las actividades seleccionadas ' + selectedMinutesActivities + ' (min)' +
-      ' superan el tiempo deseado a virtualizar ' + minutesObjetive + ' (min)';
+      ' superan el tiempo deseado a virtualizar ' + this.minutesObjetive + ' (min)';
       this.alertService.showAlert('Tiempo Excedido',message);
     }
-    this.minutesObjetive = minutesObjetive;  // cantidad de horas que se desean virtualizar
+    this.minutesObjetive = this.minutesObjetive;  // cantidad de horas que se desean virtualizar
     this.selectedMinutesActivities = selectedMinutesActivities; // horas de las actividades seleccionadas
+  }
+
+  async showSelectModal(){
+    this.selectedActivities = await this.modalService.openModal(this.activities);
+    this.estimationForm.value.activities = this.selectedActivities;
+    this.estimationForm.get('activities').setValue(this.selectedActivities);
+    this.handleChange(this.selectedActivities);
   }
 
 }

@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-icon name="arrow-back-sharp" class="back-icon" (click)="back()"></ion-icon>
+    </ion-buttons>
+    <ion-title class="ion-text-capitalize">Seleccionar Actividades</ion-title>
+    <ion-icon name="help-circle-sharp" slot="end" class="icon-help" (click)="showPopover($event)"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<!--search bar-->
+<ion-searchbar placeholder="Buscar" enterkeyhint="search" type="search" (ionChange)="search($event)"></ion-searchbar>
+
+<ion-buttons class="center">
+  <ion-button expand="block" fill="outline" shape="round" color="danger" class="ion-padding-end" (click)="back()">Cancelar</ion-button>
+  <ion-button expand="block" fill="outline" shape="round" color="primary" class="ion-padding-start" (click)="send()">Seleccionar</ion-button>
+</ion-buttons>
+
+<ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Seleccionar Actividades</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <cdk-virtual-scroll-viewport itemSize="50" minBufferPx="800" maxBufferPx="1000">
+    <ion-list lines="full">
+      <ion-item *cdkVirtualFor="let activity of activities | filter:searchValue:'name'">
+        <ion-checkbox slot="start" mode="md" [(ngModel)]="activity.checked"></ion-checkbox>
+        <ion-label class="ion-text-wrap ion-text-capitalize">{{activity.name}}</ion-label>
+        <ion-buttons *ngIf="activity.checked">
+          <ion-button color="danger" (click)="decrement(activity)" [disabled]="activity.cantidad <= 0"><ion-icon class="cont-icon" name="remove-circle-outline"></ion-icon></ion-button>
+          <ion-label>{{activity.cantidad}}</ion-label>
+          <ion-button color="primary" (click)="increment(activity)" [disabled]="activity.cantidad >= 20"><ion-icon class="cont-icon" name="add-circle-outline"></ion-icon></ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ion-list>
+  </cdk-virtual-scroll-viewport>
+
+</ion-content>

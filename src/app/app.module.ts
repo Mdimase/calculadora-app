@@ -20,6 +20,7 @@ import { MainPageModule } from './pages/main/main.module';
 import { ToastService } from './services/toast.service';
 import { NavigationService } from './services/navigation.service';
 import { EstimationService } from './services/estimation.service';
+import { ModalService } from './services/modal.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { EstimationService } from './services/estimation.service';
     ActivitiesService,
     ToastService,
     NavigationService,
-    EstimationService
+    EstimationService,
+    ModalService
   ],
   bootstrap: [AppComponent],
 })

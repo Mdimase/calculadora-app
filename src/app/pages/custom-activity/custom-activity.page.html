@@ -14,8 +14,7 @@
 
   <ion-list lines="full">
     <ion-item *ngFor="let activity of activities | filter:searchValue:'name'">
-      <ion-label class="ion-text-wrap ion-text-capitalize" (click)="presentAlert(activity)">{{activity.name}}
-      </ion-label>
+      <ion-label class="ion-text-wrap ion-text-capitalize" (click)="presentAlert(activity)">{{activity.name}}</ion-label>
       <ion-buttons>
         <ion-icon name="ellipsis-vertical-sharp" slot="end" (click)="showEditOptions($event, activity)">
         </ion-icon>

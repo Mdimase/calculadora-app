@@ -6,7 +6,6 @@ import { Activity } from 'src/app/interfaces/activity';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { PopoverService } from 'src/app/services/popover.service';
-import { Location } from '@angular/common';
 import { NavigationService } from 'src/app/services/navigation.service';
 
 @Component({
