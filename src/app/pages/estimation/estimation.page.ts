@@ -88,7 +88,7 @@ export class EstimationPage implements OnInit,OnDestroy {
     this.suscription = this.activitiesService.getActivities$().subscribe( activities =>{
        this.activities = activities;
      });
-    this.estimationService.getEstimations$();  //eliminarlo al tener el backend
+    //this.estimationService.getEstimations$();  //eliminarlo al tener el backend
   }
 
   initForm(): FormGroup {

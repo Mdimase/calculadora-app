@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { ModalController, Platform } from '@ionic/angular';
 import { Activity } from 'src/app/interfaces/activity';
 import { AlertService } from 'src/app/services/alert.service';
+import { NavigationService } from 'src/app/services/navigation.service';
 import { PopoverService } from 'src/app/services/popover.service';
 
 @Component({
@@ -15,7 +17,14 @@ export class SelectModalPage implements OnInit {
 
   searchValue = '';
 
-  constructor(private popoverService: PopoverService, private modalCtrl: ModalController, private alertService: AlertService){}
+  constructor(private popoverService: PopoverService,
+              private modalCtrl: ModalController,
+              private alertService: AlertService,
+              private platform: Platform){  //priority by default for alerts is 100, to override indicates priority higher than 100
+                this.platform.backButton.subscribeWithPriority(10000,async ()=>{
+                  await this.back();
+                });
+              }
 
   ngOnInit(){
   }
