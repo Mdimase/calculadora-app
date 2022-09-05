@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -21,6 +22,8 @@ import { ToastService } from './services/toast.service';
 import { NavigationService } from './services/navigation.service';
 import { EstimationService } from './services/estimation.service';
 import { ModalService } from './services/modal.service';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -47,7 +50,9 @@ import { ModalService } from './services/modal.service';
     ToastService,
     NavigationService,
     EstimationService,
-    ModalService
+    ModalService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    //{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
 })

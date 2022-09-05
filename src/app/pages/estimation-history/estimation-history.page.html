@@ -6,6 +6,27 @@
       <ion-title size="large">Historial</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-grid>  
+    <ion-row>
+      <!--Xl 1200 px -->
+      <!--Lg 992px -->
+      <!--Md 768px -->
+      <!-- sm 576px -->
+      <ion-col size="12" sizeMd="6" *ngFor="let n of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]; let i = index;">
+        <ion-card>
+          <ion-img src="../../../assets/shapes.svg"></ion-img>
+          <ion-card-header>
+            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+            <ion-card-title>Card Title</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas veniam fugit incidunt at fuga? Consequatur fuga ex et laudantium nesciunt earum, nemo, maiores quis magni nobis perspiciatis iste quibusdam. Placeat.
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   
   <ion-list lines="full">
     <ion-item *ngFor="let estimation of estimations">

@@ -6,6 +6,8 @@ import { User } from '../interfaces/usuario';
 })
 export class AuthService {
 
+  private readonly TOKEN = 'apiKey';
+
   /* con back implementado no va a existir una lista de usuarios en memoria */
   /* al loguearse el back retornara el username, email y token */
 
@@ -16,6 +18,10 @@ export class AuthService {
   ];
 
   constructor(){}
+
+  get token(){
+    return localStorage.getItem(this.TOKEN);
+  }
 
   getEmail(){
     return localStorage.getItem('email');
@@ -28,12 +34,19 @@ export class AuthService {
   // IMPORTANTE: reescribir con backend echo, enviar email y password, manejar la respuesta (exito fracaso)
   login(email: string, password: string ): boolean{
     // post al backend
+    // cambiar retorno a observable con res o error
     //simulacion de verificacion de logueo
     const userLogged = this.users.filter(u =>u.email === email && u.password === password);
     if(userLogged.length > 0){ //logueo exitoso
       localStorage.setItem('email',userLogged[0].email);
       localStorage.setItem('username',userLogged[0].username);
-      // set token
+      /*
+      const token = res.headers.get('Authorization');
+      if(token){
+        // setear todos los localStorage
+      }
+      //localStorage.setItem(this.TOKEN,token);
+      return res; */
       return true;
     }
     return false;

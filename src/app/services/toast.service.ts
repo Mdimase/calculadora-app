@@ -21,6 +21,19 @@ export class ToastService {
     toast.present();
   }
 
+  async showErrorMessage(message: string){
+    const toast = await this.toastController.create({
+      icon:'alert-done',
+      message,
+      duration: 1500,
+      position:'bottom',
+      animated:true,
+      mode:'ios',
+      color:'danger'
+    });
+    toast.present();
+  }
+
   async showWelcomeMessage(message: string){
     const toast = await this.toastController.create({
       message,

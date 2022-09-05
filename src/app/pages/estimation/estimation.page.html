@@ -60,7 +60,7 @@
       <ion-item>
         <ion-icon slot="start" name="time"></ion-icon>
         <ion-label position="floating">Carga Horaria (Hs)</ion-label>
-        <ion-input inputmode="numeric" type="number" formControlName="workload" (ionChange)="handle()"></ion-input>
+        <ion-input debounce="500" inputmode="numeric" type="number" formControlName="workload" (ionChange)="handle()"></ion-input>
         <ion-icon slot="end" name="information-circle-outline" id="icon-end" (click)="showPopoverInputWorkload($event)"></ion-icon>
         <div class="error-message" *ngFor="let error of errorMessages.workload">
           <ng-container *ngIf="isInvalid('workload',error)">
@@ -72,7 +72,7 @@
       <ion-item>
         <ion-icon slot="start" name="calculator"></ion-icon>
         <ion-label position="floating">Virtualizacion %</ion-label>
-        <ion-input inputmode="numeric" type="number" formControlName="percent" (ionChange)="handle()"></ion-input>
+        <ion-input debounce="500" inputmode="numeric" type="number" formControlName="percent" (ionChange)="handle()"></ion-input>
         <ion-icon slot="end" name="information-circle-outline" id="icon-end" (click)="showPopoverInputVirtualization($event)"></ion-icon>
         <div class="error-message" *ngFor="let error of errorMessages.percent">
           <ng-container *ngIf="isInvalid('percent',error)">
