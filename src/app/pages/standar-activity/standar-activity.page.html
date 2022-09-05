@@ -13,7 +13,7 @@
   </ion-header>
 
   <cdk-virtual-scroll-viewport itemSize="50" minBufferPx="800" maxBufferPx="1000">
-    <ion-list lines="full">
+    <ion-list lines="inset">
       <ion-item *cdkVirtualFor="let activity of activities | filter:searchValue:'name'">
         <ion-label class="ion-text-wrap ion-text-capitalize" (click)="presentAlert(activity)">{{activity.name}}</ion-label>
       </ion-item>

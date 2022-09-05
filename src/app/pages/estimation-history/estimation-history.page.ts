@@ -31,4 +31,8 @@ export class EstimationHistoryPage implements OnDestroy{
     this.suscription.unsubscribe();
   }
 
+  getMinutesObjetive(workload: number, percent: number): number{
+    return this.estimationService.valueOfPercent(this.estimationService.toMinutes(workload),percent);  //carga horaria a virtualizar (min)
+  }
+
 }

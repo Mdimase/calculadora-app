@@ -13,25 +13,34 @@
       <!--Lg 992px -->
       <!--Md 768px -->
       <!-- sm 576px -->
-      <ion-col size="12" sizeMd="6" *ngFor="let n of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]; let i = index;">
+      <ion-col sizeMd="6" size="12" *ngFor="let estimation of estimations">
         <ion-card>
-          <ion-img src="../../../assets/shapes.svg"></ion-img>
-          <ion-card-header>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-            <ion-card-title>Card Title</ion-card-title>
+          <ion-card-header class="bg-header">
+            <ion-card-subtitle>{{estimation.institute + ", " + estimation.period + " " + estimation.year}}</ion-card-subtitle>
+            <ion-card-title class="ion-margin-top">{{estimation.subject}}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas veniam fugit incidunt at fuga? Consequatur fuga ex et laudantium nesciunt earum, nemo, maiores quis magni nobis perspiciatis iste quibusdam. Placeat.
+            <ion-list lines="none">
+              <ion-item >
+                <ion-label>Carga horaria: {{estimation.workload + " Hs"}}</ion-label>
+              </ion-item>
+              <ion-item >
+                <ion-label>Virtualizacion: {{estimation.percent + " %"}}</ion-label>
+              </ion-item>
+              <ion-item >
+                <ion-label>Tiempo objetivo: {{getMinutesObjetive(estimation.workload,estimation.percent) | time}}</ion-label>
+              </ion-item>
+              <ion-item >
+                <ion-label>Tiempo estimado: {{estimation.estimatedTime | time}}</ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-label slot="end">Creado, {{estimation.dateCreation}}</ion-label>
+              </ion-item>
+            </ion-list>
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
-  
-  <ion-list lines="full">
-    <ion-item *ngFor="let estimation of estimations">
-      <ion-label class="ion-text-wrap ion-text-capitalize">{{estimation | json}}
-      </ion-label>
-    </ion-item>
-  </ion-list>
+
 </ion-content>

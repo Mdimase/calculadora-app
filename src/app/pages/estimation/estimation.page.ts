@@ -123,7 +123,9 @@ export class EstimationPage implements OnInit,OnDestroy {
       dialog = ' desea confirmar el envio igualmente ?';
     }
     if(await this.alertService.confirm(dialog,'Enviar','alert-button-send',message) === 'confirm'){
-      this.estimationService.addEstimation(this.estimationForm.value);
+      const estimationSend: Estimation = this.estimationForm.value;
+      estimationSend.estimatedTime = this.selectedMinutesActivities;
+      this.estimationService.addEstimation(estimationSend);
       this.toastService.showMessage('estimacion creada correctamente');
       this.estimationForm.reset({activities:[]});
       this.router.navigate(['main/home']);
@@ -150,10 +152,6 @@ export class EstimationPage implements OnInit,OnDestroy {
   async showPopoverInputVirtualization(event: any){
     const message = 'porcentaje de horas que desea virtualizar sobre el total de la carga horaria';
     this.popoverService.simpleMessage(message,event);
-  }
-
-  toStr(num: number): string{
-    return num.toString();
   }
 
   getMinutesObjetive(): number{

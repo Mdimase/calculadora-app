@@ -8,6 +8,7 @@ import { EstimationPageRoutingModule } from './estimation-routing.module';
 
 import { EstimationPage } from './estimation.page';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { ComponentsModule } from 'src/app/components/components.module';
     ReactiveFormsModule,
     IonicModule,
     EstimationPageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    PipesModule
   ],
   declarations: [EstimationPage]
 })

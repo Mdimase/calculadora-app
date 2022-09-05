@@ -102,7 +102,7 @@
       </ion-item>-->
 
       <ion-item [ngClass]="{'text-danger': selectedMinutesActivities > minutesObjetive}">
-        <ion-label slot="end">{{toStr(selectedMinutesActivities) + " / " + toStr(minutesObjetive) + " (min)"}}</ion-label>
+        <ion-label slot="end">{{selectedMinutesActivities | time}}{{" / "}}{{minutesObjetive | time}}</ion-label>
       </ion-item>
       
       <ion-button expand="block" shape="round" class="ion-margin-horizontal" [disabled]="estimationForm.invalid"

@@ -8,6 +8,7 @@ import { EstimationHistoryPageRoutingModule } from './estimation-history-routing
 
 import { EstimationHistoryPage } from './estimation-history.page';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { ComponentsModule } from 'src/app/components/components.module';
     FormsModule,
     IonicModule,
     EstimationHistoryPageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    PipesModule
   ],
   declarations: [EstimationHistoryPage]
 })

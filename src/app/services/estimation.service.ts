@@ -20,14 +20,16 @@ export class EstimationService {
   getEstimations$(): Observable<Estimation[]>{
     if(this.estimations.length === 0){
       this.estimations = [
-        {id:1,institue:'UNNOBA',subject:'IPI',year:2022,period:'1er cuatrimestre',workload:100,percent:50,dateCreation:this.today,
+        // eslint-disable-next-line max-len
+        {id:1,institute:'UNNOBA',subject:'IPI',year:2022,period:'1er cuatrimestre',workload:100,percent:50,dateCreation:this.today,estimatedTime:150,
         activities:[
           {id:2,name:'Lectura de unidad de un libro (30 pag)',description:'descripcion de esta actividad',time:25, type:Type.standard},
           {id:1,name:'presentacion en grupos de tp final', description:'descripcion de esta actividad',time:50, type:Type.standard},
           {id:3,name:'Actividad 3', description:'descripcion de esta actividad la verdad que es muy buena',time:45, type:Type.standard},
           {id:1,name:'Actividad 1', description:'descripcion de esta actividad la verdad que es muy buena',time:50, type:Type.custom},
           {id:2,name:'Actividad 2', description:'descripcion de esta actividad la verdad que es muy buena',time:25, type:Type.custom}]},
-        {id:2,institue:'UNNOBA',subject:'PI',year:2022,period:'2do cuatrimestre',workload:80,percent:70,dateCreation:this.today,
+        // eslint-disable-next-line max-len
+        {id:2,institute:'UNNOBA',subject:'Programacion Imperativa',year:2022,period:'2do cuatrimestre',workload:80,percent:70,dateCreation:this.today,estimatedTime:200,
         activities:[
           {id:2,name:'Lectura de unidad de un libro (30 pag)',description:'descripcion de esta actividad',time:25, type:Type.standard},
           {id:1,name:'presentacion en grupos de tp final', description:'descripcion de esta actividad',time:50, type:Type.standard},
