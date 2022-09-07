@@ -80,7 +80,7 @@ export class AlertService {
   }
   }
 
-  async showAlert(title: string ,message: string){
+  async showAlert(title: string ,message: string, autoDismiss: boolean){
     const alert = await this.alertController.create({
       header:title,
       subHeader:message,
@@ -89,7 +89,23 @@ export class AlertService {
       buttons: [{text:'OK', cssClass:'alert-button-OK',}],
     });
     await alert.present();
-    setTimeout(()=>alert.dismiss(), 8000);
+    if(autoDismiss){
+      setTimeout(()=>alert.dismiss(), 8000);
+    }
+  }
+
+  async showErrorAlert(title: string ,message: string, autoDismiss: boolean){
+    const alert = await this.alertController.create({
+      header:title + ' !',
+      subHeader:message,
+      mode:'ios',
+      cssClass:'error-alert',
+      buttons: [{text:'OK', cssClass:'alert-button-OK',}],
+    });
+    await alert.present();
+    if(autoDismiss){
+      setTimeout(()=>alert.dismiss(), 8000);
+    }
   }
 
   /* inserta los mensajes de error en el dom debajo del correspondiente input */

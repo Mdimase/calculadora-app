@@ -52,13 +52,6 @@ export class EstimationPage implements OnInit,OnDestroy {
     ]
   };
 
-  customAlert = {
-    header: 'Seleccion de Actividades',
-    message: 'Selecciona todas aquellas que forman parte de tu plan de actividades para poder realizar la estimacion de tiempos',
-    cssClass:'select-alert',
-    translucent: true,
-  };
-
   estimationForm!: FormGroup;
   minutesObjetive = 0;
   selectedMinutesActivities = 0;
@@ -88,7 +81,7 @@ export class EstimationPage implements OnInit,OnDestroy {
     this.suscription = this.activitiesService.getActivities$().subscribe( activities =>{
        this.activities = activities;
      });
-    //this.estimationService.getEstimations$();  //eliminarlo al tener el backend
+    this.estimationService.getEstimations$();  //eliminarlo al tener el backend
   }
 
   initForm(): FormGroup {
@@ -110,17 +103,15 @@ export class EstimationPage implements OnInit,OnDestroy {
   }
 
   async onSubmit(){
-    let message = 'las actividades seleccionadas cumplen exitosamente el tiempo deseado a virtualizar ';
+    let message = `las actividades seleccionadas <br> cumplen exitosamente <br> el tiempo deseado a virtualizar`;
     let dialog = '';
     if(this.selectedMinutesActivities > this.minutesObjetive){
-      message = 'las actividades seleccionadas ' + this.selectedMinutesActivities + ' (min)' +
-      ' superan el tiempo deseado a virtualizar ' + this.minutesObjetive + ' (min)';
-      dialog = ' desea confirmar el envio igualmente ?';
+      message = `las actividades seleccionadas <br> superan <br> el tiempo deseado a virtualizar`;
+      dialog = 'confirmar el envio igualmente ?';
     }
     if(this.minutesObjetive > this.selectedMinutesActivities){
-      message = 'las actividades seleccionadas ' + this.selectedMinutesActivities + ' (min)' +
-      ' no alcanzan el tiempo deseado a virtualizar ' + this.minutesObjetive + ' (min)';
-      dialog = ' desea confirmar el envio igualmente ?';
+      message = `las actividades seleccionadas <br> no alcanzan <br> el tiempo deseado a virtualizar`;
+      dialog = 'confirmar el envio igualmente ?';
     }
     if(await this.alertService.confirm(dialog,'Enviar','alert-button-send',message) === 'confirm'){
       const estimationSend: Estimation = this.estimationForm.value;
@@ -172,21 +163,19 @@ export class EstimationPage implements OnInit,OnDestroy {
 
   handleChange(selectedActivities: Activity[]){
     this.minutesObjetive = this.getMinutesObjetive();
-    const selectedMinutesActivities = this.estimationService.getMinutesSelected(selectedActivities);
-    if(selectedMinutesActivities > this.minutesObjetive && this.minutesObjetive !== 0){
-      const message = 'las actividades seleccionadas ' + selectedMinutesActivities + ' (min)' +
-      ' superan el tiempo deseado a virtualizar ' + this.minutesObjetive + ' (min)';
-      this.alertService.showAlert('Tiempo Excedido',message);
-    }
-    this.minutesObjetive = this.minutesObjetive;  // cantidad de horas que se desean virtualizar
-    this.selectedMinutesActivities = selectedMinutesActivities; // horas de las actividades seleccionadas
+    this.selectedMinutesActivities = this.estimationService.getMinutesSelected(selectedActivities);
   }
 
   async showSelectModal(){
-    this.selectedActivities = await this.modalService.openModal(this.activities);
-    this.estimationForm.value.activities = this.selectedActivities;
-    this.estimationForm.get('activities').setValue(this.selectedActivities);
-    this.handleChange(this.selectedActivities);
+    if(this.getMinutesObjetive() === 0){
+      this.alertService.showErrorAlert('Error','Por favor indique carga horaria y virtualizacion',true);
+    }
+    else{
+      this.selectedActivities = await this.modalService.openModal(this.activities, this.minutesObjetive);
+      this.estimationForm.value.activities = this.selectedActivities;
+      this.estimationForm.get('activities').setValue(this.selectedActivities);
+      this.handleChange(this.selectedActivities);
+    }
   }
 
 }

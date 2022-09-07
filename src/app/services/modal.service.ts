@@ -10,11 +10,11 @@ export class ModalService {
 
   constructor(private modalController: ModalController){}
 
-  async openModal(activities: Activity[]): Promise<Activity[]>{
+  async openModal(activities: Activity[], minutesObjetive: number): Promise<Activity[]>{
     this.initSelectedActivities(activities);
     const modal = await this.modalController.create({
       component: SelectModalPage,
-      componentProps:{activities}
+      componentProps:{activities, minutesObjetive}
     });
     modal.present();
 
@@ -24,8 +24,7 @@ export class ModalService {
   /* inicializa los atributos checked en false para el checkbox y cantidad en 0 */
   private initSelectedActivities(activities: Activity[]){
     activities.map((a)=>{
-      a.checked = false;
-      a.cantidad = 0;
+      a.amount = 0;
     });
   }
 

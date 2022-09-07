@@ -21,9 +21,9 @@ export class ActivitiesService {
   getActivitiesStandar$(): Observable<Activity[]>{
     if(this.activitiesStandar.length === 0){
       this.activitiesStandar = [
-        {id:2,name:'Lectura de unidad de un libro (30 pag)',description:'descripcion de esta actividad',time:25, type:Type.standard},
+        {id:2,name:'Lectura libro (1 pag)',description:'descripcion de esta actividad',time:5, type:Type.standard},
         {id:1,name:'presentacion en grupos de tp final', description:'descripcion de esta actividad',time:50, type:Type.standard},
-        {id:3,name:'Actividad 3', description:'descripcion de esta actividad la verdad que es muy buena',time:45, type:Type.standard},
+        {id:3,name:'Lectura unidad libro (20 pags)', description:'descripcion de esta actividad',time:100, type:Type.standard},
         {id:4,name:'Actividad 4', description:'descripcion de esta actividad la verdad que es muy buena',time:15, type:Type.standard},
         {id:5,name:'Actividad 5', description:'descripcion de esta actividad la verdad que es muy buena',time:30, type:Type.standard},
         {id:6,name:'Actividad 6', description:'descripcion de esta actividad la verdad que es muy buena',time:20, type:Type.standard},
@@ -49,34 +49,6 @@ export class ActivitiesService {
         {id:26,name:'Actividad 27', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
         {id:27,name:'Actividad 28', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
         {id:28,name:'Actividad 29', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:29,name:'Actividad 1', description:'descripcion de esta actividad la verdad que es muy buena',time:45, type:Type.standard},
-        {id:30,name:'Actividad 2', description:'descripcion de esta actividad la verdad que es muy buena',time:50, type:Type.standard},
-        {id:31,name:'Actividad 3', description:'descripcion de esta actividad la verdad que es muy buena',time:25, type:Type.standard},
-        {id:32,name:'Actividad 4', description:'descripcion de esta actividad la verdad que es muy buena',time:15, type:Type.standard},
-        {id:33,name:'Actividad 5', description:'descripcion de esta actividad la verdad que es muy buena',time:30, type:Type.standard},
-        {id:34,name:'Actividad 6', description:'descripcion de esta actividad la verdad que es muy buena',time:20, type:Type.standard},
-        {id:35,name:'Actividad 7', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:36,name:'Actividad 9', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:37,name:'Actividad 10', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:38,name:'Actividad 11', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:39,name:'Actividad 12', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:41,name:'Actividad 14', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:40,name:'Actividad 13', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:42,name:'Actividad 15', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:43,name:'Actividad 16', description:'descripcion de esta actividad la verdad que es muy buena',time:45, type:Type.standard},
-        {id:44,name:'Actividad 17', description:'descripcion de esta actividad la verdad que es muy buena',time:50, type:Type.standard},
-        {id:45,name:'Actividad 18', description:'descripcion de esta actividad la verdad que es muy buena',time:25, type:Type.standard},
-        {id:46,name:'Actividad 19', description:'descripcion de esta actividad la verdad que es muy buena',time:15, type:Type.standard},
-        {id:47,name:'Actividad 20', description:'descripcion de esta actividad la verdad que es muy buena',time:30, type:Type.standard},
-        {id:48,name:'Actividad 21', description:'descripcion de esta actividad la verdad que es muy buena',time:20, type:Type.standard},
-        {id:49,name:'Actividad 22', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:50,name:'Actividad 23', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:51,name:'Actividad 24', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:52,name:'Actividad 25', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:53,name:'Actividad 26', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:54,name:'Actividad 27', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:55,name:'Actividad 28', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:56,name:'Actividad 29', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
       ];
 
       //peticion http + actualizacion de this.actividades
@@ -89,7 +61,7 @@ export class ActivitiesService {
 
     if(this.activitiesCustom.length === 0){
       this.activitiesCustom = [
-        {id:1,name:'Actividad 1', description:'descripcion de esta actividad la verdad que es muy buena',time:50, type:Type.custom},
+        {id:1,name:'Actividad Personalizada 1',description:'descripcion de esta actividad',time:50, type:Type.custom},
         {id:2,name:'Actividad 2', description:'descripcion de esta actividad la verdad que es muy buena',time:25, type:Type.custom},
         {id:3,name:'Actividad 3', description:'descripcion de esta actividad la verdad que es muy buena',time:45, type:Type.custom},
         {id:4,name:'Actividad 4', description:'descripcion de esta actividad la verdad que es muy buena',time:15, type:Type.custom},
@@ -98,16 +70,6 @@ export class ActivitiesService {
         {id:7,name:'Actividad 7', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.custom},
         {id:8,name:'Actividad 9', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.custom},
         {id:9,name:'Actividad 10', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.custom},
-        {id:10,name:'Actividad 11', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.custom},
-        {id:11,name:'Actividad 12', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.custom},
-        {id:12,name:'Actividad 13', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.custom},
-        {id:13,name:'Actividad 14', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.custom},
-        {id:14,name:'Actividad 15', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.custom},
-        {id:15,name:'Actividad 16', description:'descripcion de esta actividad la verdad que es muy buena',time:45, type:Type.custom},
-        {id:16,name:'Actividad 17', description:'descripcion de esta actividad la verdad que es muy buena',time:50, type:Type.custom},
-        {id:17,name:'Actividad 18', description:'descripcion de esta actividad la verdad que es muy buena',time:25, type:Type.custom},
-        {id:18,name:'Actividad 19', description:'descripcion de esta actividad la verdad que es muy buena',time:15, type:Type.custom},
-        {id:19,name:'Actividad 20', description:'descripcion de esta actividad la verdad que es muy buena',time:30, type:Type.custom},
       ];
 
       //peticion http + actualizacion de this.actividades
@@ -126,6 +88,11 @@ export class ActivitiesService {
         });
       });
       return this.activities$.asObservable();
+  }
+
+  setActivities$(activities: Activity[]){
+    this.activities = activities;
+    this.activities$.next(this.activities);
   }
 
   /* borrar una actividad */

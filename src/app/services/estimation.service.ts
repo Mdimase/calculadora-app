@@ -42,6 +42,11 @@ export class EstimationService {
     return this.estimations$.asObservable();
   }
 
+  setEstimations$(estimations: Estimation[]){
+    this.estimations = estimations;
+    this.estimations$.next(this.estimations);
+  }
+
   addEstimation(estimation: Estimation): void{
     // peticion http
     // const ids: number[] = this.activitiesService.getIds(estimation.activities);
@@ -64,7 +69,7 @@ export class EstimationService {
   getMinutesSelected(activities: Activity[]): number{
     let selectedMinutesActivities = 0;  // sumatoria de la carga horaria de las actividades seleccionadas (minutos)
     activities.map(a =>{
-      selectedMinutesActivities += (a.time * a.cantidad);
+      selectedMinutesActivities += (a.time * a.amount);
     });
     return selectedMinutesActivities;
   }

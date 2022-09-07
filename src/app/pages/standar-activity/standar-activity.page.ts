@@ -44,7 +44,7 @@ export class StandarActivityPage implements OnDestroy {
   }
 
   /* alert -> informacion extra de una actividad*/
-  async presentAlert(activity: Activity) {
+  async presentAlert(activity: Activity){
     this.alertService.itemDescription(activity);
   }
 
