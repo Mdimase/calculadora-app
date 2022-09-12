@@ -16,7 +16,12 @@
       <ion-col sizeMd="6" size="12" *ngFor="let estimation of estimations">
         <ion-card>
           <ion-card-header class="bg-header">
-            <ion-card-subtitle>{{estimation.institute + ", " + estimation.period + " " + estimation.year}}</ion-card-subtitle>
+            <div class="card-header">
+              <ion-card-subtitle>{{estimation.institute + ", " + estimation.period + " " + estimation.year}}</ion-card-subtitle>
+              <ion-buttons>
+                <ion-button class="no-ripple" (click)="remove(estimation)" color="danger"><ion-icon size="large" name="close-outline"></ion-icon></ion-button>
+              </ion-buttons>
+            </div>
             <ion-card-title class="ion-margin-top">{{estimation.subject}}</ion-card-title>
           </ion-card-header>
           <ion-card-content>

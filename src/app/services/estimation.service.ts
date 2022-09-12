@@ -56,6 +56,13 @@ export class EstimationService {
     this.estimations$.next(this.estimations);  // notificacion a los subcriptos
   }
 
+  deleteEstimation(estimation: Estimation){
+    // peticion http
+    /* simulacion de eliminar una estimacion */
+    this.estimations = this.estimations.filter((e)=>e.id !== estimation.id);
+    this.estimations$.next(this.estimations);
+  }
+
   /* equivalente en minutos de horas */
   toMinutes(hours: number): number{
     return hours*60;
