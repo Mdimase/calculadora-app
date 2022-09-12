@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Activity } from '../interfaces/activity';
+import { ActivitiesEstimationModalPage } from '../pages/activities-estimation-modal/activities-estimation-modal.page';
 import { SelectModalPage } from '../pages/select-modal/select-modal.page';
 
 @Injectable({
@@ -19,6 +20,14 @@ export class ModalService {
     modal.present();
 
     return await (await modal.onWillDismiss()).data; //respuesta del modal
+  }
+
+  async showActivities(activities: Activity[]){
+    const modal = await this.modalController.create({
+      component: ActivitiesEstimationModalPage,
+      componentProps:{activities}
+    });
+    modal.present();
   }
 
   /* inicializa los atributos checked en false para el checkbox y cantidad en 0 */

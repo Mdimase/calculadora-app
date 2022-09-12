@@ -3,6 +3,7 @@ import { Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Estimation } from 'src/app/interfaces/estimation';
 import { EstimationService } from 'src/app/services/estimation.service';
+import { ModalService } from 'src/app/services/modal.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 
 @Component({
@@ -15,7 +16,10 @@ export class EstimationHistoryPage implements OnDestroy{
   estimations: Estimation[] = [];
   private suscription: Subscription;
 
-  constructor(private estimationService: EstimationService, private platform: Platform, private navigationService: NavigationService){
+  constructor(private estimationService: EstimationService,
+              private platform: Platform,
+              private modalService: ModalService,
+              private navigationService: NavigationService){
     this.platform.backButton.subscribeWithPriority(10,()=>{
       this.navigationService.back();
     });
@@ -33,6 +37,11 @@ export class EstimationHistoryPage implements OnDestroy{
 
   getMinutesObjetive(workload: number, percent: number): number{
     return this.estimationService.valueOfPercent(this.estimationService.toMinutes(workload),percent);  //carga horaria a virtualizar (min)
+  }
+
+  showActivities(idEstimation: number){
+    const activities = this.estimationService.getActivities(idEstimation);
+    this.modalService.showActivities(activities);
   }
 
 }

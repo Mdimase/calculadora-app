@@ -15,6 +15,7 @@ import { EstimationPageModule } from '../estimation/estimation.module';
 import { StandarActivityPageModule } from '../standar-activity/standar-activity.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { SelectModalPageModule } from '../select-modal/select-modal.module';
+import { ActivitiesEstimationModalPageModule } from '../activities-estimation-modal/activities-estimation-modal.module';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { SelectModalPageModule } from '../select-modal/select-modal.module';
     StandarActivityPageModule,
     PipesModule,
     MainPageRoutingModule,
-    SelectModalPageModule
+    SelectModalPageModule,
+    ActivitiesEstimationModalPageModule
   ],
   declarations: [MainPage]
 })

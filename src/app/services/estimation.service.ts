@@ -74,4 +74,14 @@ export class EstimationService {
     return selectedMinutesActivities;
   }
 
+  getActivities(idEstimation: number): Activity[]{
+    let activities: Activity[];
+    this.estimations.map((e)=>{
+      if(e.id === idEstimation){
+        activities = e.activities;
+      }
+    });
+    return activities;
+  }
+
 }
