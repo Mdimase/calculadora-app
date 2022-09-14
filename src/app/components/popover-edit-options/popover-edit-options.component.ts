@@ -9,8 +9,8 @@ import { PopoverController } from '@ionic/angular';
 export class PopoverEditOptionsComponent implements OnInit {
 
   optionsList = [
-    { name: 'Editar', icon:'create-outline' },
-    { name: 'Eliminar', icon: 'trash-outline' }
+    { name: 'Editar', icon:'create-outline',color:'primary' },
+    { name: 'Eliminar', icon: 'trash-outline',color:'danger' }
   ];
 
   constructor(private popoverController: PopoverController) { }

@@ -28,3 +28,7 @@ ion-item{
 .bottom-5{
     bottom: 50px !important;
 }
+
+.color-gradient{
+    --background: linear-gradient(90deg,#3049D9 0%,#3839c8 100% );
+}

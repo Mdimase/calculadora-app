@@ -11,11 +11,11 @@ export class AlertService {
   constructor(private alertController: AlertController, private activitiesService: ActivitiesService){}
 
   /* alerta informativa con los datos de una actividad */
-  async itemDescription(activity: Activity){
+  async itemDescription(header: string, subHeader: string, message: string){
     const alert = await this.alertController.create({
-      header: activity.name,
-      subHeader: activity.description,
-      message: 'tiempo estimado: ' + activity.time.toString() + ' minutos',
+      header,
+      subHeader,
+      message,
       mode:'ios',
       cssClass:'custom-alert',
       buttons: [{text:'OK', cssClass:'alert-button-OK'}]

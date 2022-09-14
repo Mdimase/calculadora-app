@@ -111,7 +111,7 @@ button.alert-button.alert-button-delete {
 }
 
 button.alert-button.alert-button-send {
-    background-color: var(--ion-color-primary);
+    background: linear-gradient(90deg,#3049D9 0%,#3839c8 100% );
     color: var(--ion-color-primary-contrast);
 }
 
@@ -123,10 +123,16 @@ button.alert-button.alert-button-cancel {
 }
 
 button.alert-button.alert-button-OK {
-    background-color: var(--ion-color-primary);
+    //background-color: var(--ion-color-primary);
+    background: linear-gradient(90deg,#3049D9 0%,#3839c8 100% );
     color: var(--ion-color-primary-contrast);
 }
 
+button.alert-button.alert-button-send:active, button.alert-button.alert-button-OK:active, button.alert-button.alert-button-cancel:active  {
+    opacity: .5;
+}
+
+/******** alert input *********/
 .validation-errors {
     padding-top: 5px;
     text-align: center;
@@ -143,8 +149,15 @@ ion-popover{
     --box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.6);
 }
 
+/**** toast styles  ****/
+
 .welcome-toast{
     margin-top: 60px;
     text-align: center;
     font-size: 1rem;
+    --background: linear-gradient(90deg,#3049D9 0%,#3839c8 100% );
+}
+
+.message-toast{
+    --background: linear-gradient(90deg,#3049D9 0%,#3839c8 100% );
 }

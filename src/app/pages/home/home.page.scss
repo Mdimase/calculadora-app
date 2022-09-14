@@ -1,7 +1,36 @@
 .container{
+    margin-top: 1rem;
+}
+
+.card{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 7px solid #3839c8;
+}
+
+.card-container{
+    display: flex;
+}
+
+.icon-container{
+    align-self: center;
+    margin: 0 1rem;
+}
+
+.icon-bubble{
+    background: linear-gradient(90deg,#3049D9 0%,#3839c8 100% );
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-grow: 1;
-    font-size: 1.5rem;
+}
+
+.card-icon{
+    font-size: 25px;
+}
+
+ion-card-title{
+    font-weight: 600;
 }

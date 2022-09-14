@@ -83,7 +83,7 @@ export class SelectModalPage implements OnInit {
       await this.alertService.showErrorAlert('Tiempo Excedido',message,true);
     }
     else{
-      if(this.selectedMinutesActivities < this.minutesObjetive){  //alert emitida y seleccion acumulada < tiempo objetivo
+      if(this.selectedMinutesActivities <= this.minutesObjetive){  //alert emitida y seleccion acumulada < tiempo objetivo
         this.timeExceedEmitted = false;  // disponible para en caso de superar nuevamente el tiempo objetivo se vuelva a emitir la alerta
       }
     }

@@ -34,3 +34,12 @@ ion-item{
     margin-top: 12px;
     margin-bottom: 12px;
 }
+
+.button-container{
+    display: flex;
+    justify-content: center;
+}
+
+.color-gradient{
+    --background: linear-gradient(90deg,#3049D9 0%,#3839c8 100% );
+}

@@ -21,34 +21,23 @@ export class ActivitiesService {
   getActivitiesStandar$(): Observable<Activity[]>{
     if(this.activitiesStandar.length === 0){
       this.activitiesStandar = [
-        {id:2,name:'Lectura libro (1 pag)',description:'descripcion de esta actividad',time:5, type:Type.standard},
-        {id:1,name:'presentacion en grupos de tp final', description:'descripcion de esta actividad',time:50, type:Type.standard},
-        {id:3,name:'Lectura unidad libro (20 pags)', description:'descripcion de esta actividad',time:100, type:Type.standard},
-        {id:4,name:'Actividad 4', description:'descripcion de esta actividad la verdad que es muy buena',time:15, type:Type.standard},
-        {id:5,name:'Actividad 5', description:'descripcion de esta actividad la verdad que es muy buena',time:30, type:Type.standard},
-        {id:6,name:'Actividad 6', description:'descripcion de esta actividad la verdad que es muy buena',time:20, type:Type.standard},
-        {id:7,name:'Actividad 7', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:8,name:'Actividad 9', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:9,name:'Actividad 10', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:10,name:'Actividad 11', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:11,name:'Actividad 12', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:12,name:'Actividad 13', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:13,name:'Actividad 14', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:14,name:'Actividad 15', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:15,name:'Actividad 16', description:'descripcion de esta actividad la verdad que es muy buena',time:45, type:Type.standard},
-        {id:16,name:'Actividad 17', description:'descripcion de esta actividad la verdad que es muy buena',time:50, type:Type.standard},
-        {id:17,name:'Actividad 18', description:'descripcion de esta actividad la verdad que es muy buena',time:25, type:Type.standard},
-        {id:18,name:'Actividad 19', description:'descripcion de esta actividad la verdad que es muy buena',time:15, type:Type.standard},
-        {id:19,name:'Actividad 20', description:'descripcion de esta actividad la verdad que es muy buena',time:30, type:Type.standard},
-        {id:20,name:'Actividad 21', description:'descripcion de esta actividad la verdad que es muy buena',time:20, type:Type.standard},
-        {id:21,name:'Actividad 22', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:22,name:'Actividad 23', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:23,name:'Actividad 24', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:24,name:'Actividad 25', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:25,name:'Actividad 26', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:26,name:'Actividad 27', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:27,name:'Actividad 28', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
-        {id:28,name:'Actividad 29', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
+        // eslint-disable-next-line max-len
+        {id:1,name:'Lectura libro (1 pag)',description:'lectura de texto en formato paginas (libros, informes, artículos de investigación, documentos, etc)',time:3, type:Type.standard},
+        // eslint-disable-next-line max-len
+        {id:2,name:'Reproducción contenido audiovisual', description:'interacción con contenido multimedia (audios, podcast, videos, etc) ',time:1, type:Type.standard},
+        // eslint-disable-next-line max-len
+        {id:3,name:'Intervencion en foro', description:'interacción en un foro (publicación de información, debate con compañeros, lectura de opiniones, etc)',time:20, type:Type.standard},
+        // eslint-disable-next-line max-len
+        {id:4,name:'Cuestionario tiempo definido', description:'cuestionario de preguntas con un tiempo establecido manualmente',time:1, type:Type.standard},
+        // eslint-disable-next-line max-len
+        {id:5,name:'Cuestionario multiple choice (1 pregunta)', description:'preguntas de opción múltiple estilo test (respuestas rápidas y concretas)',time:3, type:Type.standard},
+        // eslint-disable-next-line max-len
+        {id:6,name:'Wiki colaborativa', description:'foro comunitario de trabajo grupal, con contenido editable',time:30, type:Type.standard},
+        // eslint-disable-next-line max-len
+        {id:7,name:'Encuentro sincronico (meeting)', description:'clase sincrónica mediante una plataforma de meeting',time:30, type:Type.standard},
+        // eslint-disable-next-line max-len
+        {id:8,name:'Exposicion tematica', description:'exposición o presentación realizada por un estudiante o un grupo sobre un tema en particular',time:20, type:Type.standard},
+        {id:9,name:'Actividad 9', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.standard},
       ];
 
       //peticion http + actualizacion de this.actividades
@@ -61,15 +50,11 @@ export class ActivitiesService {
 
     if(this.activitiesCustom.length === 0){
       this.activitiesCustom = [
-        {id:1,name:'Actividad Personalizada 1',description:'descripcion de esta actividad',time:50, type:Type.custom},
+        {id:1,name:'Ejercicio TP1',description:'ejericio promedio del tp1 (simples y de adaptacion)',time:10, type:Type.custom},
         {id:2,name:'Actividad 2', description:'descripcion de esta actividad la verdad que es muy buena',time:25, type:Type.custom},
         {id:3,name:'Actividad 3', description:'descripcion de esta actividad la verdad que es muy buena',time:45, type:Type.custom},
         {id:4,name:'Actividad 4', description:'descripcion de esta actividad la verdad que es muy buena',time:15, type:Type.custom},
         {id:5,name:'Actividad 5', description:'descripcion de esta actividad la verdad que es muy buena',time:30, type:Type.custom},
-        {id:6,name:'Actividad 6', description:'descripcion de esta actividad la verdad que es muy buena',time:20, type:Type.custom},
-        {id:7,name:'Actividad 7', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.custom},
-        {id:8,name:'Actividad 9', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.custom},
-        {id:9,name:'Actividad 10', description:'descripcion de esta actividad la verdad que es muy buena',time:40, type:Type.custom},
       ];
 
       //peticion http + actualizacion de this.actividades

@@ -45,7 +45,8 @@ export class StandarActivityPage implements OnDestroy {
 
   /* alert -> informacion extra de una actividad*/
   async presentAlert(activity: Activity){
-    this.alertService.itemDescription(activity);
+    const message = `tiempo estimado: ${activity.time} minuto/s`;
+    this.alertService.itemDescription(activity.name,activity.description,message);
   }
 
   /*buscar en la lista -> search bar*/

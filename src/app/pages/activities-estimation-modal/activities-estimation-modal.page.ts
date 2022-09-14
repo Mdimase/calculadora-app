@@ -32,7 +32,15 @@ export class ActivitiesEstimationModalPage{
 
   /* alert -> informacion extra de una actividad*/
   async presentAlert(activity: Activity){
-    this.alertService.itemDescription(activity);
+    const timeOrigin: number = activity.time;
+    if(activity.amount){
+      activity.time = activity.time * activity.amount;
+    }
+    //await this.alertService.itemDescription(activity);
+    const message = `tiempo estimado: ${timeOrigin} minuto/s <br><br> cantidad seleccionada: ${activity.amount} 
+    <br><br> tiempo total: ${activity.time} minuto/s`;
+    await this.alertService.itemDescription(activity.name,activity.description,message);
+    activity.time = timeOrigin;
   }
 
   /*buscar en la lista -> search bar*/

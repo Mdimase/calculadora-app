@@ -87,26 +87,12 @@
         </ion-label>
       </ion-item>
 
-      <!--<ion-item>
-        <ion-select placeholder="Seleccionar Actividades" formControlName="activities" [multiple]="true" cancelText="Cancelar"
-          okText="Confirmar" [interfaceOptions]="customAlert" (ionChange)="handleChange()">
-          <ion-select-option *ngFor="let activity of activities" [value]="activity">
-            {{ activity.name + " (" +activity.time + " min)"}}
-          </ion-select-option>
-        </ion-select>
-        <div class="error-message" *ngFor="let error of errorMessages.activities">
-          <ng-container *ngIf="isInvalid('activities',error)">
-            <small>{{error.message}}</small>
-          </ng-container>
-        </div>
-      </ion-item>-->
-
       <ion-item [ngClass]="{'text-danger': selectedMinutesActivities > minutesObjetive}">
         <ion-label slot="end">{{selectedMinutesActivities | time}}{{" / "}}{{minutesObjetive | time}}</ion-label>
       </ion-item>
-      
-      <ion-button expand="block" shape="round" class="ion-margin-horizontal" [disabled]="estimationForm.invalid"
-        type="submit">Enviar</ion-button>
+      <div class="button-container">
+        <ion-button shape="round" class="color-gradient" [disabled]="estimationForm.invalid" type="submit">Enviar</ion-button>
+      </div>
     </form>
   </ion-list>
 

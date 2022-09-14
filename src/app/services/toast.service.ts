@@ -16,7 +16,7 @@ export class ToastService {
       position:'bottom',
       animated:true,
       mode:'ios',
-      color:'tertiary'
+      cssClass:'message-toast'
     });
     toast.present();
   }
@@ -41,7 +41,6 @@ export class ToastService {
       position:'top',
       animated:true,
       mode:'ios',
-      color:'primary',
       cssClass:'welcome-toast'
     });
     toast.present();
