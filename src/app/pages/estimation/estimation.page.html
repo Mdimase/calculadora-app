@@ -10,90 +10,92 @@
 </ion-header>
 
 <ion-content>
-  <ion-list class="ion-align-items-center">
-    <form [formGroup]="estimationForm" novalidate (ngSubmit)="onSubmit()" #form>
-      <ion-item>
-        <ion-icon slot="start" name="business"></ion-icon>
-        <ion-label position="floating">Institucion</ion-label>
-        <ion-input inputmode="text" formControlName="institute"></ion-input>
-        <div class="error-message" *ngFor="let error of errorMessages.institute">
-          <ng-container *ngIf="isInvalid('institute',error)">
-            <small>{{error.message}}</small>
-          </ng-container>
+  <div class="container">
+    <ion-list class="ion-align-items-center">
+      <form [formGroup]="estimationForm" novalidate (ngSubmit)="onSubmit()" #form>
+        <ion-item>
+          <ion-icon slot="start" name="business"></ion-icon>
+          <ion-label position="floating">Institucion</ion-label>
+          <ion-input inputmode="text" formControlName="institute"></ion-input>
+          <div class="error-message" *ngFor="let error of errorMessages.institute">
+            <ng-container *ngIf="isInvalid('institute',error)">
+              <small>{{error.message}}</small>
+            </ng-container>
+          </div>
+        </ion-item>
+  
+        <ion-item>
+          <ion-icon slot="start" name="library"></ion-icon>
+          <ion-label position="floating">Materia</ion-label>
+          <ion-input inputmode="text" formControlName="subject"></ion-input>
+          <div class="error-message" *ngFor="let error of errorMessages.subject">
+            <ng-container *ngIf="isInvalid('subject',error)">
+              <small>{{error.message}}</small>
+            </ng-container>
+          </div>
+        </ion-item>
+  
+        <ion-item>
+          <ion-icon slot="start" name="calendar-number"></ion-icon>
+          <ion-label position="floating">Año Academico</ion-label>
+          <ion-input inputmode="numeric" type="number" formControlName="year"></ion-input>
+          <div class="error-message" *ngFor="let error of errorMessages.year">
+            <ng-container *ngIf="isInvalid('year',error)">
+              <small>{{error.message}}</small>
+            </ng-container>
+          </div>
+        </ion-item>
+  
+        <ion-item>
+          <ion-select placeholder="Seleccionar Periodo Lectivo" formControlName="periods" cancelText="Cancelar"
+            okText="Confirmar">
+            <ion-select-option *ngFor="let period of periods" [value]="period">{{period}}</ion-select-option>
+          </ion-select>
+          <div class="error-message" *ngFor="let error of errorMessages.periods">
+            <ng-container *ngIf="isInvalid('periods',error)">
+              <small>{{error.message}}</small>
+            </ng-container>
+          </div>
+        </ion-item>
+  
+        <ion-item>
+          <ion-icon slot="start" name="time"></ion-icon>
+          <ion-label position="floating">Carga Horaria (Hs)</ion-label>
+          <ion-input debounce="500" inputmode="numeric" type="number" formControlName="workload" (ionChange)="handle()"></ion-input>
+          <ion-icon slot="end" name="information-circle-outline" id="icon-end" (click)="showPopoverInputWorkload($event)"></ion-icon>
+          <div class="error-message" *ngFor="let error of errorMessages.workload">
+            <ng-container *ngIf="isInvalid('workload',error)">
+              <small>{{error.message}}</small>
+            </ng-container>
+          </div>
+        </ion-item>
+  
+        <ion-item>
+          <ion-icon slot="start" name="calculator"></ion-icon>
+          <ion-label position="floating">Virtualizacion %</ion-label>
+          <ion-input debounce="500" inputmode="numeric" type="number" formControlName="percent" (ionChange)="handle()"></ion-input>
+          <ion-icon slot="end" name="information-circle-outline" id="icon-end" (click)="showPopoverInputVirtualization($event)"></ion-icon>
+          <div class="error-message" *ngFor="let error of errorMessages.percent">
+            <ng-container *ngIf="isInvalid('percent',error)">
+              <small>{{error.message}}</small>
+            </ng-container>
+          </div>
+        </ion-item>
+  
+        <ion-item detail>
+          <ion-label>
+            <a (click)="showSelectModal()">Seleccionar Actividades</a>
+          </ion-label>
+        </ion-item>
+  
+        <ion-item [ngClass]="{'text-danger': selectedMinutesActivities > minutesObjetive}">
+          <ion-label slot="end">{{selectedMinutesActivities | time}}{{" / "}}{{minutesObjetive | time}}</ion-label>
+        </ion-item>
+        <div class="button-container">
+          <ion-button shape="round" class="color-gradient" [disabled]="estimationForm.invalid" type="submit">Enviar</ion-button>
         </div>
-      </ion-item>
-
-      <ion-item>
-        <ion-icon slot="start" name="library"></ion-icon>
-        <ion-label position="floating">Materia</ion-label>
-        <ion-input inputmode="text" formControlName="subject"></ion-input>
-        <div class="error-message" *ngFor="let error of errorMessages.subject">
-          <ng-container *ngIf="isInvalid('subject',error)">
-            <small>{{error.message}}</small>
-          </ng-container>
-        </div>
-      </ion-item>
-
-      <ion-item>
-        <ion-icon slot="start" name="calendar-number"></ion-icon>
-        <ion-label position="floating">Año Academico</ion-label>
-        <ion-input inputmode="numeric" type="number" formControlName="year"></ion-input>
-        <div class="error-message" *ngFor="let error of errorMessages.year">
-          <ng-container *ngIf="isInvalid('year',error)">
-            <small>{{error.message}}</small>
-          </ng-container>
-        </div>
-      </ion-item>
-
-      <ion-item>
-        <ion-select placeholder="Seleccionar Periodo Lectivo" formControlName="periods" cancelText="Cancelar"
-          okText="Confirmar">
-          <ion-select-option *ngFor="let period of periods" [value]="period">{{period}}</ion-select-option>
-        </ion-select>
-        <div class="error-message" *ngFor="let error of errorMessages.periods">
-          <ng-container *ngIf="isInvalid('periods',error)">
-            <small>{{error.message}}</small>
-          </ng-container>
-        </div>
-      </ion-item>
-
-      <ion-item>
-        <ion-icon slot="start" name="time"></ion-icon>
-        <ion-label position="floating">Carga Horaria (Hs)</ion-label>
-        <ion-input debounce="500" inputmode="numeric" type="number" formControlName="workload" (ionChange)="handle()"></ion-input>
-        <ion-icon slot="end" name="information-circle-outline" id="icon-end" (click)="showPopoverInputWorkload($event)"></ion-icon>
-        <div class="error-message" *ngFor="let error of errorMessages.workload">
-          <ng-container *ngIf="isInvalid('workload',error)">
-            <small>{{error.message}}</small>
-          </ng-container>
-        </div>
-      </ion-item>
-
-      <ion-item>
-        <ion-icon slot="start" name="calculator"></ion-icon>
-        <ion-label position="floating">Virtualizacion %</ion-label>
-        <ion-input debounce="500" inputmode="numeric" type="number" formControlName="percent" (ionChange)="handle()"></ion-input>
-        <ion-icon slot="end" name="information-circle-outline" id="icon-end" (click)="showPopoverInputVirtualization($event)"></ion-icon>
-        <div class="error-message" *ngFor="let error of errorMessages.percent">
-          <ng-container *ngIf="isInvalid('percent',error)">
-            <small>{{error.message}}</small>
-          </ng-container>
-        </div>
-      </ion-item>
-
-      <ion-item detail>
-        <ion-label>
-          <a (click)="showSelectModal()">Seleccionar Actividades</a>
-        </ion-label>
-      </ion-item>
-
-      <ion-item [ngClass]="{'text-danger': selectedMinutesActivities > minutesObjetive}">
-        <ion-label slot="end">{{selectedMinutesActivities | time}}{{" / "}}{{minutesObjetive | time}}</ion-label>
-      </ion-item>
-      <div class="button-container">
-        <ion-button shape="round" class="color-gradient" [disabled]="estimationForm.invalid" type="submit">Enviar</ion-button>
-      </div>
-    </form>
-  </ion-list>
-
+      </form>
+    </ion-list>
+  </div>
+  
 </ion-content>

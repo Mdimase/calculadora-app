@@ -26,6 +26,12 @@
       </ion-list>
       <ion-list>
         <ion-menu-toggle autoHide="false">
+          <ion-item routerDirection="root" (click)="changePassword()" lines="none" detail="false">
+            <ion-icon slot="start" [ios]="'key-outline'" [md]="'key-sharp'"></ion-icon>
+            <ion-label>Cambiar Contraseña</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle autoHide="false">
           <ion-item routerDirection="root" (click)="logout()" lines="none" detail="false">
             <ion-icon slot="start" [ios]="'log-out-outline'" [md]="'log-out-sharp'"></ion-icon>
             <ion-label>Cerrar Sesion</ion-label>

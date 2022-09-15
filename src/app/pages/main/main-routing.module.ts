@@ -26,6 +26,10 @@ const routes: Routes = [
       {
         path: 'standar/activity',
         loadChildren: () => import('../standar-activity/standar-activity.module').then( m => m.StandarActivityPageModule)
+      },
+      {
+        path: 'change/password',
+        loadChildren: () => import('../change-password/change-password.module').then( m => m.ChangePasswordPageModule)
       }
     ]
   },

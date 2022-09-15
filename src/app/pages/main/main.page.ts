@@ -37,4 +37,8 @@ export class MainPage implements OnInit {
     this.router.navigate(['login']);
   }
 
+  changePassword(){
+    this.router.navigate(['/main/change/password']);
+  }
+
 }
