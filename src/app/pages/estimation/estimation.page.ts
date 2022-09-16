@@ -35,7 +35,7 @@ export class EstimationPage implements OnInit,OnDestroy {
       { type:'min', message: 'valor minimo 1000'},
       { type:'max', message: 'valor maximo 2100'}
     ],
-    periods:[
+    period:[
       { type:'required', message: 'campo obligatorio'},
     ],
     activities:[
@@ -57,7 +57,7 @@ export class EstimationPage implements OnInit,OnDestroy {
   selectedMinutesActivities = 0;
   activities: Activity[] = [];
   selectedActivities: Activity[] = [];
-  periods: string[] = ['1er cuatrimestre', '2do cuatrimestre', 'anual'];
+  period: string[] = ['1er cuatrimestre', '2do cuatrimestre', 'anual'];
   private suscription: Subscription;
 
   constructor(private popoverService: PopoverService,
@@ -89,7 +89,7 @@ export class EstimationPage implements OnInit,OnDestroy {
       subject: ['', [Validators.required, Validators.maxLength(255)],],
       institute: ['',[Validators.required, Validators.maxLength(255)],],
       year:['',[Validators.required, Validators.min(1000), Validators.max(2100)]],
-      periods:['',[Validators.required]],
+      period:['',[Validators.required]],
       workload:['',[Validators.required,Validators.min(0)]],
       percent:['',[Validators.required,Validators.min(0),Validators.max(100)]],
       activities:[[],[Validators.required]],
@@ -119,6 +119,7 @@ export class EstimationPage implements OnInit,OnDestroy {
       this.estimationService.addEstimation(estimationSend);
       this.toastService.showMessage('estimacion creada correctamente');
       this.estimationForm.reset({activities:[]});
+      this.minutesObjetive = 0;
       this.router.navigate(['main/home']);
     }
   }

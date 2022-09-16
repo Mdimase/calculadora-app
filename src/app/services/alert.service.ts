@@ -157,7 +157,7 @@ export class AlertService {
           type: 'number',
           name: 'time',
           label: 'Tiempo',
-          placeholder: 'Tiempo',
+          placeholder: 'Tiempo (min)',
           value:time,
         },
         {
