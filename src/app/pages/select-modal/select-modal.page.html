@@ -21,13 +21,27 @@
 
   <ion-list lines="none">
     <ion-item *ngFor="let activity of selectedActivities">
-      <ion-label class="text-wrap">{{ activity.name + " (" +activity.time + "min)"}}</ion-label>
-      <ion-buttons slot="end" class="ion-buttons">
-        <ion-button color="primary" (click)="decrement(activity)" [disabled]="activity.amount <= 1"><ion-icon class="cont-icon" name="remove-circle-outline"></ion-icon></ion-button>
-        <ion-label>{{activity.amount}}</ion-label>
-        <ion-button color="primary" (click)="increment(activity)" [disabled]="activity.amount >= 1000"><ion-icon class="cont-icon" name="add-circle-outline"></ion-icon></ion-button>
-        <ion-button (click)="remove(activity)" color="danger"><ion-icon name="trash-outline"></ion-icon></ion-button>
-      </ion-buttons>
+      <div class="flex">
+        <ion-label class="full-width ion-text-wrap">{{ activity.name + " (" +activity.time + "min)"}}</ion-label>
+        <div class="buttons-container">
+          <div class="ion-buttons">
+            <ion-button color="transparent" (click)="decrement(activity,input)" [disabled]="activity.amount <= 1">
+              <ion-icon class="cont-icon" color="primary" name="remove-circle-outline">
+              </ion-icon>
+            </ion-button>
+            <ion-input [debounce]="500" #input name="amount" inputmode="numeric" [value]="1" class="ion-text-center"
+             (ionChange)="setAmount(activity,input)"></ion-input>
+            <ion-button color="transparent" (click)="increment(activity,input)" [disabled]="activity.amount >= 1000">
+              <ion-icon class="cont-icon" name="add-circle-outline" color="primary">
+              </ion-icon>
+            </ion-button>
+            <ion-button (click)="remove(activity)" color="transparent">
+              <ion-icon class="cont-icon" name="trash-outline" color="danger">
+              </ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </div>
     </ion-item>
     <ion-item>
       <ion-select [placeholder]="selectPlaceholder" [selectedText]="selectPlaceholder" cancelText="Cancelar" slot="start"

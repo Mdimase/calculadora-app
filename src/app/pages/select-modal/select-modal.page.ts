@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController, Platform } from '@ionic/angular';
+import { IonInput, ModalController, Platform } from '@ionic/angular';
 import { Activity } from 'src/app/interfaces/activity';
 import { TimePipe } from 'src/app/pipes/time.pipe';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { PopoverService } from 'src/app/services/popover.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-select-modal',
@@ -34,6 +35,7 @@ export class SelectModalPage implements OnInit {
   constructor(private popoverService: PopoverService,
               private modalCtrl: ModalController,
               private alertService: AlertService,
+              private toastService: ToastService,
               private platform: Platform){  //priority by default for alerts is 100, to override indicates priority higher than 100
                 this.platform.backButton.subscribeWithPriority(10000,async ()=>{
                   await this.back();
@@ -113,6 +115,43 @@ export class SelectModalPage implements OnInit {
     this.timeExceeded();
   }
 
+  increment(activity: Activity, input: IonInput){
+    if(activity.amount < 1000){
+      activity.amount++;
+      this.selectedMinutesActivities += activity.time;
+      input.value = Number(input.value)+1;
+    }
+    this.timeExceeded();
+  }
+
+  setAmount(activity: Activity, input: IonInput){
+    const value = Number(input.value);
+    this.selectedMinutesActivities -= (activity.time * activity.amount);  // limpio tiempo anterior
+    if(value < 1000 && value > 0){
+      activity.amount = value;
+    }
+    else{
+      if(value){
+        activity.amount = 1; //valor por defecto 1 cuando ingresen valores erroneos
+        input.value = 1;
+        this.toastService.showErrorMessage('ingrese un valor entre 1 y 1000');
+      }
+    }
+    this.selectedMinutesActivities += (activity.time * activity.amount);  // actualizo el tiempo acumulado
+    this.timeExceeded();
+  }
+
+  decrement(activity: Activity, input: IonInput){
+    if(activity.amount > 1){
+      activity.amount--;
+      this.selectedMinutesActivities -= activity.time;
+      input.value = Number(input.value)-1;
+    }
+    this.timeExceeded();
+  }
+
+  /*
+
   increment(activity: Activity){
     if(activity.amount < 1000){
       activity.amount++;
@@ -129,4 +168,5 @@ export class SelectModalPage implements OnInit {
     this.timeExceeded();
   }
 
+  */
 }
