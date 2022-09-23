@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -20,21 +21,18 @@ export class EstimationService {
   getEstimations$(): Observable<Estimation[]>{
     if(this.estimations.length === 0){
       this.estimations = [
-        // eslint-disable-next-line max-len
-        {id:1,institute:'UNNOBA',subject:'IPI',year:2022,period:'1er cuatrimestre',workload:100,percent:50,dateCreation:this.today,estimatedTime:150,
+        {id:1,institute:'UNNOBA',subject:'IPI',year:2022,period:'1er cuatrimestre',workload:20,percent:50,dateCreation:this.today,estimatedTime:500,
         activities:[
-          {id:2,name:'Lectura de unidad de un libro (30 pag)',description:'descripcion de esta actividad',time:25, type:Type.standard},
-          {id:1,name:'presentacion en grupos de tp final', description:'descripcion de esta actividad',time:50, type:Type.standard},
-          {id:3,name:'Actividad 3', description:'descripcion de esta actividad la verdad que es muy buena',time:45, type:Type.standard},
-          {id:1,name:'Actividad 1', description:'descripcion de esta actividad la verdad que es muy buena',time:50, type:Type.custom},
-          {id:2,name:'Actividad 2', description:'descripcion de esta actividad la verdad que es muy buena',time:25, type:Type.custom}]},
-        // eslint-disable-next-line max-len
-        {id:2,institute:'UNNOBA',subject:'Programacion Imperativa',year:2022,period:'2do cuatrimestre',workload:80,percent:70,dateCreation:this.today,estimatedTime:200,
-        activities:[
-          {id:2,name:'Lectura de unidad de un libro (30 pag)',description:'descripcion de esta actividad',time:25, type:Type.standard},
-          {id:1,name:'presentacion en grupos de tp final', description:'descripcion de esta actividad',time:50, type:Type.standard},
-          {id:1,name:'Actividad 1', description:'descripcion de esta actividad la verdad que es muy buena',time:50, type:Type.custom},
-          {id:2,name:'Actividad 2', description:'descripcion de esta actividad la verdad que es muy buena',time:25, type:Type.custom}]},
+          {id:1,name:'Lectura libro (1 pag)',description:'lectura de texto en formato paginas (libros, informes, artículos de investigación, documentos, etc)',time:3, type:Type.standard, amount:25},
+          {id:7,name:'Encuentro sincronico (meeting)', description:'clase sincrónica mediante una plataforma de meeting',time:30, type:Type.standard, amount:3},
+          {id:4,name:'Cuestionario tiempo definido', description:'cuestionario de preguntas con un tiempo establecido manualmente',time:1, type:Type.standard, amount:90},
+          {id:2,name:'Reproducción contenido audiovisual', description:'interacción con contenido multimedia (audios, podcast, videos, etc) ',time:1, type:Type.standard, amount:45},
+          {id:3,name:'Intervencion en foro', description:'interacción en un foro (publicación de información, debate con compañeros, lectura de opiniones, etc)',time:20, type:Type.standard, amount:1},
+          {id:1,name:'Lectura libro (1 pag)',description:'lectura de texto en formato paginas (libros, informes, artículos de investigación, documentos, etc)',time:3, type:Type.standard, amount:43},
+          {id:5,name:'Cuestionario multiple choice (1 pregunta)', description:'preguntas de opción múltiple estilo test (respuestas rápidas y concretas)',time:3, type:Type.standard, amount:10},
+          {id:2,name:'Reproducción contenido audiovisual', description:'interacción con contenido multimedia (audios, podcast, videos, etc) ',time:1, type:Type.standard, amount:21},
+
+        ]}
       ];
       //peticion http + actualizacion de this.estimations
       this.estimations$.next(this.estimations);

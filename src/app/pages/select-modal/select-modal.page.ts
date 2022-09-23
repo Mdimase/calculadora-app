@@ -1,9 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component,Input, OnInit } from '@angular/core';
 import { IonInput, ModalController, Platform } from '@ionic/angular';
 import { Activity } from 'src/app/interfaces/activity';
-import { TimePipe } from 'src/app/pipes/time.pipe';
-import { ActivitiesService } from 'src/app/services/activities.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { PopoverService } from 'src/app/services/popover.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -20,17 +17,19 @@ export class SelectModalPage implements OnInit {
   selectedMinutesActivities = 0;
   selectedActivities: Activity[] = [];
   selectPlaceholder = 'Agregar Actividad';
+  searchValue = '';
   timeExceedEmitted = false;  // flag para mostrar el alert de tiempo excedido una vez solo al pasarse
 
   customAlert = {
     header: 'Seleccion de Actividades',
     // eslint-disable-next-line max-len
-    message: `Selecciona todas las actividades que forman parte de tu plan academico. Opcionalmente puedes indicar un multiplicador para cada una de ellas`,
+    message: `Selecciona todas las actividades que forman parte de tu plan academico. Opcionalmente, puedes indicar un multiplicador para cada una de ellas`,
     cssClass:'select-alert',
     translucent: true,
+    htmlAttributes:{}
   };
 
-  searchValue = '';
+  //breakpointMd = false; // breakpoint 768px
 
   constructor(private popoverService: PopoverService,
               private modalCtrl: ModalController,
@@ -41,8 +40,16 @@ export class SelectModalPage implements OnInit {
                   await this.back();
                 });
               }
-
+/*
+@HostListener('window:resize',['$event'])
+  private onRisize(event){
+    const newWidth = event.target.screen.width;
+    this.toggleBreakpointMd(newWidth);
+  }
+*/
   ngOnInit(){
+    //const width = this.platform.width();
+    //this.toggleBreakpointMd(width);
     this.alertService.showAlert(this.customAlert.header,this.customAlert.message,false);
   }
 
@@ -149,24 +156,14 @@ export class SelectModalPage implements OnInit {
     }
     this.timeExceeded();
   }
-
-  /*
-
-  increment(activity: Activity){
-    if(activity.amount < 1000){
-      activity.amount++;
-      this.selectedMinutesActivities += activity.time;
+/*
+  private toggleBreakpointMd(width: number){
+    if(width >= 768){
+      this.breakpointMd = true;
     }
-    this.timeExceeded();
-  }
-
-  decrement(activity: Activity){
-    if(activity.amount > 1){
-      activity.amount--;
-      this.selectedMinutesActivities -= activity.time;
+    else{
+      this.breakpointMd = false;
     }
-    this.timeExceeded();
   }
-
-  */
+*/
 }

@@ -1,6 +1,7 @@
 import { Component, Input} from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
 import { Activity } from 'src/app/interfaces/activity';
+import { ActivitiesService } from 'src/app/services/activities.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { PopoverService } from 'src/app/services/popover.service';
@@ -14,15 +15,36 @@ export class ActivitiesEstimationModalPage{
 
   @Input() activities: Activity[];
   searchValue = '';
+  alphabeticalMap = [];
 
   constructor(private popoverService: PopoverService,
     private alertService: AlertService,
+    private activitiesService: ActivitiesService,
     private modalCtrl: ModalController,
     private platform: Platform, private navigationService: NavigationService){
       this.platform.backButton.subscribeWithPriority(10,()=>{
         this.navigationService.back();
       });
     }
+
+  ionViewWillEnter(): void{
+    // ordenar alfabeticamente por nombre
+    this.activitiesService.sortAlphabetically(this.activities);
+    this.initAlphabeticalMap();
+  }
+
+  initAlphabeticalMap(): void{
+    this.alphabeticalMap = [];
+    let last: string = null;
+    this.activities.forEach((a)=>{
+      const activity = a;
+      if(!last || last.toLowerCase() !== activity.name[0].toLowerCase()){
+        last = activity.name[0];
+        this.alphabeticalMap.push({letter: last, activities:[]});
+      }
+      this.alphabeticalMap[this.alphabeticalMap.length - 1].activities.push(activity);
+    });
+  }
 
   /* popover info page*/
   async showPopover(event: any){

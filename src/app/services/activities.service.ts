@@ -130,4 +130,14 @@ export class ActivitiesService {
     return ids;
   }
 
+  /* ordena alfabeticamente ascendente no case sensitive */
+  sortAlphabetically(activities: Activity[]): void{
+    activities.sort((a,b)=>{
+      if(a.name.toLowerCase() < b.name.toLowerCase()) { return -1; }
+      if(a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
+      return 0;
+    });
+  }
+
+
 }

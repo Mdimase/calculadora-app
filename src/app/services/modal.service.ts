@@ -15,7 +15,8 @@ export class ModalService {
     this.initSelectedActivities(activities);
     const modal = await this.modalController.create({
       component: SelectModalPage,
-      componentProps:{activities, minutesObjetive}
+      componentProps:{activities, minutesObjetive},
+      cssClass:'fullscreen'
     });
     modal.present();
 
@@ -25,7 +26,8 @@ export class ModalService {
   async showActivities(activities: Activity[]){
     const modal = await this.modalController.create({
       component: ActivitiesEstimationModalPage,
-      componentProps:{activities}
+      componentProps:{activities},
+      cssClass:'fullscreen'
     });
     modal.present();
   }

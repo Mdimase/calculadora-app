@@ -13,10 +13,10 @@
   <div class="container">
     <ion-list class="ion-align-items-center">
       <form [formGroup]="estimationForm" novalidate (ngSubmit)="onSubmit()" #form>
-        <ion-item>
+        <ion-item counter="true">
           <ion-icon slot="start" name="business"></ion-icon>
           <ion-label position="floating">Institucion</ion-label>
-          <ion-input inputmode="text" formControlName="institute"></ion-input>
+          <ion-input inputmode="text" formControlName="institute" maxlength="255"></ion-input>
           <div class="error-message" *ngFor="let error of errorMessages.institute">
             <ng-container *ngIf="isInvalid('institute',error)">
               <small>{{error.message}}</small>
@@ -24,10 +24,10 @@
           </div>
         </ion-item>
   
-        <ion-item>
+        <ion-item counter="true">
           <ion-icon slot="start" name="library"></ion-icon>
           <ion-label position="floating">Materia</ion-label>
-          <ion-input inputmode="text" formControlName="subject"></ion-input>
+          <ion-input inputmode="text" formControlName="subject" maxlength="255"></ion-input>
           <div class="error-message" *ngFor="let error of errorMessages.subject">
             <ng-container *ngIf="isInvalid('subject',error)">
               <small>{{error.message}}</small>

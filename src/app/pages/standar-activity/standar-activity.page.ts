@@ -17,6 +17,7 @@ export class StandarActivityPage implements OnDestroy {
 
   searchValue = '';
   activities: Activity[];
+  alphabeticalMap = [];
   private suscription: Subscription;
 
   constructor(private popoverService: PopoverService,
@@ -30,11 +31,29 @@ export class StandarActivityPage implements OnDestroy {
   ionViewWillEnter(): void{
     this.suscription = this.activitiesService.getActivitiesStandar$().subscribe(activities =>{
       this.activities = activities;
+      // ordenar alfabeticamente por nombre
+      this.activitiesService.sortAlphabetically(this.activities);
+      this.initAlphabeticalMap();
     });
   }
 
   ngOnDestroy(): void {
     this.suscription.unsubscribe();
+  }
+
+  // map de letra del alfabeto + un arreglo con todas las actividades que comienzan con esa letra
+  // [{letterA, [{activity1, activity2, etc}]}, {letterB, [{activity1, activity2, etc}]} ]
+
+  initAlphabeticalMap(): void{
+    let last: string = null;
+    this.activities.forEach((a)=>{
+      const activity = a;
+      if(!last || last !== activity.name[0]){
+        last = activity.name[0];
+        this.alphabeticalMap.push({letter: last, activities:[]});
+      }
+      this.alphabeticalMap[this.alphabeticalMap.length - 1].activities.push(activity);
+    });
   }
 
   /* popover info page*/

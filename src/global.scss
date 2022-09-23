@@ -161,3 +161,10 @@ ion-popover{
 .message-toast{
     --background: linear-gradient(90deg,#3049D9 0%,#3839c8 100% );
 }
+
+/* modal full screen adjust */
+
+.fullscreen {
+    --width:100% !important;
+    --height:100% !important;
+}

@@ -13,13 +13,21 @@
   </ion-header>
 
   <ion-list lines="inset">
-    <ion-item *ngFor="let activity of activities | filter:searchValue:'name'">
-      <ion-label class="ion-text-wrap ion-text-capitalize" (click)="presentAlert(activity)">{{activity.name}}</ion-label>
-      <ion-buttons>
-        <ion-icon name="ellipsis-vertical-sharp" slot="end" (click)="showEditOptions($event, activity)">
-        </ion-icon>
-      </ion-buttons>
-    </ion-item>
+    <ion-item-group *ngFor="let item of alphabeticalMap">
+      <ion-item-divider>
+        <ion-label>
+          {{ item.letter }}
+        </ion-label>
+      </ion-item-divider>
+      <ion-item *ngFor="let activity of item.activities | filter:searchValue:'name'">
+        <ion-label class="ion-text-wrap ion-text-capitalize" (click)="presentAlert(activity)">{{activity.name}}
+        </ion-label>
+        <ion-buttons>
+          <ion-icon name="ellipsis-vertical-sharp" slot="end" (click)="showEditOptions($event, activity)">
+          </ion-icon>
+        </ion-buttons>
+      </ion-item>
+    </ion-item-group>
   </ion-list>
 
   <ion-fab vertical="bottom" horizontal="center" slot="fixed" class="bottom-5">

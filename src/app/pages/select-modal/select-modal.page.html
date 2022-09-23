@@ -30,7 +30,7 @@
               </ion-icon>
             </ion-button>
             <ion-input [debounce]="500" #input name="amount" inputmode="numeric" [value]="1" class="ion-text-center"
-             (ionChange)="setAmount(activity,input)"></ion-input>
+              (ionChange)="setAmount(activity,input)"></ion-input>
             <ion-button color="transparent" (click)="increment(activity,input)" [disabled]="activity.amount >= 1000">
               <ion-icon class="cont-icon" name="add-circle-outline" color="primary">
               </ion-icon>
@@ -44,34 +44,21 @@
       </div>
     </ion-item>
     <ion-item>
-      <ion-select [placeholder]="selectPlaceholder" [selectedText]="selectPlaceholder" cancelText="Cancelar" slot="start"
-      okText="Confirmar" [interfaceOptions]="customAlert" (ionChange)="select($event)">
-      <ion-select-option *ngFor="let activity of activities" [value]="activity">
-        {{ activity.name + " (" +activity.time + " min)"}}
-      </ion-select-option>
-    </ion-select>
+      <ion-select [placeholder]="selectPlaceholder" [selectedText]="selectPlaceholder" cancelText="Cancelar"
+      okText="Confirmar" interface="alert" [interfaceOptions]="customAlert" (ionChange)="select($event)">
+        <ion-select-option *ngFor="let activity of activities | filter:searchValue:'name'" [value]="activity">
+          {{ activity.name + " (" +activity.time + " min)"}}
+        </ion-select-option>
+      </ion-select>
+
     </ion-item>
   </ion-list>
 
-  
-
-  <ion-buttons class="center">
-    <ion-button expand="block" fill="outline" shape="round" color="danger" class="ion-padding-end" (click)="back()">Cancelar</ion-button>
-    <ion-button expand="block" fill="outline" shape="round" color="primary" class="ion-padding-start" (click)="send()">Confirmar</ion-button>
-  </ion-buttons>
-
-  <!--<cdk-virtual-scroll-viewport itemSize="50" minBufferPx="800" maxBufferPx="1000">
-    <ion-list lines="full">
-      <ion-item *cdkVirtualFor="let activity of activities | filter:searchValue:'name'">
-        <ion-checkbox slot="start" mode="md" [(ngModel)]="activity.checked" (ionChange)="checkChange(activity)"></ion-checkbox>
-        <ion-label class="ion-text-wrap ion-text-capitalize">{{activity.name + " (" + activity.time + " min)"}}</ion-label>
-        <ion-buttons *ngIf="activity.checked">
-          <ion-button color="danger" (click)="decrement(activity)" [disabled]="activity.amount <= 0"><ion-icon class="cont-icon" name="remove-circle-outline"></ion-icon></ion-button>
-          <ion-label>{{activity.amount}}</ion-label>
-          <ion-button color="primary" (click)="increment(activity)" [disabled]="activity.amount >= 1000"><ion-icon class="cont-icon" name="add-circle-outline"></ion-icon></ion-button>
-        </ion-buttons>
-      </ion-item>
-    </ion-list>
-  </cdk-virtual-scroll-viewport>-->
-
 </ion-content>
+
+<ion-buttons class="center">
+  <ion-button expand="block" fill="outline" shape="round" color="danger" class="ion-padding-end" (click)="back()">
+    Cancelar</ion-button>
+  <ion-button expand="block" fill="outline" shape="round" color="primary" class="ion-padding-start" (click)="send()">
+    Confirmar</ion-button>
+</ion-buttons>
