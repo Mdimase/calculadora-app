@@ -2,6 +2,7 @@ import { Component,Input, OnInit } from '@angular/core';
 import { IonInput, ModalController, Platform } from '@ionic/angular';
 import { Activity } from 'src/app/interfaces/activity';
 import { AlertService } from 'src/app/services/alert.service';
+import { ModalService } from 'src/app/services/modal.service';
 import { PopoverService } from 'src/app/services/popover.service';
 import { ToastService } from 'src/app/services/toast.service';
 
@@ -17,7 +18,6 @@ export class SelectModalPage implements OnInit {
   selectedMinutesActivities = 0;
   selectedActivities: Activity[] = [];
   selectPlaceholder = 'Agregar Actividad';
-  searchValue = '';
   timeExceedEmitted = false;  // flag para mostrar el alert de tiempo excedido una vez solo al pasarse
 
   customAlert = {
@@ -33,6 +33,7 @@ export class SelectModalPage implements OnInit {
 
   constructor(private popoverService: PopoverService,
               private modalCtrl: ModalController,
+              private modalService: ModalService,
               private alertService: AlertService,
               private toastService: ToastService,
               private platform: Platform){  //priority by default for alerts is 100, to override indicates priority higher than 100
@@ -98,6 +99,7 @@ export class SelectModalPage implements OnInit {
     }
   }
 
+  /*
   select(event){
     if(event.target.value){
       const activity: Activity = {
@@ -114,6 +116,7 @@ export class SelectModalPage implements OnInit {
     }
     event.target.value = undefined;
   }
+*/
 
   remove(activity: Activity){
     const index = this.selectedActivities.indexOf(activity);
@@ -156,6 +159,17 @@ export class SelectModalPage implements OnInit {
     }
     this.timeExceeded();
   }
+
+  async showSelectionActivityModal(){
+    const activity: Activity = await this.modalService.openSelectionActivityModalPage(this.activities);
+    if(activity != null){
+      activity.amount = 1;
+      this.selectedMinutesActivities += activity.time;
+      this.selectedActivities.push(activity);
+      this.timeExceeded();
+    }
+  }
+
 /*
   private toggleBreakpointMd(width: number){
     if(width >= 768){

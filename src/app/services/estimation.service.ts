@@ -31,7 +31,6 @@ export class EstimationService {
           {id:1,name:'Lectura libro (1 pag)',description:'lectura de texto en formato paginas (libros, informes, artículos de investigación, documentos, etc)',time:3, type:Type.standard, amount:43},
           {id:5,name:'Cuestionario multiple choice (1 pregunta)', description:'preguntas de opción múltiple estilo test (respuestas rápidas y concretas)',time:3, type:Type.standard, amount:10},
           {id:2,name:'Reproducción contenido audiovisual', description:'interacción con contenido multimedia (audios, podcast, videos, etc) ',time:1, type:Type.standard, amount:21},
-
         ]}
       ];
       //peticion http + actualizacion de this.estimations

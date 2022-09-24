@@ -172,7 +172,7 @@ export class EstimationPage implements OnInit,OnDestroy {
       this.alertService.showErrorAlert('Error','Por favor indique carga horaria y virtualizacion',true);
     }
     else{
-      this.selectedActivities = await this.modalService.openModal(this.activities, this.minutesObjetive);
+      this.selectedActivities = await this.modalService.openSelectModalPage(this.activities, this.minutesObjetive);
       this.estimationForm.value.activities = this.selectedActivities;
       this.estimationForm.get('activities').setValue(this.selectedActivities);
       this.handleChange(this.selectedActivities);
