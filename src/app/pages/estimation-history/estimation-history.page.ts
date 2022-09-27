@@ -8,6 +8,15 @@ import { ModalService } from 'src/app/services/modal.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { ToastService } from 'src/app/services/toast.service';
 
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
+import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
+import { TimePipe } from 'src/app/pipes/time.pipe';
+import { Activity } from 'src/app/interfaces/activity';
+
 @Component({
   selector: 'app-estimation-history',
   templateUrl: './estimation-history.page.html',
@@ -16,6 +25,7 @@ import { ToastService } from 'src/app/services/toast.service';
 export class EstimationHistoryPage implements OnDestroy{
 
   estimations: Estimation[] = [];
+  timePipe = new TimePipe();
   private suscription: Subscription;
 
   constructor(private estimationService: EstimationService,
@@ -23,6 +33,8 @@ export class EstimationHistoryPage implements OnDestroy{
               private modalService: ModalService,
               private alertService: AlertService,
               private toastService: ToastService,
+              private file: File,
+              private fileOpener: FileOpener,
               private navigationService: NavigationService){
     this.platform.backButton.subscribeWithPriority(10,()=>{
       this.navigationService.back();
@@ -54,6 +66,109 @@ export class EstimationHistoryPage implements OnDestroy{
       this.estimationService.deleteEstimation(estimation);
       this.toastService.showMessage('Estimacion eliminada correctamente');
     }
+  }
+
+  generatePDF(estimation: Estimation){
+    const docDef = {
+      info:{title:'reporte_estimacion'},
+      pageSize: 'A4',
+      content:[
+        { text: 'Reporte de estimacion calculadora-app\n', style: 'header' },
+        { text: [
+            { text: 'Institucion : ', style: 'subheader'},
+            { text: estimation.institute + '\n' }
+          ],
+          style: 'description'
+        },
+        { columns: [
+            { text: 'Periodo Lectivo : ', style: 'subheader' },
+            { text: estimation.period },
+            { text: 'Año Academico : ', style: 'subheader' },
+            { text: estimation.year }
+          ],
+          style:'description'
+        },
+        { text: [
+            { text: 'Materia : ', style: 'subheader' },
+            { text: estimation.subject + '\n' }
+          ],
+          style: 'description'
+        },
+        { columns: [
+            { text: 'Carga Horaria : ', style: 'subheader' },
+            { text: estimation.workload + ' Hs' },
+            { text: 'Virtualizacion (%) : ', style: 'subheader'},
+            { text: estimation.percent}
+          ],
+          style: 'description'
+        },
+        { columns: [
+            { text: 'Tiempo Objetivo : ', style: 'subheader'},
+            { text: this.timePipe.transform(this.getMinutesObjetive(estimation.workload,estimation.percent))},
+            { text: 'Tiempo estimado : ', style: 'subheader' },
+            { text: this.timePipe.transform(estimation.estimatedTime)}
+          ],
+          style: 'description'
+        },
+        // tabla
+        { text: 'Listado de Actividades', fontSize:16,style: 'header' },
+        { table:
+          { headersRows:1,dontBreakRows:true, widths:['*',180,80,60,80], body: this.initTable(estimation.activities) }
+        }
+      ],
+      footer: (currentPage, pageCount)=> ({
+            columns: [
+            { text: estimation.dateCreation,  italics: true, color: 'gray', margin:[30,10,0,0]},
+            { text: 'Página ' + currentPage.toString() + ' de ' + pageCount,
+              alignment: 'right',  italics: true, color: 'gray', margin:[0,10,30,0] }
+            ]
+        }),
+      styles: {
+        header: { fontSize: 18, bold: true, alignment:'center', margin:[0,30] },
+        subheader:{ fontSize:14, bold:true },
+        description:{ margin:[0,10] },
+        tableHeader:{ fontSize:14, bold:true, alignment:'center', color:'white',fillColor:'blue' }
+      }
+    };
+
+    const pdfObj = pdfMake.createPdf(docDef);
+    if(this.platform.is('capacitor')){  //native
+      this.openFile(pdfObj);
+    }
+    else{
+      pdfObj.open();  // browser
+    }
+  }
+
+  private openFile(pdfObj){
+    pdfObj.getBlob((blob)=>{
+      //const blob = new Blob([buffer],{type:'application/pdf'});  //generate blob
+      // guardar el pdf en el directorio de la app
+      this.file.writeFile(this.file.dataDirectory,'reporte_estimacion.pdf',blob,{replace:true}).then(fileEntry =>{
+        this.fileOpener.open(this.file.dataDirectory + 'reporte_estimacion.pdf','application/pdf');
+      });
+    });
+  }
+
+  private initTable(activities: Activity[]){
+    const body = [];
+    const header = [];
+    header.push({ text:'Nombre', style:'tableHeader'});
+    header.push({ text:'Descripcion', style:'tableHeader'});
+    header.push({ text:'Tiempo Estimado', style:'tableHeader'});
+    header.push({ text:'Cantidad', style:'tableHeader'});
+    header.push({ text:'Tiempo Total', style:'tableHeader'});
+    body.push(header);
+    activities.forEach((a)=>{
+      const row = [];
+      row.push(a.name);
+      row.push(a.description);
+      row.push({text:this.timePipe.transform(a.time), alignment:'center'});
+      row.push({text:a.amount, alignment:'center'});
+      row.push({text:this.timePipe.transform(a.time * a.amount), alignment:'center'});
+      body.push(row);
+    });
+    return body;
   }
 
 }

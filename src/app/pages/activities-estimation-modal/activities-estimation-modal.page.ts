@@ -1,6 +1,7 @@
 import { Component, Input} from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
 import { Activity } from 'src/app/interfaces/activity';
+import { TimePipe } from 'src/app/pipes/time.pipe';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { NavigationService } from 'src/app/services/navigation.service';
@@ -14,6 +15,7 @@ import { PopoverService } from 'src/app/services/popover.service';
 export class ActivitiesEstimationModalPage{
 
   @Input() activities: Activity[];
+  timePipe = new TimePipe();
   searchValue = '';
   alphabeticalMap = [];
 
@@ -54,15 +56,10 @@ export class ActivitiesEstimationModalPage{
 
   /* alert -> informacion extra de una actividad*/
   async presentAlert(activity: Activity){
-    const timeOrigin: number = activity.time;
-    if(activity.amount){
-      activity.time = activity.time * activity.amount;
-    }
     //await this.alertService.itemDescription(activity);
-    const message = `tiempo estimado: ${timeOrigin} minuto/s <br><br> cantidad seleccionada: ${activity.amount} 
-    <br><br> tiempo total: ${activity.time} minuto/s`;
+    const message = `tiempo estimado: ${this.timePipe.transform(activity.time)} <br><br> cantidad seleccionada: ${activity.amount} 
+    <br><br> tiempo total: ${this.timePipe.transform(activity.time * activity.amount)}`;
     await this.alertService.itemDescription(activity.name,activity.description,message);
-    activity.time = timeOrigin;
   }
 
   /*buscar en la lista -> search bar*/

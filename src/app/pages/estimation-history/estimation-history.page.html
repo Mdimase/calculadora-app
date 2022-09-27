@@ -42,7 +42,10 @@
                 <a (click)="showActivities(estimation.id)">Listado de Actividades</a>
               </ion-item>
               <ion-item>
-                <ion-label slot="end">Creado, {{estimation.dateCreation}}</ion-label>
+                <ion-label>Creado, {{estimation.dateCreation}}</ion-label>
+                <ion-button (click)="generatePDF(estimation)" shape="round" size="default" fill="outline">
+                  <ion-label color="danger">PDF</ion-label>
+                </ion-button>
               </ion-item>
             </ion-list>
           </ion-card-content>
