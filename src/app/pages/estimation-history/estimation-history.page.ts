@@ -35,11 +35,7 @@ export class EstimationHistoryPage implements OnDestroy{
               private toastService: ToastService,
               private file: File,
               private fileOpener: FileOpener,
-              private navigationService: NavigationService){
-    this.platform.backButton.subscribeWithPriority(10,()=>{
-      this.navigationService.back();
-    });
-  }
+              private navigationService: NavigationService){}
 
   ionViewWillEnter(): void{
     this.suscription = this.estimationService.getEstimations$().subscribe((estimations: Estimation[]) =>{

@@ -1,8 +1,11 @@
-import { Component,Input, OnInit } from '@angular/core';
-import { IonInput, ModalController, Platform } from '@ionic/angular';
+import { Component,Input, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { IonInput, ModalController, Platform, RouterCustomEvent } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { Activity } from 'src/app/interfaces/activity';
 import { AlertService } from 'src/app/services/alert.service';
 import { ModalService } from 'src/app/services/modal.service';
+import { NavigationService } from 'src/app/services/navigation.service';
 import { PopoverService } from 'src/app/services/popover.service';
 import { ToastService } from 'src/app/services/toast.service';
 
@@ -15,6 +18,7 @@ export class SelectModalPage implements OnInit {
 
   @Input() activities: Activity[];
   @Input() minutesObjetive: number;
+  suscriptionBackButton: Subscription;
   selectedMinutesActivities = 0;
   selectedActivities: Activity[] = [];
   selectPlaceholder = 'Agregar Actividad';
@@ -36,11 +40,9 @@ export class SelectModalPage implements OnInit {
               private modalService: ModalService,
               private alertService: AlertService,
               private toastService: ToastService,
-              private platform: Platform){  //priority by default for alerts is 100, to override indicates priority higher than 100
-                this.platform.backButton.subscribeWithPriority(10000,async ()=>{
-                  await this.back();
-                });
-              }
+              private navigationService: NavigationService,
+              private platform: Platform){}
+
 /*
 @HostListener('window:resize',['$event'])
   private onRisize(event){
@@ -52,6 +54,14 @@ export class SelectModalPage implements OnInit {
     //const width = this.platform.width();
     //this.toggleBreakpointMd(width);
     this.alertService.showAlert(this.customAlert.header,this.customAlert.message,false);
+    this.suscriptionBackButton = this.platform.backButton.subscribeWithPriority(200,async ()=>{
+      await this.back();
+    });
+  }
+
+  ionViewWillLeave(): void {
+    console.log('view will leave');
+    this.suscriptionBackButton.unsubscribe();
   }
 
   async back(){

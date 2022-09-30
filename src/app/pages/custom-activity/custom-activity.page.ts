@@ -19,19 +19,22 @@ export class CustomActivityPage implements OnDestroy {
   activities: Activity[] = [];
   alphabeticalMap = [];
   private suscription: Subscription;
+  private suscriptionBackButton: Subscription;
 
   constructor(private popoverService: PopoverService,
               private alertService: AlertService,
               private activitiesService: ActivitiesService,
               private toastService: ToastService, private platform: Platform, private navigationService: NavigationService){
-                this.platform.backButton.subscribeWithPriority(10,async ()=>{
-                  await this.alertService.hideAlert().then(()=>{
-                    this.navigationService.back();
-                  });
-                });
               }
 
   ionViewWillEnter(): void{
+    this.suscriptionBackButton =  this.platform.backButton.subscribeWithPriority(10,async ()=>{
+      await this.alertService.hideAlert().then((res)=>{
+        if(!res){
+          this.navigationService.back();
+        }
+      });
+    });
     this.suscription = this.activitiesService.getActivitiesCustom$().subscribe((activities: Activity[]) =>{
       this.activities = activities;
       // ordenar alfabeticamente por nombre
@@ -41,6 +44,7 @@ export class CustomActivityPage implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.suscriptionBackButton.unsubscribe();
     this.suscription.unsubscribe();
   }
 

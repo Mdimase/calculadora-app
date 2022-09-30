@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.page.html',
   styleUrls: ['./reset-password.page.scss'],
 })
-export class ResetPasswordPage implements OnInit {
+export class ResetPasswordPage implements OnInit, OnDestroy {
 
   resetForm!: FormGroup;
+  suscriptionBackButton: Subscription;
 
   public errorMessages = {
     email:[
@@ -20,13 +22,15 @@ export class ResetPasswordPage implements OnInit {
     ]
   };
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private platform: Platform){
-    this.platform.backButton.subscribeWithPriority(10,()=>{
-      this.router.navigate(['login']);
-    });
+  constructor(private formBuilder: FormBuilder, private router: Router, private platform: Platform){}
+  ngOnDestroy(): void {
+    this.suscriptionBackButton.unsubscribe();
   }
 
   ngOnInit(){
+    this.suscriptionBackButton = this.platform.backButton.subscribeWithPriority(10,()=>{
+      this.router.navigate(['login']);
+    });
     this.resetForm = this.initForm();
   }
 

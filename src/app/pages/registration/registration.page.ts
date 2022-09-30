@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -9,9 +10,10 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './registration.page.html',
   styleUrls: ['./registration.page.scss'],
 })
-export class RegistrationPage implements OnInit {
+export class RegistrationPage implements OnInit, OnDestroy {
 
   registrationForm!: FormGroup;
+  subcriptionBackButton: Subscription;
 
   public errorMessages = {
     email:[
@@ -29,13 +31,16 @@ export class RegistrationPage implements OnInit {
     ]
   };
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router, private platform: Platform){
-    this.platform.backButton.subscribeWithPriority(10,()=>{
-      this.router.navigate(['login']);
-    });
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router, private platform: Platform){}
+
+  ngOnDestroy(): void {
+    this.subcriptionBackButton.unsubscribe();
   }
 
   ngOnInit(){
+    this.subcriptionBackButton = this.platform.backButton.subscribeWithPriority(10,()=>{
+      this.router.navigate(['login']);
+    });
     this.registrationForm = this.initForm();
   }
 

@@ -6,16 +6,16 @@ import { User } from '../interfaces/usuario';
 })
 export class AuthService {
 
-  private readonly TOKEN = 'apiKey';
-
-  /* con back implementado no va a existir una lista de usuarios en memoria */
-  /* al loguearse el back retornara el username, email y token */
-
   users: User[] = [
     { username:'mdimase21', email:'mdimase@gmail.com', password:'123456789'},
     { username:'admin', email:'admin@gmail.com', password:'123456789'},
     { username:'vhboscoscuro', email:'vhboscoscuro@gmail.com', password:'123456789'}
   ];
+
+  private readonly TOKEN = 'apiKey';
+
+  /* con back implementado no va a existir una lista de usuarios en memoria */
+  /* al loguearse el back retornara el username, email y token */
 
   constructor(){}
 

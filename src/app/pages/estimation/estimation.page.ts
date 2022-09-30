@@ -67,11 +67,7 @@ export class EstimationPage implements OnInit,OnDestroy {
               private activitiesService: ActivitiesService,
               private estimationService: EstimationService,
               private formBuilder: FormBuilder,
-              private router: Router, private platform: Platform, private navigationService: NavigationService){
-                this.platform.backButton.subscribeWithPriority(10,()=>{
-                  this.navigationService.back();
-                });
-              }
+              private router: Router, private platform: Platform, private navigationService: NavigationService){}
 
   ngOnInit(): void {
     this.estimationForm = this.initForm();

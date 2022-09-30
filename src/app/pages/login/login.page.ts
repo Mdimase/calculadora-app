@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { App } from '@capacitor/app';
 import { Platform } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -12,9 +13,10 @@ import { ToastService } from 'src/app/services/toast.service';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage implements OnInit,OnDestroy {
 
   loginForm!: FormGroup;
+  suscriptionBackButton: Subscription;
 
   public errorMessages = {
     email:[
@@ -31,13 +33,16 @@ export class LoginPage implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private toastService: ToastService,
               private authService: AuthService,
-              private router: Router, private platform: Platform){
-                this.platform.backButton.subscribeWithPriority(10,()=>{
-                  App.exitApp();
-                });
-              }
+              private router: Router, private platform: Platform){}
+
+  ngOnDestroy(): void {
+    this.suscriptionBackButton.unsubscribe();
+  }
 
   ngOnInit(){
+    this.suscriptionBackButton = this.platform.backButton.subscribeWithPriority(10,()=>{
+      App.exitApp();
+    });
     this.loginForm = this.initForm();
   }
 

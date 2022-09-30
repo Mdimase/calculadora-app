@@ -27,11 +27,7 @@ export class ChangePasswordPage implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
-              private router: Router,private navigationService: NavigationService ,private platform: Platform){
-    this.platform.backButton.subscribeWithPriority(10,()=>{
-      this.navigationService.back();
-    });
-  }
+              private router: Router,private navigationService: NavigationService ,private platform: Platform){}
 
   ngOnInit() {
     this.changePasswordForm = this.initForm();

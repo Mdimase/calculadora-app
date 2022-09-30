@@ -1,8 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { IonCheckbox, ModalController, Platform } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 import { Activity } from 'src/app/interfaces/activity';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { AlertService } from 'src/app/services/alert.service';
+import { NavigationService } from 'src/app/services/navigation.service';
 import { PopoverService } from 'src/app/services/popover.service';
 
 @Component({
@@ -10,25 +12,30 @@ import { PopoverService } from 'src/app/services/popover.service';
   templateUrl: './selection-activity-modal.page.html',
   styleUrls: ['./selection-activity-modal.page.scss'],
 })
-export class SelectionActivityModalPage{
+export class SelectionActivityModalPage implements OnDestroy{
 
   @Input() activities: Activity[];
+  suscriptionBackButton: Subscription;
   searchValue = '';
   alphabeticalMap = [];
   lastCheckBox: IonCheckbox;
   selectedActivity: Activity = null;
 
   constructor(private popoverService: PopoverService, private modalCtrl: ModalController, private activitiesService: ActivitiesService,
-              private alertService: AlertService, private platform: Platform){
-    this.platform.backButton.subscribeWithPriority(10000,async ()=>{
-      await this.back();
-    });
+              private alertService: AlertService,private navigationService: NavigationService, private platform: Platform){
+  }
+  ngOnDestroy(): void {
+    this.suscriptionBackButton.unsubscribe();
   }
 
   ionViewWillEnter(){
     // ordenar alfabeticamente por nombre
+    console.log('view will enter');
     this.activitiesService.sortAlphabetically(this.activities);
     this.initAlphabeticalMap();
+    this.suscriptionBackButton =  this.platform.backButton.subscribeWithPriority(300,()=>{
+      this.back();
+    });
   }
 
    /* popover info page*/

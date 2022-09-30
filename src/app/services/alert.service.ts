@@ -83,7 +83,10 @@ export class AlertService {
       const element = await this.alertController.getTop();
       if (element) {
           element.dismiss();
-          return;
+          return true;
+      }
+      else{
+        return false;
       }
   } catch (error) {
     throw new error('can\'t hide alert');

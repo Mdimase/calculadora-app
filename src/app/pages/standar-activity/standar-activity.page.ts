@@ -22,11 +22,7 @@ export class StandarActivityPage implements OnDestroy {
 
   constructor(private popoverService: PopoverService,
               private alertService: AlertService,
-              private activitiesService: ActivitiesService, private platform: Platform, private navigationService: NavigationService){
-                this.platform.backButton.subscribeWithPriority(10,()=>{
-                  this.navigationService.back();
-                });
-              }
+              private activitiesService: ActivitiesService, private platform: Platform, private navigationService: NavigationService){}
 
   ionViewWillEnter(): void{
     this.suscription = this.activitiesService.getActivitiesStandar$().subscribe(activities =>{

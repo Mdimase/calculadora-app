@@ -23,11 +23,7 @@ export class ActivitiesEstimationModalPage{
     private alertService: AlertService,
     private activitiesService: ActivitiesService,
     private modalCtrl: ModalController,
-    private platform: Platform, private navigationService: NavigationService){
-      this.platform.backButton.subscribeWithPriority(10,()=>{
-        this.navigationService.back();
-      });
-    }
+    private platform: Platform, private navigationService: NavigationService){}
 
   ionViewWillEnter(): void{
     // ordenar alfabeticamente por nombre

@@ -21,11 +21,7 @@ export class HomePage{
     description: 'Consulta el historial de estimaciones realizadas'}
   ];
 
-  constructor(private router: Router, private platform: Platform, private navigationService: NavigationService){
-    this.platform.backButton.subscribeWithPriority(10,()=>{
-      this.navigationService.back();
-    });
-  }
+  constructor(private router: Router, private platform: Platform, private navigationService: NavigationService){}
 
   redirect(url: string){
     this.router.navigateByUrl(url);
