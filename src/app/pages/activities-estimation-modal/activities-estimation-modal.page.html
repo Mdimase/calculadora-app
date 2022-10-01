@@ -1,12 +1,7 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-icon name="arrow-back-sharp" class="back-icon" (click)="back()"></ion-icon>
-    </ion-buttons>
-    <ion-title class="ion-text-capitalize">Seleccionar Actividades</ion-title>
-    <ion-icon name="help-circle-sharp" slot="end" class="icon-help" (click)="showPopover($event)"></ion-icon>
-  </ion-toolbar>
-</ion-header>
+<app-header-back [title]="'Actividades'">
+  <ion-icon name="arrow-back-sharp" slot="start" class="back-icon" (click)="back()"></ion-icon>
+  <ion-icon name="help-circle-sharp" slot="end" class="icon-help" (click)="showPopover($event)"></ion-icon>
+</app-header-back>
 
 <!--search bar-->
 <ion-searchbar placeholder="Buscar" enterkeyhint="search" type="search" (ionChange)="search($event)"></ion-searchbar>

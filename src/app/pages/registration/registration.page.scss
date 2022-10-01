@@ -11,20 +11,27 @@
 
 .header ion-icon{
     align-self:flex-start;
-    font-size: 32px;
+    margin-left: 1rem;
+    font-size: 32px !important;
 }
 
 .header h1{
+    display: flex;
+    align-items: center;
+    text-align: center;
     font-size: 1.8rem;
     letter-spacing: 0.1rem;
+    flex: 1 1 0%;
 }
 
 .header ion-note{
+    display: flex;
+    align-items: center;
     font-size: 1rem;
+    flex: 1 1 0%;
 }
 
 ion-avatar{
-    margin-top: 1rem;
     width: 100px;
     height: 100px;
 }

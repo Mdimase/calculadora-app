@@ -1,4 +1,4 @@
-import { HttpEvent, HttpHandler, HttpRequest, HttpInterceptor } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class ErrorInterceptor {
 
-  constructor(private authService: AuthService, private router:Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   /* interceptor que evalua los response, en caso de encontrar errores los trata
      verifica errores de autorizacion como 401 y 403
@@ -19,7 +19,7 @@ export class ErrorInterceptor {
   */
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(request).pipe(  
+    return next.handle(request).pipe(
       catchError((e) => {
         if(e.status === 401 || e.status === 403){  //unauthorized
           this.authService.logout();
@@ -29,12 +29,12 @@ export class ErrorInterceptor {
         }
         if(e.status === 400){
           // error 400
-        } 
+        }
         const error = new Error(e.message);
-        console.log("interceptor => " + error);
+        console.log('interceptor => ' + error);
         return throwError(()=>error);
       })
-    )
+    );
   }
 
 }

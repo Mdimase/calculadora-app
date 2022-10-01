@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy} from '@angular/core';
 import { IonCheckbox, ModalController, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Activity } from 'src/app/interfaces/activity';

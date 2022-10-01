@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 
 @Component({
@@ -6,7 +6,7 @@ import { PopoverController } from '@ionic/angular';
   templateUrl: './popover-edit-options.component.html',
   styleUrls: ['./popover-edit-options.component.scss'],
 })
-export class PopoverEditOptionsComponent implements OnInit {
+export class PopoverEditOptionsComponent{
 
   optionsList = [
     { name: 'Editar', icon:'create-outline',color:'primary' },
@@ -14,8 +14,6 @@ export class PopoverEditOptionsComponent implements OnInit {
   ];
 
   constructor(private popoverController: PopoverController) { }
-
-  ngOnInit() {}
 
   selectedOption(optionName: string){
     this.popoverController.dismiss(optionName);

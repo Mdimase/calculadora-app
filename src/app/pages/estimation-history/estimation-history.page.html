@@ -1,4 +1,6 @@
-<app-header [title]="'historial'"></app-header>
+<app-header [title]="'historial'">
+  <ion-icon name="help-circle-sharp" slot="end" class="icon-help" (click)="showPopover($event)"></ion-icon>
+</app-header>
 
 <ion-content>
   <ion-header collapse="condense">

@@ -19,7 +19,7 @@
         <ion-menu-toggle autoHide="false" *ngFor="let p of menuPages">
           <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
             <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-            <ion-label>{{ p.title }}</ion-label>
+            <ion-label class="ion-text-wrap">{{ p.title }}</ion-label>
           </ion-item>
         </ion-menu-toggle>
 
@@ -28,7 +28,7 @@
         <ion-menu-toggle autoHide="false">
           <ion-item routerDirection="root" (click)="changePassword()" lines="none" detail="false">
             <ion-icon slot="start" [ios]="'key-outline'" [md]="'key-sharp'"></ion-icon>
-            <ion-label>Cambiar Contraseña</ion-label>
+            <ion-label class="ion-text-wrap">Cambiar Contraseña</ion-label>
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle autoHide="false">

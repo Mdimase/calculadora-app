@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy} from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Estimation } from 'src/app/interfaces/estimation';
@@ -16,6 +16,7 @@ import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 import { File } from '@awesome-cordova-plugins/file/ngx';
 import { TimePipe } from 'src/app/pipes/time.pipe';
 import { Activity } from 'src/app/interfaces/activity';
+import { PopoverService } from 'src/app/services/popover.service';
 
 @Component({
   selector: 'app-estimation-history',
@@ -32,6 +33,7 @@ export class EstimationHistoryPage implements OnDestroy{
               private platform: Platform,
               private modalService: ModalService,
               private alertService: AlertService,
+              private popoverService: PopoverService,
               private toastService: ToastService,
               private file: File,
               private fileOpener: FileOpener,
@@ -41,6 +43,12 @@ export class EstimationHistoryPage implements OnDestroy{
     this.suscription = this.estimationService.getEstimations$().subscribe((estimations: Estimation[]) =>{
       this.estimations = estimations;
     });
+  }
+
+  /* popover info*/
+  async showPopover(event: any){
+    const message = 'consulte informacion y/o genere reportes de sus estimaciones previas';
+    this.popoverService.simpleMessage(message,event);
   }
 
   ngOnDestroy(): void {

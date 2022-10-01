@@ -23,8 +23,6 @@ import { NavigationService } from './services/navigation.service';
 import { EstimationService } from './services/estimation.service';
 import { ModalService } from './services/modal.service';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { ErrorInterceptor } from './interceptors/error.interceptor';
-import { PipesModule } from './pipes/pipes.module';
 
 @NgModule({
   declarations: [

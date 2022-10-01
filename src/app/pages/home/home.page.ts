@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { NavigationService } from 'src/app/services/navigation.service';
+import { PopoverService } from 'src/app/services/popover.service';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,16 @@ export class HomePage{
     description: 'Consulta el historial de estimaciones realizadas'}
   ];
 
-  constructor(private router: Router, private platform: Platform, private navigationService: NavigationService){}
+  constructor(private router: Router,
+              private platform: Platform,
+              private popoverService: PopoverService,
+              private navigationService: NavigationService){}
+
+  /* popover info*/
+  async showPopover(event: any){
+    const message = 'Principales servicios de la aplicacion';
+    this.popoverService.simpleMessage(message,event);
+  }
 
   redirect(url: string){
     this.router.navigateByUrl(url);

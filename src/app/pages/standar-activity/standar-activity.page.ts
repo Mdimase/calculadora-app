@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { App } from '@capacitor/app';
-import { IonRouterOutlet, Platform } from '@ionic/angular';
+import { Component, OnDestroy } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Activity } from 'src/app/interfaces/activity';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { PopoverService } from 'src/app/services/popover.service';
 import { NavigationService } from 'src/app/services/navigation.service';
+import { TimePipe } from 'src/app/pipes/time.pipe';
 
 @Component({
   selector: 'app-standar-activity',
@@ -18,6 +18,7 @@ export class StandarActivityPage implements OnDestroy {
   searchValue = '';
   activities: Activity[];
   alphabeticalMap = [];
+  timePipe = new TimePipe();
   private suscription: Subscription;
 
   constructor(private popoverService: PopoverService,
@@ -60,7 +61,7 @@ export class StandarActivityPage implements OnDestroy {
 
   /* alert -> informacion extra de una actividad*/
   async presentAlert(activity: Activity){
-    const message = `tiempo estimado: ${activity.time} minuto/s`;
+    const message = `tiempo estimado: ${this.timePipe.transform(activity.time)}`;
     this.alertService.itemDescription(activity.name,activity.description,message);
   }
 

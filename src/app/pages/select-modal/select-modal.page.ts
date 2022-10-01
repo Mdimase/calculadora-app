@@ -1,5 +1,4 @@
-import { Component,Input, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component,Input, OnInit } from '@angular/core';
 import { IonInput, ModalController, Platform, RouterCustomEvent } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Activity } from 'src/app/interfaces/activity';

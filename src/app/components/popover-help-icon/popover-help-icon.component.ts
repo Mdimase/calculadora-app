@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 
 @Component({
@@ -6,12 +6,10 @@ import { PopoverController } from '@ionic/angular';
   templateUrl: './popover-help-icon.component.html',
   styleUrls: ['./popover-help-icon.component.scss'],
 })
-export class PopoverHelpIconComponent implements OnInit {
+export class PopoverHelpIconComponent{
 
-  message!: string;
+  message: string;
 
   constructor(private popoverController: PopoverController) { }
-
-  ngOnInit() {}
 
 }
