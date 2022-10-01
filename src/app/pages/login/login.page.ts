@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { App } from '@capacitor/app';
-import { Platform } from '@ionic/angular';
+import { IonCheckbox, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -17,6 +17,8 @@ export class LoginPage implements OnInit,OnDestroy {
 
   loginForm!: FormGroup;
   suscriptionBackButton: Subscription;
+  rememberEmail: string;
+  rememberPassword: string;
 
   public errorMessages = {
     email:[
@@ -46,10 +48,20 @@ export class LoginPage implements OnInit,OnDestroy {
     this.loginForm = this.initForm();
   }
 
+  ionViewWillEnter(){
+    this.rememberEmail = this.authService.getRememberEmail();
+    this.rememberPassword = this.authService.getRememberPassword();
+    if(this.rememberEmail && this.rememberPassword){
+      this.loginForm.patchValue({email: this.rememberEmail, password: this.rememberPassword, remember: true});
+    }
+  }
+
   initForm(): FormGroup {
     return this.formBuilder.group({
-      email: ['', [Validators.required,Validators.maxLength(50), Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}')],],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      email: [this.rememberEmail,
+        [Validators.required,Validators.maxLength(50), Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}')],],
+      password: [this.rememberPassword, [Validators.required, Validators.minLength(6)]],
+      remember:[false],
     });
   }
 
@@ -63,9 +75,13 @@ export class LoginPage implements OnInit,OnDestroy {
   onSubmit(){
     const email: string = this.loginForm.get('email')?.value;
     const password: string = this.loginForm.get('password')?.value;
-    if(this.authService.login(email,password)){
+    const remember: boolean = this.loginForm.get('remember')?.value;
+    if(this.authService.login(email,password,remember)){
       //this.toastService.showWelcomeMessage('Bienvenido ' + email);
       setTimeout(()=>this.toastService.showWelcomeMessage('Bienvenido ' + email),200);
+      this.rememberEmail = this.authService.getRememberEmail();
+      this.rememberPassword = this.authService.getRememberPassword();
+      this.loginForm.reset({email: this.rememberEmail, password: this.rememberPassword, remember});
       this.router.navigate(['main/home']);
     }
     else{

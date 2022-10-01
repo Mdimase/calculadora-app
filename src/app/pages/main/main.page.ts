@@ -39,7 +39,6 @@ export class MainPage implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('main destroy');
     this.suscriptionBackButton.unsubscribe();
   }
 

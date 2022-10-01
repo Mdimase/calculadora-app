@@ -33,16 +33,24 @@
               </div>
             </ion-item>
             <ion-item class="note" lines="none">
-              <ion-note>
-                <a href="reset/password">Olvidaste la contraseña ?</a>
-              </ion-note>
+              <div class="password-options">
+                <ion-note>
+                  <a href="reset/password">Olvidaste la contraseña ?</a>
+                </ion-note>
+                <ion-buttons>
+                  <div class="remember-me">
+                    <ion-note>Recordarme</ion-note>
+                    <ion-checkbox #checkBox mode="md" formControlName="remember"></ion-checkbox>
+                  </div>
+                </ion-buttons>
+              </div>
             </ion-item>
             <div class="button-container">
               <ion-button shape="round" type="submit" [disabled]="loginForm.invalid" class="color-gradient">Ingresar
               </ion-button>
             </div>
             <ion-item>
-              <ion-label class="ion-margin-end">Aun no tenes una cuenta ?</ion-label>
+              <ion-label class="ion-margin-end">Aún sin cuenta ?</ion-label>
               <a href="registration">Registrate</a>
             </ion-item>
           </ion-list>

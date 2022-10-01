@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 import { User } from '../interfaces/usuario';
+import * as CryptoJS from 'crypto-js';
+
+const TOKEN = 'apiKey';
+const SECRET_KEY = 'Secrect Key for encryption of calculadora-app';
 
 @Injectable({
   providedIn: 'root'
@@ -12,34 +16,61 @@ export class AuthService {
     { username:'vhboscoscuro', email:'vhboscoscuro@gmail.com', password:'123456789'}
   ];
 
-  private readonly TOKEN = 'apiKey';
-
   /* con back implementado no va a existir una lista de usuarios en memoria */
   /* al loguearse el back retornara el username, email y token */
 
   constructor(){}
 
   get token(){
-    return localStorage.getItem(this.TOKEN);
+    return localStorage.getItem(TOKEN);
   }
 
   getEmail(){
-    return localStorage.getItem('email');
+    const emailEncrypt = localStorage.getItem('email');
+    return this.decrypt(emailEncrypt);
   }
 
   getUsername(){
-    return localStorage.getItem('username');
+    const usernameEncrypt = localStorage.getItem('username');
+    return this.decrypt(usernameEncrypt);
+  }
+
+  getRememberEmail(){
+    if(localStorage.getItem('rememberEmail')){
+      const rememberEmailEncrypt = localStorage.getItem('rememberEmail');
+      return this.decrypt(rememberEmailEncrypt);
+    }
+    return '';
+  }
+
+  getRememberPassword(){
+    if(localStorage.getItem('rememberPassword')){
+      const rememberPasswordEncrypt = localStorage.getItem('rememberPassword');
+      return this.decrypt(rememberPasswordEncrypt);
+    }
+    return '';
   }
 
   // IMPORTANTE: reescribir con backend echo, enviar email y password, manejar la respuesta (exito fracaso)
-  login(email: string, password: string ): boolean{
+  login(email: string, password: string, remember: boolean ): boolean{
     // post al backend
     // cambiar retorno a observable con res o error
     //simulacion de verificacion de logueo
     const userLogged = this.users.filter(u =>u.email === email && u.password === password);
     if(userLogged.length > 0){ //logueo exitoso
-      localStorage.setItem('email',userLogged[0].email);
-      localStorage.setItem('username',userLogged[0].username);
+      const emailEncrypt = CryptoJS.AES.encrypt(userLogged[0].email.trim(), SECRET_KEY).toString();
+      const usernameEncrypt = CryptoJS.AES.encrypt(userLogged[0].username, SECRET_KEY);
+      localStorage.setItem('email',emailEncrypt);
+      localStorage.setItem('username',usernameEncrypt);
+      if(remember){
+        const passwordEncrypt = CryptoJS.AES.encrypt(userLogged[0].password, SECRET_KEY);
+        localStorage.setItem('rememberEmail',emailEncrypt);
+        localStorage.setItem('rememberPassword',passwordEncrypt);
+      }
+      else{
+        localStorage.removeItem('rememberEmail');
+        localStorage.removeItem('rememberPassword');
+      }
       /*
       const token = res.headers.get('Authorization');
       if(token){
@@ -67,6 +98,10 @@ export class AuthService {
     else{
       this.users.push({username,email,password});
     }
+  }
+
+  private decrypt(encryptText: string){
+    return CryptoJS.AES.decrypt(encryptText,SECRET_KEY).toString(CryptoJS.enc.Utf8);
   }
 
 }

@@ -48,7 +48,9 @@ ion-item{
 }
 
 .note{
-    padding-bottom: 0;
+    width: 100%;
+    --inner-padding-end:0;
+    padding-top: 0;
 }
 
 .list-title{
@@ -71,4 +73,31 @@ ion-item{
 
 .color-gradient{
     --background: linear-gradient(90deg,#3049D9 0%,#3839c8 100% );
+}
+
+ion-checkbox {
+    margin-left: .5rem;
+    --size: 20px;
+    --background-checked: linear-gradient(90deg,#3049D9 0%,#3839c8 100% );
+}
+  
+ion-checkbox::part(container) {
+    border: 2px solid #3049D9;
+}
+
+.password-options{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.remember-me{
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+}
+
+a{
+    text-decoration: none;
 }

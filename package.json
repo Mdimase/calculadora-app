@@ -31,6 +31,7 @@
     "@ionic/angular": "^6.1.9",
     "cordova-plugin-file": "^7.0.0",
     "cordova-plugin-file-opener2": "^3.0.5",
+    "crypto-js": "^4.1.1",
     "ionic-selectable": "^4.9.0",
     "jetifier": "^2.0.0",
     "pdfmake": "^0.2.5",
