@@ -8,13 +8,8 @@
 </ion-label>
 
 <ion-content>
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Seleccionar Actividades</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <ion-list lines="none">
+  <ion-list lines="none" mode="md">
     <ion-item *ngFor="let activity of selectedActivities">
       <div class="flex">
         <ion-label class="full-width ion-text-wrap">{{ activity.name + " (" +activity.time + "min)"}}</ion-label>
@@ -39,15 +34,6 @@
       </div>
     </ion-item>
 
-   <!-- <ion-item>
-      <ion-select [placeholder]="selectPlaceholder" [selectedText]="selectPlaceholder" cancelText="Cancelar"
-      okText="Confirmar" interface="alert" [interfaceOptions]="customAlert" (ionChange)="select($event)">
-        <ion-select-option *ngFor="let activity of activities | filter:searchValue:'name'" [value]="activity">
-          {{ activity.name + " (" +activity.time + " min)"}}
-        </ion-select-option>
-      </ion-select>
-    </ion-item> -->
-
     <ion-item detail>
       <a (click)="showSelectionActivityModal()">Agregar actividad</a>
     </ion-item>
@@ -57,8 +43,8 @@
 </ion-content>
 
 <ion-buttons class="center">
-  <ion-button expand="block" fill="outline" shape="round" color="danger" class="ion-padding-end" (click)="back()">
+  <ion-button mode="md" expand="block" fill="outline" shape="round" color="danger" class="ion-padding-end size-14" (click)="back()">
     Cancelar</ion-button>
-  <ion-button expand="block" fill="outline" shape="round" class="ion-padding-start color-gradient" (click)="send()">
+  <ion-button mode="md" expand="block" fill="outline" shape="round" class="ion-padding-start color-gradient size-14" (click)="send()">
     Confirmar</ion-button>
 </ion-buttons>

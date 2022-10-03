@@ -2,16 +2,9 @@
   <ion-icon name="help-circle-sharp" slot="end" class="icon-help" (click)="showPopover($event)"></ion-icon>
 </app-header>
 
-
-<ion-header collapse="condense">
-  <ion-toolbar>
-    <ion-title size="large">Estimacion</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
   <div class="container">
-    <ion-list class="ion-align-items-center">
+    <ion-list class="ion-align-items-center" mode="md">
       <form [formGroup]="estimationForm" novalidate (ngSubmit)="onSubmit()" #form>
         <ion-item counter="true">
           <ion-icon slot="start" name="business"></ion-icon>

@@ -1,4 +1,4 @@
-<ion-split-pane when="md" contentId="main-content">
+<ion-split-pane contentId="main-content">
   <ion-menu contentId="main-content" type="overlay">
     <div class="menu-header">
       <div class="menu-header-content">
@@ -7,33 +7,33 @@
             <img src="assets/user-profile.png" alt="usuario-perfil">
           </ion-avatar>
         </div>
-        <ion-title>{{username}}</ion-title>
+        <ion-title mode="md">{{username}}</ion-title>
         <ion-note>{{email}}</ion-note>
       </div>
     </div>
 
     <ion-content>
 
-      <ion-list class="border">
+      <ion-list class="border" mode="md">
 
         <ion-menu-toggle autoHide="false" *ngFor="let p of menuPages">
           <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-            <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+            <ion-icon slot="start" [name]="p.icon"></ion-icon>
             <ion-label class="ion-text-wrap">{{ p.title }}</ion-label>
           </ion-item>
         </ion-menu-toggle>
 
       </ion-list>
-      <ion-list>
+      <ion-list mode="md">
         <ion-menu-toggle autoHide="false">
           <ion-item routerDirection="root" (click)="changePassword()" lines="none" detail="false">
-            <ion-icon slot="start" [ios]="'key-outline'" [md]="'key-sharp'"></ion-icon>
+            <ion-icon slot="start" name="key"></ion-icon>
             <ion-label class="ion-text-wrap">Cambiar Contraseña</ion-label>
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle autoHide="false">
           <ion-item routerDirection="root" (click)="logout()" lines="none" detail="false">
-            <ion-icon slot="start" [ios]="'log-out-outline'" [md]="'log-out-sharp'"></ion-icon>
+            <ion-icon slot="start" name="log-out"></ion-icon>
             <ion-label>Cerrar Sesion</ion-label>
           </ion-item>
         </ion-menu-toggle>
