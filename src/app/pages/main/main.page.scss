@@ -7,16 +7,13 @@ ion-menu ion-content {
     --padding-end: .8rem;
     --padding-top: 1rem;
   }
-
-  ion-menu.ios{
-    margin-top: 25px;
-  }
   
   .menu-header{
     width: 100%;
     background: linear-gradient(90deg,#3049D9 0%,#3839c8 100% );
     box-shadow: 0px 1px 5px rgba(98,140,255,0.5);
     padding: 1rem;
+    padding-top: 3rem;
     border-radius: 5px;
   }
   
