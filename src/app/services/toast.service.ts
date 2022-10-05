@@ -26,10 +26,10 @@ export class ToastService {
       icon:'alert-done',
       message,
       duration: 1500,
-      position:'bottom',
+      position:'top',
       animated:true,
       mode:'ios',
-      color:'danger'
+      cssClass:'toast-message-error'
     });
     toast.present();
   }

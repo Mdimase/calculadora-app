@@ -53,6 +53,9 @@ export class LoginPage implements OnInit,OnDestroy {
     if(this.rememberEmail && this.rememberPassword){
       this.loginForm.patchValue({email: this.rememberEmail, password: this.rememberPassword, remember: true});
     }
+    else{
+      this.loginForm.reset();
+    }
   }
 
   initForm(): FormGroup {

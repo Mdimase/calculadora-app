@@ -97,20 +97,8 @@ export class AuthService {
     localStorage.removeItem(TOKEN);
   }
 
-  // IMPORTANTE: manejar error de email duplicado
-  register(email: string, username: string, password: string): Observable<void>{
-    // post al backend
-    return this.http.post<void>(AuthService.REGISTER_PATH, {email,username,password});
-    /*
-    // simulacion de registro de usuario
-    if(this.users.filter(u=>u.email === email).length > 0){
-      console.log('email duplicado');
-    }
-    else{
-      this.users.push({username,email,password});
-    }
-    */
-    
+  register(email: string, username: string, password: string): Observable<any>{
+    return this.http.post<any>(AuthService.REGISTER_PATH, {email,username,password});
   }
 
   private decrypt(encryptText: string){

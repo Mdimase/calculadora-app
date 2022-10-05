@@ -162,6 +162,12 @@ ion-popover{
     --background: linear-gradient(90deg,#3049D9 0%,#3839c8 100% );
 }
 
+.toast-message-error{
+    --background: var(--ion-color-danger);
+    text-align: center;
+    margin-top: 60px;
+}
+
 /* modal full screen adjust */
 
 .fullscreen {

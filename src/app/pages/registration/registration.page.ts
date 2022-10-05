@@ -3,7 +3,9 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn,
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-registration',
@@ -31,7 +33,12 @@ export class RegistrationPage implements OnInit, OnDestroy {
     ]
   };
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router, private platform: Platform){}
+  constructor(private formBuilder: FormBuilder, 
+              private authService: AuthService,
+              private alertService: AlertService,
+              private toastService: ToastService,
+              private router: Router,
+              private platform: Platform){}
 
   ngOnDestroy(): void {
     this.subcriptionBackButton.unsubscribe();
@@ -67,8 +74,16 @@ export class RegistrationPage implements OnInit, OnDestroy {
     const email: string = this.registrationForm.get('email')?.value;
     const password: string = this.registrationForm.get('password')?.value;
     const username: string = this.registrationForm.get('username')?.value;
-    this.authService.register(email,username,password);
-    this.router.navigate(['login']);
+    this.authService.register(email,username,password).subscribe({
+      next:()=>{
+        this.registrationForm.reset();
+        this.router.navigate(['login']);
+        this.alertService.showAlert('Registro Existoso','El registro se completo de manera exitosa. Por favor, inicie sesion',false);
+      },
+      error:()=>{
+        this.toastService.showErrorMessage('email no disponible');
+      }
+    });
   }
 
   /* validator custom => si son iguales retorna null, sino retorna {notEqual:true}*/
