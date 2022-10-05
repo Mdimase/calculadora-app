@@ -6,6 +6,7 @@ import * as CryptoJS from 'crypto-js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ToastService } from './toast.service';
+import { UserDetails } from '../interfaces/userDetails';
 
 const TOKEN = 'apiKey';
 const SECRET_KEY = 'Secrect Key for encryption of calculadora-app';
@@ -16,7 +17,8 @@ const SECRET_KEY = 'Secrect Key for encryption of calculadora-app';
 export class AuthService {
 
   static readonly REGISTER_PATH = environment.API_URL + 'user/register';
-  static readonly USERNAME_PATH = environment.API_URL + 'user/getUsername';
+  static readonly USERNAME_PATH = environment.API_URL + 'user/getDetails';
+  static readonly RESET_PATH = environment.API_URL + 'user/reset';
   static readonly LOGIN_PATH = environment.API_URL + 'login';
 
   /* con back implementado no va a existir una lista de usuarios en memoria */
@@ -54,10 +56,13 @@ export class AuthService {
     return '';
   }
 
-  getUsernameLogged(email: string): Observable<string>{
-    return this.http.post<any>(AuthService.USERNAME_PATH + '?email=' + email,{observe:'response'})
-      .pipe(map((res: any)=>{
-        return res.username;
+  getUsernameLogged(email: string): Observable<UserDetails>{
+    return this.http.post<any>(AuthService.USERNAME_PATH + '?email=' + email, { observe: 'response' })
+      .pipe(map((details: UserDetails)=>{
+        const usernameLogged: string = details.username;
+        const usernameEncrypt = CryptoJS.AES.encrypt(usernameLogged, SECRET_KEY);
+        localStorage.setItem('username',usernameEncrypt);
+        return details;
       }));
   }
 
@@ -69,23 +74,16 @@ export class AuthService {
         if(token){
           localStorage.setItem(TOKEN,token);
           const emailEncrypt = CryptoJS.AES.encrypt(email, SECRET_KEY).toString();
-          this.getUsernameLogged(email).subscribe({
-            next: (email: string)=>{
-              const usernameLogged: string = email;
-              const usernameEncrypt = CryptoJS.AES.encrypt(usernameLogged, SECRET_KEY);
-              localStorage.setItem('email',emailEncrypt);
-              localStorage.setItem('username',usernameEncrypt);
-              if(remember){
-                const passwordEncrypt = CryptoJS.AES.encrypt(password, SECRET_KEY);
-                localStorage.setItem('rememberEmail',emailEncrypt);
-                localStorage.setItem('rememberPassword',passwordEncrypt);
-              }
-              else{
-                localStorage.removeItem('rememberEmail');
-                localStorage.removeItem('rememberPassword');
-              }
-            }
-          });
+          localStorage.setItem('email',emailEncrypt);
+          if(remember){
+            const passwordEncrypt = CryptoJS.AES.encrypt(password, SECRET_KEY);
+            localStorage.setItem('rememberEmail',emailEncrypt);
+            localStorage.setItem('rememberPassword',passwordEncrypt);
+          }
+          else{
+            localStorage.removeItem('rememberEmail');
+            localStorage.removeItem('rememberPassword');
+          }
         }
         return res;
       }));
@@ -98,7 +96,16 @@ export class AuthService {
   }
 
   register(email: string, username: string, password: string): Observable<any>{
-    return this.http.post<any>(AuthService.REGISTER_PATH, {email,username,password});
+    return this.http.post<any>(AuthService.REGISTER_PATH, {email,username,password})
+      .pipe(map((res)=>{
+        localStorage.removeItem('rememberEmail');
+        localStorage.removeItem('rememberPassword');
+        return res;
+      }));
+  }
+
+  reset(email: string): Observable<any>{
+    return this.http.post<any>(AuthService.RESET_PATH + '?email=' + email,{});
   }
 
   private decrypt(encryptText: string){

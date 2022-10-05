@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { AlertService } from 'src/app/services/alert.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -22,7 +25,13 @@ export class ResetPasswordPage implements OnInit, OnDestroy {
     ]
   };
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private platform: Platform){}
+  constructor(private formBuilder: FormBuilder,
+              private authService: AuthService,
+              private toastService: ToastService,
+              private alertService: AlertService,
+              private router: Router,
+              private platform: Platform){}
+
   ngOnDestroy(): void {
     this.suscriptionBackButton.unsubscribe();
   }
@@ -53,7 +62,15 @@ export class ResetPasswordPage implements OnInit, OnDestroy {
   /* iniciar sesion */
   onSubmit(){
     const email: string = this.resetForm.get('email')?.value;
-    // logica para resetear la password enviando una nueva al email en cuestion
+    this.authService.reset(email).subscribe({
+      next:()=>{
+        this.router.navigateByUrl('login');
+        this.alertService.showAlert('Reestablecer Contraseña','Inicie sesion con la contraseña temporal recibida en su casilla de correo electronico',false);
+      },
+      error:()=>{
+        this.toastService.showErrorMessage('email inexistente. Intente nuevamente');
+      }
+    });
     this.router.navigate(['login']);
   }
 

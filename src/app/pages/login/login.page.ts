@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { App } from '@capacitor/app';
 import { Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { UserDetails } from 'src/app/interfaces/userDetails';
+import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
 
@@ -33,6 +35,7 @@ export class LoginPage implements OnInit,OnDestroy {
 
   constructor(private formBuilder: FormBuilder,
               private toastService: ToastService,
+              private alertService: AlertService,
               private authService: AuthService,
               private router: Router, private platform: Platform){}
 
@@ -80,11 +83,21 @@ export class LoginPage implements OnInit,OnDestroy {
     const remember: boolean = this.loginForm.get('remember')?.value;
     this.authService.login(email,password,remember).subscribe({
       next:() =>{
-        this.rememberEmail = this.authService.getRememberEmail();
-        this.rememberPassword = this.authService.getRememberPassword();
-        this.loginForm.reset({email: this.rememberEmail, password: this.rememberPassword, remember});
-        this.router.navigate(['main/home']);
-        setTimeout(()=>this.toastService.showWelcomeMessage('Bienvenido ' + email),200);
+        this.authService.getUsernameLogged(email).subscribe({
+          next:(details: UserDetails)=>{
+            if(details.is_tmp_pass){
+              this.router.navigateByUrl('main/change/password');
+              this.alertService.showAlert('Actualiza tu contraseña','Ingrese como contraseña actual la recibida en su casilla de correo electronico',false);
+            }
+            else{
+              this.rememberEmail = this.authService.getRememberEmail();
+              this.rememberPassword = this.authService.getRememberPassword();
+              this.loginForm.reset({email: this.rememberEmail, password: this.rememberPassword, remember});
+              this.router.navigate(['main/home']);
+              setTimeout(()=>this.toastService.showWelcomeMessage('Bienvenido ' + email),200);
+            }
+          }
+        });
       },
       error:() =>{
         this.toastService.showErrorMessage('email/contraseña incorrecta. Intente nuevamente');
