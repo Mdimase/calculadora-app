@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { User } from '../interfaces/user';
+import { HttpClient} from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 import * as CryptoJS from 'crypto-js';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { ToastService } from './toast.service';
 
 const TOKEN = 'apiKey';
 const SECRET_KEY = 'Secrect Key for encryption of calculadora-app';
@@ -10,16 +15,14 @@ const SECRET_KEY = 'Secrect Key for encryption of calculadora-app';
 })
 export class AuthService {
 
-  users: User[] = [
-    { username:'mdimase21', email:'mdimase@gmail.com', password:'123456789'},
-    { username:'admin', email:'admin@gmail.com', password:'123456789'},
-    { username:'vhboscoscuro', email:'vhboscoscuro@gmail.com', password:'123456789'}
-  ];
+  static readonly REGISTER_PATH = environment.API_URL + 'user/register';
+  static readonly USERNAME_PATH = environment.API_URL + 'user/getUsername';
+  static readonly LOGIN_PATH = environment.API_URL + 'login';
 
   /* con back implementado no va a existir una lista de usuarios en memoria */
   /* al loguearse el back retornara el username, email y token */
 
-  constructor(){}
+  constructor(private http: HttpClient){}
 
   get token(){
     return localStorage.getItem(TOKEN);
@@ -51,46 +54,54 @@ export class AuthService {
     return '';
   }
 
-  // IMPORTANTE: reescribir con backend echo, enviar email y password, manejar la respuesta (exito fracaso)
-  login(email: string, password: string, remember: boolean ): boolean{
-    // post al backend
-    // cambiar retorno a observable con res o error
-    //simulacion de verificacion de logueo
-    const userLogged = this.users.filter(u =>u.email === email && u.password === password);
-    if(userLogged.length > 0){ //logueo exitoso
-      const emailEncrypt = CryptoJS.AES.encrypt(userLogged[0].email.trim(), SECRET_KEY).toString();
-      const usernameEncrypt = CryptoJS.AES.encrypt(userLogged[0].username, SECRET_KEY);
-      localStorage.setItem('email',emailEncrypt);
-      localStorage.setItem('username',usernameEncrypt);
-      if(remember){
-        const passwordEncrypt = CryptoJS.AES.encrypt(userLogged[0].password, SECRET_KEY);
-        localStorage.setItem('rememberEmail',emailEncrypt);
-        localStorage.setItem('rememberPassword',passwordEncrypt);
-      }
-      else{
-        localStorage.removeItem('rememberEmail');
-        localStorage.removeItem('rememberPassword');
-      }
-      /*
-      const token = res.headers.get('Authorization');
-      if(token){
-        // setear todos los localStorage
-      }
-      //localStorage.setItem(this.TOKEN,token);
-      return res; */
-      return true;
-    }
-    return false;
+  getUsernameLogged(email: string): Observable<string>{
+    return this.http.post<any>(AuthService.USERNAME_PATH + '?email=' + email,{observe:'response'})
+      .pipe(map((res: any)=>{
+        return res.username;
+      }));
+  }
+
+  login(email: string, password: string, remember: boolean ): Observable<any>{
+    return this.http.post<any>(AuthService.LOGIN_PATH, {email,password},{observe:'response'})
+      .pipe(map((res:any) => { //mapea la respuesta http a la variable res
+        const token = res.headers.get("Authorization");  
+        // logueo exitoso
+        if(token){
+          localStorage.setItem(TOKEN,token);
+          const emailEncrypt = CryptoJS.AES.encrypt(email, SECRET_KEY).toString();
+          this.getUsernameLogged(email).subscribe({
+            next: (email: string)=>{
+              const usernameLogged: string = email;
+              const usernameEncrypt = CryptoJS.AES.encrypt(usernameLogged, SECRET_KEY);
+              localStorage.setItem('email',emailEncrypt);
+              localStorage.setItem('username',usernameEncrypt);
+              if(remember){
+                const passwordEncrypt = CryptoJS.AES.encrypt(password, SECRET_KEY);
+                localStorage.setItem('rememberEmail',emailEncrypt);
+                localStorage.setItem('rememberPassword',passwordEncrypt);
+              }
+              else{
+                localStorage.removeItem('rememberEmail');
+                localStorage.removeItem('rememberPassword');
+              }
+            }
+          });
+        }
+        return res;
+      }));
   }
 
   logout(){
     localStorage.removeItem('email');
     localStorage.removeItem('username');
+    localStorage.removeItem(TOKEN);
   }
 
   // IMPORTANTE: manejar error de email duplicado
-  register(email: string, username: string, password: string){
+  register(email: string, username: string, password: string): Observable<void>{
     // post al backend
+    return this.http.post<void>(AuthService.REGISTER_PATH, {email,username,password});
+    /*
     // simulacion de registro de usuario
     if(this.users.filter(u=>u.email === email).length > 0){
       console.log('email duplicado');
@@ -98,6 +109,8 @@ export class AuthService {
     else{
       this.users.push({username,email,password});
     }
+    */
+    
   }
 
   private decrypt(encryptText: string){

@@ -75,17 +75,18 @@ export class LoginPage implements OnInit,OnDestroy {
     const email: string = this.loginForm.get('email')?.value;
     const password: string = this.loginForm.get('password')?.value;
     const remember: boolean = this.loginForm.get('remember')?.value;
-    if(this.authService.login(email,password,remember)){
-      //this.toastService.showWelcomeMessage('Bienvenido ' + email);
-      setTimeout(()=>this.toastService.showWelcomeMessage('Bienvenido ' + email),200);
-      this.rememberEmail = this.authService.getRememberEmail();
-      this.rememberPassword = this.authService.getRememberPassword();
-      this.loginForm.reset({email: this.rememberEmail, password: this.rememberPassword, remember});
-      this.router.navigate(['main/home']);
-    }
-    else{
-      console.log('email/contraseña erronea. intente nuevamente');
-    }
+    this.authService.login(email,password,remember).subscribe({
+      next:() =>{
+        this.rememberEmail = this.authService.getRememberEmail();
+        this.rememberPassword = this.authService.getRememberPassword();
+        this.loginForm.reset({email: this.rememberEmail, password: this.rememberPassword, remember});
+        this.router.navigate(['main/home']);
+        setTimeout(()=>this.toastService.showWelcomeMessage('Bienvenido ' + email),200);
+      },
+      error:() =>{
+        this.toastService.showErrorMessage('email/contraseña incorrecta. Intente nuevamente');
+      }
+    });
   }
 
 }

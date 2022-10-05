@@ -23,6 +23,7 @@ import { NavigationService } from './services/navigation.service';
 import { EstimationService } from './services/estimation.service';
 import { ModalService } from './services/modal.service';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     RegistrationPageModule,
     ResetPasswordPageModule,
     MainPageModule,
+    HttpClientModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
@@ -51,7 +53,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     EstimationService,
     ModalService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    //{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
 })

@@ -22,6 +22,7 @@ export class ErrorInterceptor {
     return next.handle(request).pipe(
       catchError((e) => {
         if(e.status === 401 || e.status === 403){  //unauthorized
+          console.log('unauthorized');
           this.authService.logout();
         }
         if(e.status === 404){
