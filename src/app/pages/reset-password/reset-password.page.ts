@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
+import { LoadingController, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { LoadingService } from 'src/app/services/loading.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
@@ -28,6 +29,8 @@ export class ResetPasswordPage implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
               private toastService: ToastService,
+              private loadingService: LoadingService,
+              private loadingController: LoadingController,
               private alertService: AlertService,
               private router: Router,
               private platform: Platform){}
@@ -63,16 +66,16 @@ export class ResetPasswordPage implements OnInit, OnDestroy {
   onSubmit(){
     const email: string = this.resetForm.get('email')?.value;
     this.resetForm.reset();
-    // create spinner 
+    this.loadingService.showLoading();
     this.authService.reset(email).subscribe({
       next:()=>{
-        // dismiss spinner
+        this.loadingController.dismiss();
         this.router.navigateByUrl('login');
         this.alertService.showAlert('Reestablecer Contraseña','Inicie sesion con la contraseña temporal recibida en su casilla de correo electronico',false);
       },
       error:(e)=>{
         if(e.status !== 0){
-          // dismiss spinner
+          this.loadingController.dismiss();
           this.toastService.showErrorMessage('email inexistente. Intente nuevamente');
         }
       }

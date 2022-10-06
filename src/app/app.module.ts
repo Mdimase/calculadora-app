@@ -24,6 +24,7 @@ import { EstimationService } from './services/estimation.service';
 import { ModalService } from './services/modal.service';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { LoadingService } from './services/loading.service';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     NavigationService,
     EstimationService,
     ModalService,
+    LoadingService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],

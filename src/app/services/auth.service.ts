@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { User } from '../interfaces/user';
 import { HttpClient} from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import * as CryptoJS from 'crypto-js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ToastService } from './toast.service';
 import { UserDetails } from '../interfaces/userDetails';
+import { LoadingService } from './loading.service';
 
 const TOKEN = 'apiKey';
 const SECRET_KEY = 'Secrect Key for encryption of calculadora-app';

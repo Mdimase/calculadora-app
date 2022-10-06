@@ -168,6 +168,18 @@ ion-popover{
     margin-top: 60px;
 }
 
+
+/**** loading spinner styles  ****/
+
+.loading-wrapper.sc-ion-loading-md{
+    border-radius: 10px;
+}
+
+ion-loading.loading-spinner {
+    --background: var(--ion-background-color);
+    transform: scale(2);
+}
+
 /* modal full screen adjust */
 
 .fullscreen {
