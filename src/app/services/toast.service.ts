@@ -12,7 +12,7 @@ export class ToastService {
     const toast = await this.toastController.create({
       icon:'checkmark-done',
       message,
-      duration: 1500,
+      duration: 2000,
       position:'bottom',
       animated:true,
       mode:'ios',
@@ -25,7 +25,7 @@ export class ToastService {
     const toast = await this.toastController.create({
       icon:'alert-done',
       message,
-      duration: 1500,
+      duration: 2000,
       position:'top',
       animated:true,
       mode:'ios',
@@ -37,7 +37,7 @@ export class ToastService {
   async showWelcomeMessage(message: string){
     const toast = await this.toastController.create({
       message,
-      duration: 1500,
+      duration: 2000,
       position:'top',
       animated:true,
       mode:'ios',

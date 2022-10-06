@@ -62,16 +62,21 @@ export class ResetPasswordPage implements OnInit, OnDestroy {
   /* iniciar sesion */
   onSubmit(){
     const email: string = this.resetForm.get('email')?.value;
+    this.resetForm.reset();
+    // create spinner 
     this.authService.reset(email).subscribe({
       next:()=>{
+        // dismiss spinner
         this.router.navigateByUrl('login');
         this.alertService.showAlert('Reestablecer Contraseña','Inicie sesion con la contraseña temporal recibida en su casilla de correo electronico',false);
       },
-      error:()=>{
-        this.toastService.showErrorMessage('email inexistente. Intente nuevamente');
+      error:(e)=>{
+        if(e.status !== 0){
+          // dismiss spinner
+          this.toastService.showErrorMessage('email inexistente. Intente nuevamente');
+        }
       }
     });
-    this.router.navigate(['login']);
   }
 
 }

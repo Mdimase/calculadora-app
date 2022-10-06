@@ -99,8 +99,10 @@ export class LoginPage implements OnInit,OnDestroy {
           }
         });
       },
-      error:() =>{
-        this.toastService.showErrorMessage('email/contraseña incorrecta. Intente nuevamente');
+      error:(e) =>{
+        if(e.status !== 0){
+          this.toastService.showErrorMessage('email/contraseña incorrecta. Intente nuevamente');
+        }
       }
     });
   }

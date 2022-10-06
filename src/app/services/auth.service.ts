@@ -10,19 +10,16 @@ import { UserDetails } from '../interfaces/userDetails';
 
 const TOKEN = 'apiKey';
 const SECRET_KEY = 'Secrect Key for encryption of calculadora-app';
+const REGISTER_PATH = environment.API_URL + 'user/register';
+const USERNAME_PATH = environment.API_URL + 'user/getDetails';
+const RESET_PATH = environment.API_URL + 'user/reset';
+const CHANGE_PASSWORD_PATH = environment.API_URL + 'user/changePassword';
+const LOGIN_PATH = environment.API_URL + 'login';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
-  static readonly REGISTER_PATH = environment.API_URL + 'user/register';
-  static readonly USERNAME_PATH = environment.API_URL + 'user/getDetails';
-  static readonly RESET_PATH = environment.API_URL + 'user/reset';
-  static readonly LOGIN_PATH = environment.API_URL + 'login';
-
-  /* con back implementado no va a existir una lista de usuarios en memoria */
-  /* al loguearse el back retornara el username, email y token */
 
   constructor(private http: HttpClient){}
 
@@ -57,7 +54,7 @@ export class AuthService {
   }
 
   getUsernameLogged(email: string): Observable<UserDetails>{
-    return this.http.post<any>(AuthService.USERNAME_PATH + '?email=' + email, { observe: 'response' })
+    return this.http.post<any>(USERNAME_PATH + '?email=' + email, { observe: 'response' })
       .pipe(map((details: UserDetails)=>{
         const usernameLogged: string = details.username;
         const usernameEncrypt = CryptoJS.AES.encrypt(usernameLogged, SECRET_KEY);
@@ -67,7 +64,7 @@ export class AuthService {
   }
 
   login(email: string, password: string, remember: boolean ): Observable<any>{
-    return this.http.post<any>(AuthService.LOGIN_PATH, {email,password},{observe:'response'})
+    return this.http.post<any>(LOGIN_PATH, {email,password},{observe:'response'})
       .pipe(map((res:any) => { //mapea la respuesta http a la variable res
         const token = res.headers.get("Authorization");  
         // logueo exitoso
@@ -81,8 +78,7 @@ export class AuthService {
             localStorage.setItem('rememberPassword',passwordEncrypt);
           }
           else{
-            localStorage.removeItem('rememberEmail');
-            localStorage.removeItem('rememberPassword');
+            this.clearRemember();
           }
         }
         return res;
@@ -96,20 +92,36 @@ export class AuthService {
   }
 
   register(email: string, username: string, password: string): Observable<any>{
-    return this.http.post<any>(AuthService.REGISTER_PATH, {email,username,password})
+    return this.http.post<any>(REGISTER_PATH, {email,username,password})
       .pipe(map((res)=>{
-        localStorage.removeItem('rememberEmail');
-        localStorage.removeItem('rememberPassword');
+        this.clearRemember();
         return res;
       }));
   }
 
   reset(email: string): Observable<any>{
-    return this.http.post<any>(AuthService.RESET_PATH + '?email=' + email,{});
+    return this.http.post<any>(RESET_PATH + '?email=' + email,{})
+      .pipe(map((res)=>{
+        this.clearRemember();
+        return res;
+      }));
+  }
+
+  changePassword(oldPassword: string, newPassword: string): Observable<any>{
+    return this.http.post<any>(CHANGE_PASSWORD_PATH,{oldPassword,newPassword})
+      .pipe(map((res)=>{
+        this.clearRemember();
+        return res;
+    }));
   }
 
   private decrypt(encryptText: string){
     return CryptoJS.AES.decrypt(encryptText,SECRET_KEY).toString(CryptoJS.enc.Utf8);
+  }
+
+  private clearRemember(){
+    localStorage.removeItem('rememberEmail');
+    localStorage.removeItem('rememberPassword');
   }
 
 }

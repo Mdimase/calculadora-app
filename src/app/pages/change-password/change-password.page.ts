@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { NavigationService } from 'src/app/services/navigation.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-change-password',
@@ -27,6 +28,7 @@ export class ChangePasswordPage implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
+              private toastService: ToastService,
               private router: Router,private navigationService: NavigationService ,private platform: Platform){}
 
   ngOnInit() {
@@ -48,11 +50,20 @@ export class ChangePasswordPage implements OnInit {
   }
 
   onSubmit(){
-    const email: string = this.changePasswordForm.get('email')?.value;
-    const password: string = this.changePasswordForm.get('password')?.value;
-    // peticion http cambio password
-    console.log('password changed');
-    this.router.navigate(['main/home']);
+    const currentPassword: string = this.changePasswordForm.get('current')?.value;
+    const newPassword: string = this.changePasswordForm.get('password')?.value;
+    this.authService.changePassword(currentPassword,newPassword).subscribe({
+      next: ()=>{
+        this.toastService.showMessage('Cambio de contraseña exitoso');
+        this.authService.logout();
+        this.router.navigate(['login']);
+      },
+      error: (e)=>{
+        if(e.status !== 0){
+          this.toastService.showErrorMessage('contraseña actual incorrecta. Intente nuevamente');
+        }
+      }
+    });
   }
 
   /* validator custom => si son iguales retorna null, sino retorna {notEqual:true}*/

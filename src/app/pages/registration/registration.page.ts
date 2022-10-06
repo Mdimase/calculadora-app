@@ -80,8 +80,10 @@ export class RegistrationPage implements OnInit, OnDestroy {
         this.router.navigate(['login']);
         this.alertService.showAlert('Registro Existoso','El registro se completo de manera exitosa. Por favor, inicie sesion',false);
       },
-      error:()=>{
-        this.toastService.showErrorMessage('email no disponible');
+      error:(e)=>{
+        if(e.status !== 0){
+          this.toastService.showErrorMessage('email no disponible');
+        }
       }
     });
   }
