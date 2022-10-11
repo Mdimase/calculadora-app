@@ -27,7 +27,7 @@ export class EstimationHistoryPage implements OnDestroy{
 
   estimations: Estimation[] = [];
   timePipe = new TimePipe();
-  private suscription: Subscription;
+  private subscription: Subscription;
 
   constructor(private estimationService: EstimationService,
               private platform: Platform,
@@ -40,7 +40,7 @@ export class EstimationHistoryPage implements OnDestroy{
               private navigationService: NavigationService){}
 
   ionViewWillEnter(): void{
-    this.suscription = this.estimationService.getEstimations$().subscribe((estimations: Estimation[]) =>{
+    this.subscription = this.estimationService.getEstimations$().subscribe((estimations: Estimation[]) =>{
       this.estimations = estimations;
     });
   }
@@ -52,10 +52,10 @@ export class EstimationHistoryPage implements OnDestroy{
   }
 
   ngOnDestroy(): void {
-    this.suscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
-  getMinutesObjetive(workload: number, percent: number): number{
+  getMinutesObjective(workload: number, percent: number): number{
     return this.estimationService.valueOfPercent(this.estimationService.toMinutes(workload),percent);  //carga horaria a virtualizar (min)
   }
 
@@ -108,7 +108,7 @@ export class EstimationHistoryPage implements OnDestroy{
         },
         { columns: [
             { text: 'Tiempo Objetivo : ', style: 'subheader'},
-            { text: this.timePipe.transform(this.getMinutesObjetive(estimation.workload,estimation.percent))},
+            { text: this.timePipe.transform(this.getMinutesObjective(estimation.workload,estimation.percent))},
             { text: 'Tiempo estimado : ', style: 'subheader' },
             { text: this.timePipe.transform(estimation.estimatedTime)}
           ],
@@ -167,9 +167,9 @@ export class EstimationHistoryPage implements OnDestroy{
       const row = [];
       row.push(a.name);
       row.push(a.description);
-      row.push({text:this.timePipe.transform(a.time), alignment:'center'});
+      row.push({text:this.timePipe.transform(a.time_minutes), alignment:'center'});
       row.push({text:a.amount, alignment:'center'});
-      row.push({text:this.timePipe.transform(a.time * a.amount), alignment:'center'});
+      row.push({text:this.timePipe.transform(a.time_minutes * a.amount), alignment:'center'});
       body.push(row);
     });
     return body;

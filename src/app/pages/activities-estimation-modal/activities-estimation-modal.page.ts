@@ -53,8 +53,8 @@ export class ActivitiesEstimationModalPage{
   /* alert -> informacion extra de una actividad*/
   async presentAlert(activity: Activity){
     //await this.alertService.itemDescription(activity);
-    const message = `tiempo estimado: ${this.timePipe.transform(activity.time)} <br><br> cantidad seleccionada: ${activity.amount} 
-    <br><br> tiempo total: ${this.timePipe.transform(activity.time * activity.amount)}`;
+    const message = `tiempo estimado: ${this.timePipe.transform(activity.time_minutes)} <br><br> cantidad seleccionada: ${activity.amount} 
+    <br><br> tiempo total: ${this.timePipe.transform(activity.time_minutes * activity.amount)}`;
     await this.alertService.itemDescription(activity.name,activity.description,message);
   }
 

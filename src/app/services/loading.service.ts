@@ -17,4 +17,8 @@ export class LoadingService {
     loading.present();
   }
 
+  dismiss(){
+    this.loadingController.dismiss();
+  }
+
 }

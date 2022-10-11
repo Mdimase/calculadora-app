@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
+import { LoadingController, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { LoadingService } from 'src/app/services/loading.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
@@ -20,21 +21,22 @@ export class RegistrationPage implements OnInit, OnDestroy {
   public errorMessages = {
     email:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'maxlength', message: 'contenido maximo 50 caracteres'},
-      { type:'pattern', message: 'ingrese un email valido'}
+      { type:'maxlength', message: 'contenido máximo 50 caracteres'},
+      { type:'pattern', message: 'ingrese un email válido'}
     ],
     username:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'maxlength', message: 'contenido maximo 50 caracteres'},
+      { type:'maxlength', message: 'contenido máximo 50 caracteres'},
     ],
     password:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'minlength', message: 'contenido minimo 6 caracteres'},
+      { type:'minlength', message: 'contenido mínimo 6 caracteres'},
     ]
   };
 
   constructor(private formBuilder: FormBuilder, 
               private authService: AuthService,
+              private loadingService: LoadingService,
               private alertService: AlertService,
               private toastService: ToastService,
               private router: Router,
@@ -70,17 +72,20 @@ export class RegistrationPage implements OnInit, OnDestroy {
     this.router.navigate(['login']);
   }
 
-  onSubmit(){
+  async onSubmit(){
     const email: string = this.registrationForm.get('email')?.value;
     const password: string = this.registrationForm.get('password')?.value;
     const username: string = this.registrationForm.get('username')?.value;
+    await this.loadingService.showLoading();
     this.authService.register(email,username,password).subscribe({
       next:()=>{
+        this.loadingService.dismiss();
         this.registrationForm.reset();
         this.router.navigate(['login']);
-        this.alertService.showAlert('Registro Existoso','El registro se completo de manera exitosa. Por favor, inicie sesion',false);
+        this.alertService.showAlert('Registro Exitoso','El registro se completó de manera exitosa. Por favor, inicie sesión',false);
       },
       error:(e)=>{
+        this.loadingService.dismiss();
         if(e.status !== 0){
           this.toastService.showErrorMessage('email no disponible');
         }

@@ -14,12 +14,12 @@ export class MainPage implements OnDestroy {
 
   email: string;
   username: string;
-  suscriptionBackButton: Subscription;
+  subscriptionBackButton: Subscription;
 
   public menuPages = [
     { title: 'Inicio', url: '/main/home', icon: 'home' },
-    { title: 'Estimacion', url: '/main/estimation', icon: 'calculator' },
-    { title: 'Actividades Estandar', url: '/main/standar/activity', icon: 'albums' },
+    { title: 'Estimación', url: '/main/estimation', icon: 'calculator' },
+    { title: 'Actividades Estándar', url: '/main/standard/activity', icon: 'albums' },
     { title: 'Actividades Personalizadas', url: '/main/custom/activity', icon: 'heart' },
     { title: 'Historial', url: '/main/history', icon: 'archive' }
   ];
@@ -32,14 +32,14 @@ export class MainPage implements OnDestroy {
   ionViewWillEnter(){
     this.email = this.authService.getEmail();
     this.username = this.authService.getUsername();
-    this.suscriptionBackButton = this.platform.backButton.subscribeWithPriority(10,async ()=>{
+    this.subscriptionBackButton = this.platform.backButton.subscribeWithPriority(10,async ()=>{
       console.log(this.platform.backButton.observers.length);
       this.navigationService.back();
     });
   }
 
   ngOnDestroy(): void {
-    this.suscriptionBackButton.unsubscribe();
+    this.subscriptionBackButton.unsubscribe();
   }
 
   logout(){

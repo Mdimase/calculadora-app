@@ -30,7 +30,6 @@ export class ResetPasswordPage implements OnInit, OnDestroy {
               private authService: AuthService,
               private toastService: ToastService,
               private loadingService: LoadingService,
-              private loadingController: LoadingController,
               private alertService: AlertService,
               private router: Router,
               private platform: Platform){}
@@ -63,19 +62,19 @@ export class ResetPasswordPage implements OnInit, OnDestroy {
   }
 
   /* iniciar sesion */
-  onSubmit(){
+  async onSubmit(){
     const email: string = this.resetForm.get('email')?.value;
     this.resetForm.reset();
-    this.loadingService.showLoading();
+    await this.loadingService.showLoading();
     this.authService.reset(email).subscribe({
       next:()=>{
-        this.loadingController.dismiss();
+        this.loadingService.dismiss();
         this.router.navigateByUrl('login');
         this.alertService.showAlert('Reestablecer Contraseña','Inicie sesion con la contraseña temporal recibida en su casilla de correo electronico',false);
       },
       error:(e)=>{
+        this.loadingService.dismiss();
         if(e.status !== 0){
-          this.loadingController.dismiss();
           this.toastService.showErrorMessage('email inexistente. Intente nuevamente');
         }
       }

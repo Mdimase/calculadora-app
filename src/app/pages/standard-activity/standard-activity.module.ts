@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { StandarActivityPageRoutingModule } from './standar-activity-routing.module';
+import { StandardActivityPageRoutingModule } from './standard-activity-routing.module';
 
-import { StandarActivityPage } from './standar-activity.page';
+import { StandardActivityPage } from './standard-activity-page';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -16,11 +16,11 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     CommonModule,
     FormsModule,
     IonicModule,
-    StandarActivityPageRoutingModule,
+    StandardActivityPageRoutingModule,
     ComponentsModule,
     PipesModule,
     ScrollingModule
   ],
-  declarations: [StandarActivityPage]
+  declarations: [StandardActivityPage]
 })
-export class StandarActivityPageModule {}
+export class StandardActivityPageModule {}

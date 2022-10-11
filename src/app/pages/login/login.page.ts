@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { UserDetails } from 'src/app/interfaces/userDetails';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { LoadingService } from 'src/app/services/loading.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
@@ -24,18 +25,19 @@ export class LoginPage implements OnInit,OnDestroy {
   public errorMessages = {
     email:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'maxlength', message: 'contenido maximo 50 caracteres'},
-      { type:'pattern', message: 'ingrese un email valido'}
+      { type:'maxlength', message: 'contenido máximo 50 caracteres'},
+      { type:'pattern', message: 'ingrese un email válido'}
     ],
     password:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'minlength', message: 'contenido minimo 6 caracteres'},
+      { type:'minlength', message: 'contenido mínimo 6 caracteres'},
     ]
   };
 
   constructor(private formBuilder: FormBuilder,
               private toastService: ToastService,
               private alertService: AlertService,
+              private loadingService: LoadingService,
               private authService: AuthService,
               private router: Router, private platform: Platform){}
 
@@ -77,17 +79,19 @@ export class LoginPage implements OnInit,OnDestroy {
   }
 
   /* iniciar sesion */
-  onSubmit(){
+  async onSubmit(){
     const email: string = this.loginForm.get('email')?.value;
     const password: string = this.loginForm.get('password')?.value;
     const remember: boolean = this.loginForm.get('remember')?.value;
+    await this.loadingService.showLoading();
     this.authService.login(email,password,remember).subscribe({
       next:() =>{
         this.authService.getUsernameLogged(email).subscribe({
           next:(details: UserDetails)=>{
+            this.loadingService.dismiss();
             if(details.is_tmp_pass){
               this.router.navigateByUrl('main/change/password');
-              this.alertService.showAlert('Actualiza tu contraseña','Ingrese como contraseña actual la recibida en su casilla de correo electronico',false);
+              this.alertService.showAlert('Actualiza tu contraseña','Ingrese como contraseña actual la recibida en su casilla de correo electrónico',false);
             }
             else{
               this.rememberEmail = this.authService.getRememberEmail();
@@ -100,6 +104,7 @@ export class LoginPage implements OnInit,OnDestroy {
         });
       },
       error:(e) =>{
+        this.loadingService.dismiss();
         if(e.status !== 0){
           this.toastService.showErrorMessage('email/contraseña incorrecta. Intente nuevamente');
         }

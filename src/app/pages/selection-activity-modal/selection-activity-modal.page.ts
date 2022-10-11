@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { Activity } from 'src/app/interfaces/activity';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { AlertService } from 'src/app/services/alert.service';
-import { NavigationService } from 'src/app/services/navigation.service';
 import { PopoverService } from 'src/app/services/popover.service';
 
 @Component({
@@ -15,25 +14,27 @@ import { PopoverService } from 'src/app/services/popover.service';
 export class SelectionActivityModalPage implements OnDestroy{
 
   @Input() activities: Activity[];
-  suscriptionBackButton: Subscription;
+  subscriptionBackButton: Subscription;
   searchValue = '';
   alphabeticalMap = [];
   lastCheckBox: IonCheckbox;
   selectedActivity: Activity = null;
 
-  constructor(private popoverService: PopoverService, private modalCtrl: ModalController, private activitiesService: ActivitiesService,
-              private alertService: AlertService,private navigationService: NavigationService, private platform: Platform){
-  }
+  constructor(private popoverService: PopoverService, 
+              private modalCtrl: ModalController, 
+              private activitiesService: ActivitiesService,
+              private alertService: AlertService,
+              private platform: Platform){}
+
   ngOnDestroy(): void {
-    this.suscriptionBackButton.unsubscribe();
+    this.subscriptionBackButton.unsubscribe();
   }
 
   ionViewWillEnter(){
     // ordenar alfabeticamente por nombre
-    console.log('view will enter');
     this.activitiesService.sortAlphabetically(this.activities);
     this.initAlphabeticalMap();
-    this.suscriptionBackButton =  this.platform.backButton.subscribeWithPriority(300,()=>{
+    this.subscriptionBackButton =  this.platform.backButton.subscribeWithPriority(300,()=>{
       this.back();
     });
   }
@@ -46,7 +47,7 @@ export class SelectionActivityModalPage implements OnDestroy{
 
   /* alert -> informacion extra de una actividad*/
   async presentAlert(activity: Activity){
-    const message = `tiempo estimado: ${activity.time} minuto/s`;
+    const message = `tiempo estimado: ${activity.time_minutes} minuto/s`;
     this.alertService.itemDescription(activity.name,activity.description,message);
   }
 

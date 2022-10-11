@@ -5,10 +5,9 @@ import * as CryptoJS from 'crypto-js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserDetails } from '../interfaces/userDetails';
-import { LoadingService } from './loading.service';
 
 const TOKEN = 'apiKey';
-const SECRET_KEY = 'Secrect Key for encryption of calculadora-app';
+const SECRET_KEY = 'Secret Key for encryption of calculator-app';
 const REGISTER_PATH = environment.API_URL + 'user/register';
 const USERNAME_PATH = environment.API_URL + 'user/getDetails';
 const RESET_PATH = environment.API_URL + 'user/reset';
@@ -63,7 +62,11 @@ export class AuthService {
   }
 
   login(email: string, password: string, remember: boolean ): Observable<any>{
-    return this.http.post<any>(LOGIN_PATH, {email,password},{observe:'response'})
+    const reqBody = {
+      email,
+      password
+    };
+    return this.http.post<any>(LOGIN_PATH, reqBody,{observe:'response'})
       .pipe(map((res:any) => { //mapea la respuesta http a la variable res
         const token = res.headers.get("Authorization");  
         // logueo exitoso

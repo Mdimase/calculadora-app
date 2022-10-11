@@ -1,10 +1,9 @@
 import { Component,Input, OnInit } from '@angular/core';
-import { IonInput, ModalController, Platform, RouterCustomEvent } from '@ionic/angular';
+import { IonInput, ModalController, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Activity } from 'src/app/interfaces/activity';
 import { AlertService } from 'src/app/services/alert.service';
 import { ModalService } from 'src/app/services/modal.service';
-import { NavigationService } from 'src/app/services/navigation.service';
 import { PopoverService } from 'src/app/services/popover.service';
 import { ToastService } from 'src/app/services/toast.service';
 
@@ -16,8 +15,8 @@ import { ToastService } from 'src/app/services/toast.service';
 export class SelectModalPage implements OnInit {
 
   @Input() activities: Activity[];
-  @Input() minutesObjetive: number;
-  suscriptionBackButton: Subscription;
+  @Input() minutesObjective: number;
+  subscriptionBackButton: Subscription;
   selectedMinutesActivities = 0;
   selectedActivities: Activity[] = [];
   selectPlaceholder = 'Agregar Actividad';
@@ -39,7 +38,6 @@ export class SelectModalPage implements OnInit {
               private modalService: ModalService,
               private alertService: AlertService,
               private toastService: ToastService,
-              private navigationService: NavigationService,
               private platform: Platform){}
 
 /*
@@ -53,14 +51,13 @@ export class SelectModalPage implements OnInit {
     //const width = this.platform.width();
     //this.toggleBreakpointMd(width);
     this.alertService.showAlert(this.customAlert.header,this.customAlert.message,false);
-    this.suscriptionBackButton = this.platform.backButton.subscribeWithPriority(200,async ()=>{
+    this.subscriptionBackButton = this.platform.backButton.subscribeWithPriority(200,async ()=>{
       await this.back();
     });
   }
 
   ionViewWillLeave(): void {
-    console.log('view will leave');
-    this.suscriptionBackButton.unsubscribe();
+    this.subscriptionBackButton.unsubscribe();
   }
 
   async back(){
@@ -72,11 +69,11 @@ export class SelectModalPage implements OnInit {
   async send(){
     let message = `las actividades seleccionadas <br> cumplen exitosamente <br> el tiempo deseado a virtualizar`;
     let dialog = '';
-    if(this.selectedMinutesActivities > this.minutesObjetive){
+    if(this.selectedMinutesActivities > this.minutesObjective){
       message = `las actividades seleccionadas <br> superan <br> el tiempo deseado a virtualizar`;
       dialog = 'confirmar el envio igualmente ?';
     }
-    if(this.minutesObjetive > this.selectedMinutesActivities){
+    if(this.minutesObjective > this.selectedMinutesActivities){
       message = `las actividades seleccionadas <br> no alcanzan <br> el tiempo deseado a virtualizar`;
       dialog = 'confirmar el envio igualmente ?';
     }
@@ -96,48 +93,29 @@ export class SelectModalPage implements OnInit {
      pero al volver a un tiempo inferior al objetivo se limpia el flag, por lo que al superlarlo nuevamente se vuelve a emitir la alerta
   */
   async timeExceeded(){
-    if(!this.timeExceedEmitted && this.selectedMinutesActivities > this.minutesObjetive && this.minutesObjetive !== 0){
+    if(!this.timeExceedEmitted && this.selectedMinutesActivities > this.minutesObjective && this.minutesObjective !== 0){
       const message = 'las actividades seleccionadas superan el tiempo deseado a virtualizar';
       this.timeExceedEmitted = true;
       await this.alertService.showErrorAlert('Tiempo Excedido',message,true);
     }
     else{
-      if(this.selectedMinutesActivities <= this.minutesObjetive){  //alert emitida y seleccion acumulada < tiempo objetivo
+      if(this.selectedMinutesActivities <= this.minutesObjective){  //alert emitida y seleccion acumulada < tiempo objetivo
         this.timeExceedEmitted = false;  // disponible para en caso de superar nuevamente el tiempo objetivo se vuelva a emitir la alerta
       }
     }
   }
 
-  /*
-  select(event){
-    if(event.target.value){
-      const activity: Activity = {
-        id: event.target.value.id,
-        name: event.target.value.name,
-        description: event.target.value.description,
-        time: event.target.value.time,
-        type: event.target.value.type,
-        amount: 1
-      };
-      this.selectedMinutesActivities += activity.time;
-      this.selectedActivities.push(activity);
-      this.timeExceeded();
-    }
-    event.target.value = undefined;
-  }
-*/
-
   remove(activity: Activity){
     const index = this.selectedActivities.indexOf(activity);
     this.selectedActivities.splice(index,1);  // eliminar actividad seleccionada
-    this.selectedMinutesActivities -= activity.time * activity.amount;  // restar el tiempo acumulado de esta actividad
+    this.selectedMinutesActivities -= activity.time_minutes * activity.amount;  // restar el tiempo acumulado de esta actividad
     this.timeExceeded();
   }
 
   increment(activity: Activity, input: IonInput){
     if(activity.amount < 1000){
       activity.amount++;
-      this.selectedMinutesActivities += activity.time;
+      this.selectedMinutesActivities += activity.time_minutes;
       input.value = Number(input.value)+1;
     }
     this.timeExceeded();
@@ -145,7 +123,7 @@ export class SelectModalPage implements OnInit {
 
   setAmount(activity: Activity, input: IonInput){
     const value = Number(input.value);
-    this.selectedMinutesActivities -= (activity.time * activity.amount);  // limpio tiempo anterior
+    this.selectedMinutesActivities -= (activity.time_minutes * activity.amount);  // limpio tiempo anterior
     if(value < 1000 && value > 0){
       activity.amount = value;
     }
@@ -156,14 +134,14 @@ export class SelectModalPage implements OnInit {
         this.toastService.showErrorMessage('ingrese un valor entre 1 y 1000');
       }
     }
-    this.selectedMinutesActivities += (activity.time * activity.amount);  // actualizo el tiempo acumulado
+    this.selectedMinutesActivities += (activity.time_minutes * activity.amount);  // actualizo el tiempo acumulado
     this.timeExceeded();
   }
 
   decrement(activity: Activity, input: IonInput){
     if(activity.amount > 1){
       activity.amount--;
-      this.selectedMinutesActivities -= activity.time;
+      this.selectedMinutesActivities -= activity.time_minutes;
       input.value = Number(input.value)-1;
     }
     this.timeExceeded();
@@ -173,7 +151,7 @@ export class SelectModalPage implements OnInit {
     const activity: Activity = await this.modalService.openSelectionActivityModalPage(this.activities);
     if(activity != null){
       activity.amount = 1;
-      this.selectedMinutesActivities += activity.time;
+      this.selectedMinutesActivities += activity.time_minutes;
       this.selectedActivities.push(activity);
       this.timeExceeded();
     }

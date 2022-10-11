@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { Activity, Type } from '../interfaces/activity';
+import { Activity} from '../interfaces/activity';
 import { ActivitiesService } from './activities.service';
 
 @Injectable({
@@ -49,8 +49,8 @@ export class AlertService {
           id:0,
           name: r.data.name,
           description: r.data.description,
-          time: r.data.time,
-          type: Type.custom
+          time_minutes: r.data.time,
+          custom: true
         };
       }
     });
@@ -62,15 +62,15 @@ export class AlertService {
   finalmente retorna los valores ingresados en una promesa de activity o null si presiona cancelar */
   async editForm(currentActivity: Activity) {
     let newActivity: Activity = null;
-    await this.initAlertForm('Editar Actividad',currentActivity.name,currentActivity.time.toString(),currentActivity.description)
+    await this.initAlertForm('Editar Actividad',currentActivity.name,currentActivity.time_minutes.toString(),currentActivity.description)
       .then((r)=> {
         if(r.role !== 'Cancel'){
           newActivity = {
             id:currentActivity.id,
             name: r.data.name,
             description: r.data.description,
-            time: r.data.time,
-            type: Type.custom
+            time_minutes: r.data.time,
+            custom:true
           };
         }
       });

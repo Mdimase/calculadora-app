@@ -3,8 +3,8 @@
   <ion-icon name="help-circle-sharp" slot="end" class="icon-help" (click)="showPopover($event)"></ion-icon>
 </app-header-back>
 
-<ion-label class="text-end" [ngClass]="{'text-danger': selectedMinutesActivities > minutesObjetive}">
-  {{selectedMinutesActivities | time}}{{" / "}}{{minutesObjetive | time}}
+<ion-label class="text-end" [ngClass]="{'text-danger': selectedMinutesActivities > minutesObjective}">
+  {{selectedMinutesActivities | time}}{{" / "}}{{minutesObjective | time}}
 </ion-label>
 
 <ion-content>
@@ -12,7 +12,7 @@
   <ion-list lines="none" mode="md">
     <ion-item *ngFor="let activity of selectedActivities">
       <div class="flex">
-        <ion-label class="full-width ion-text-wrap">{{ activity.name + " (" +activity.time + "min)"}}</ion-label>
+        <ion-label class="full-width ion-text-wrap">{{ activity.name + " (" +activity.time_minutes + "min)"}}</ion-label>
         <div class="buttons-container">
           <div class="ion-buttons">
             <ion-button color="transparent" (click)="decrement(activity,input)" [disabled]="activity.amount <= 1">

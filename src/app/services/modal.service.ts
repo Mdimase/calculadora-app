@@ -13,11 +13,11 @@ export class ModalService {
   constructor(private modalController: ModalController){}
 
   /* modal pirmario de estimacion donde se indican los cuantificadores de las actividades seleccionadas */
-  async openSelectModalPage(activities: Activity[], minutesObjetive: number): Promise<Activity[]>{
+  async openSelectModalPage(activities: Activity[], minutesObjective: number): Promise<Activity[]>{
     this.initSelectedActivities(activities);
     const modal = await this.modalController.create({
       component: SelectModalPage,
-      componentProps:{activities, minutesObjetive},
+      componentProps:{activities, minutesObjective},
       cssClass:'fullscreen'
     });
     modal.present();

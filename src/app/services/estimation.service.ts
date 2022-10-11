@@ -1,10 +1,14 @@
 /* eslint-disable max-len */
 import { DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Activity, Type } from '../interfaces/activity';
+import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { Activity} from '../interfaces/activity';
 import { Estimation } from '../interfaces/estimation';
-import { ActivitiesService } from './activities.service';
+
+const ESTIMATIONS_PATH = environment.API_URL + 'estimations';
 
 @Injectable({
   providedIn: 'root'
@@ -16,21 +20,21 @@ export class EstimationService {
   private estimations: Estimation[] = [];
   private estimations$: BehaviorSubject<Estimation[]> = new BehaviorSubject<Estimation[]>(this.estimations);
 
-  constructor(private activitiesService: ActivitiesService){}
+  constructor(private http: HttpClient){}
 
   getEstimations$(): Observable<Estimation[]>{
     if(this.estimations.length === 0){
       this.estimations = [
         {id:1,institute:'UNNOBA',subject:'IPI',year:2022,period:'1er cuatrimestre',workload:20,percent:50,dateCreation:this.today,estimatedTime:500,
         activities:[
-          {id:1,name:'Lectura libro (1 pag)',description:'lectura de texto en formato paginas (libros, informes, artículos de investigación, documentos, etc)',time:3, type:Type.standard, amount:25},
-          {id:7,name:'Encuentro sincronico (meeting)', description:'clase sincrónica mediante una plataforma de meeting',time:30, type:Type.standard, amount:3},
-          {id:4,name:'Cuestionario tiempo definido', description:'cuestionario de preguntas con un tiempo establecido manualmente',time:1, type:Type.standard, amount:90},
-          {id:2,name:'Reproducción contenido audiovisual', description:'interacción con contenido multimedia (audios, podcast, videos, etc) ',time:1, type:Type.standard, amount:45},
-          {id:3,name:'Intervencion en foro', description:'interacción en un foro (publicación de información, debate con compañeros, lectura de opiniones, etc)',time:20, type:Type.standard, amount:1},
-          {id:1,name:'Lectura libro (1 pag)',description:'lectura de texto en formato paginas (libros, informes, artículos de investigación, documentos, etc)',time:3, type:Type.standard, amount:43},
-          {id:5,name:'Cuestionario multiple choice (1 pregunta)', description:'preguntas de opción múltiple estilo test (respuestas rápidas y concretas)',time:3, type:Type.standard, amount:10},
-          {id:2,name:'Reproducción contenido audiovisual', description:'interacción con contenido multimedia (audios, podcast, videos, etc) ',time:1, type:Type.standard, amount:21},
+          {id:1,name:'Lectura libro (1 pag)',description:'lectura de texto en formato paginas (libros, informes, artículos de investigación, documentos, etc)',time_minutes:3, custom:false, amount:25},
+          {id:7,name:'Encuentro sincronico (meeting)', description:'clase sincrónica mediante una plataforma de meeting',time_minutes:30, custom:false, amount:3},
+          {id:4,name:'Cuestionario tiempo definido', description:'cuestionario de preguntas con un tiempo establecido manualmente',time_minutes:1, custom:false, amount:90},
+          {id:2,name:'Reproducción contenido audiovisual', description:'interacción con contenido multimedia (audios, podcast, videos, etc) ',time_minutes:1, custom:false, amount:45},
+          {id:3,name:'Intervencion en foro', description:'interacción en un foro (publicación de información, debate con compañeros, lectura de opiniones, etc)',time_minutes:20, custom:false, amount:1},
+          {id:1,name:'Lectura libro (1 pag)',description:'lectura de texto en formato paginas (libros, informes, artículos de investigación, documentos, etc)',time_minutes:3, custom:false, amount:43},
+          {id:5,name:'Cuestionario multiple choice (1 pregunta)', description:'preguntas de opción múltiple estilo test (respuestas rápidas y concretas)',time_minutes:3, custom:false, amount:10},
+          {id:2,name:'Reproducción contenido audiovisual', description:'interacción con contenido multimedia (audios, podcast, videos, etc) ',time_minutes:1, custom:false, amount:21},
         ]}
       ];
       //peticion http + actualizacion de this.estimations
@@ -44,13 +48,28 @@ export class EstimationService {
     this.estimations$.next(this.estimations);
   }
 
-  addEstimation(estimation: Estimation): void{
-    // peticion http
-    // const ids: number[] = this.activitiesService.getIds(estimation.activities);
-    estimation.id = this.estimations[this.estimations.length - 1].id + 1;  // simular creacion del id
-    estimation.dateCreation = this.today;  //quizas lo genera el backend
-    this.estimations.push(estimation);  //actualizacion del arreglo
-    this.estimations$.next(this.estimations);  // notificacion a los subcriptos
+  addEstimation(estimation: Estimation): Observable<Estimation>{
+    const reqBody = {
+      institute: estimation.institute,
+      subject: estimation.subject,
+      workload_hs: estimation.workload,
+      estimation_time_min: estimation.estimatedTime,
+      virtualization_perc:estimation.percent,
+      lective_period: estimation.period,
+      year: estimation.year
+    }
+    return this.http.post<any>(ESTIMATIONS_PATH,reqBody)
+      .pipe(map((res)=>{
+        estimation.id = res.id;
+        estimation.dateCreation = res.creation;
+        return estimation;
+      }));
+    //this.estimations.push(estimation);  //actualizacion del arreglo
+    //this.estimations$.next(this.estimations);  // notificacion a los subcriptos
+  }
+
+  setActivities(activities: Activity[]){
+    
   }
 
   deleteEstimation(estimation: Estimation){
@@ -73,7 +92,7 @@ export class EstimationService {
   getMinutesSelected(activities: Activity[]): number{
     let selectedMinutesActivities = 0;  // sumatoria de la carga horaria de las actividades seleccionadas (minutos)
     activities.map(a =>{
-      selectedMinutesActivities += (a.time * a.amount);
+      selectedMinutesActivities += (a.time_minutes * a.amount);
     });
     return selectedMinutesActivities;
   }

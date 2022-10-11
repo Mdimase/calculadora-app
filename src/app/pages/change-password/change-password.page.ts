@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn,
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
+import { LoadingService } from 'src/app/services/loading.service';
 import { NavigationService } from 'src/app/services/navigation.service';
 import { ToastService } from 'src/app/services/toast.service';
 
@@ -29,6 +30,7 @@ export class ChangePasswordPage implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
               private toastService: ToastService,
+              private loadingService: LoadingService,
               private router: Router,private navigationService: NavigationService ,private platform: Platform){}
 
   ngOnInit() {
@@ -49,16 +51,19 @@ export class ChangePasswordPage implements OnInit {
     return field.hasError(error.type) && (field.dirty || field.touched);
   }
 
-  onSubmit(){
+  async onSubmit(){
     const currentPassword: string = this.changePasswordForm.get('current')?.value;
     const newPassword: string = this.changePasswordForm.get('password')?.value;
+    await this.loadingService.showLoading();
     this.authService.changePassword(currentPassword,newPassword).subscribe({
       next: ()=>{
+        this.loadingService.dismiss();
         this.toastService.showMessage('Cambio de contraseña exitoso');
         this.authService.logout();
         this.router.navigate(['login']);
       },
       error: (e)=>{
+        this.loadingService.dismiss();
         if(e.status !== 0){
           this.toastService.showErrorMessage('contraseña actual incorrecta. Intente nuevamente');
         }

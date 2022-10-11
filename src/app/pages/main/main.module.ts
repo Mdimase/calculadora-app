@@ -12,7 +12,7 @@ import { HomePageModule } from '../home/home.module';
 import { EstimationHistoryPageModule } from '../estimation-history/estimation-history.module';
 import { CustomActivityPageModule } from '../custom-activity/custom-activity.module';
 import { EstimationPageModule } from '../estimation/estimation.module';
-import { StandarActivityPageModule } from '../standar-activity/standar-activity.module';
+import { StandardActivityPageModule } from '../standard-activity/standard-activity.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { SelectModalPageModule } from '../select-modal/select-modal.module';
 import { ActivitiesEstimationModalPageModule } from '../activities-estimation-modal/activities-estimation-modal.module';
@@ -29,7 +29,7 @@ import { SelectionActivityModalPageModule } from '../selection-activity-modal/se
     EstimationHistoryPageModule,
     CustomActivityPageModule,
     EstimationPageModule,
-    StandarActivityPageModule,
+    StandardActivityPageModule,
     PipesModule,
     MainPageRoutingModule,
     SelectModalPageModule,

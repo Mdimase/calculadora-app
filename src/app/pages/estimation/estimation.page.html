@@ -81,8 +81,8 @@
           </ion-label>
         </ion-item>
   
-        <ion-item [ngClass]="{'text-danger': selectedMinutesActivities > minutesObjetive}">
-          <ion-label slot="end">{{selectedMinutesActivities | time}}{{" / "}}{{minutesObjetive | time}}</ion-label>
+        <ion-item [ngClass]="{'text-danger': selectedMinutesActivities > minutesObjective}">
+          <ion-label slot="end">{{selectedMinutesActivities | time}}{{" / "}}{{minutesObjective | time}}</ion-label>
         </ion-item>
         <div class="button-container">
           <ion-button shape="round" class="color-gradient" [disabled]="estimationForm.invalid" type="submit">Enviar</ion-button>

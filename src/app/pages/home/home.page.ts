@@ -12,12 +12,12 @@ import { PopoverService } from 'src/app/services/popover.service';
 export class HomePage{
 
   items = [
-    { title: 'Actividades Estandar', url: '/main/standar/activity', icon: 'albums',
-    description: 'Consulta informacion sobre actividades academicas comumente utilizadas en plataformas de aprendizaje virtual'},
+    { title: 'Actividades Estándar', url: '/main/standard/activity', icon: 'albums',
+    description: 'Consulta información sobre actividades académicas comúnmente utilizadas en plataformas de aprendizaje virtual'},
     { title: 'Actividades Personalizadas', url: '/main/custom/activity', icon: 'heart',
-    description: 'Crea, edita o elimina tus propias actividades academicas virtuales'},
-    { title: 'Estimacion', url: '/main/estimation', icon: 'calculator',
-    description: 'Estima la duracion de las actividades academicas virtuales que componen su plan'},
+    description: 'Crea, edita o elimina tus propias actividades académicas virtuales'},
+    { title: 'Estimación', url: '/main/estimation', icon: 'calculator',
+    description: 'Estima la duración de las actividades académicas virtuales que componen tú plan'},
     { title: 'Historial', url: '/main/history', icon: 'archive',
     description: 'Consulta el historial de estimaciones realizadas'}
   ];
@@ -29,7 +29,7 @@ export class HomePage{
 
   /* popover info*/
   async showPopover(event: any){
-    const message = 'Principales servicios de la aplicacion';
+    const message = 'Principales servicios de la aplicación';
     this.popoverService.simpleMessage(message,event);
   }
 
