@@ -8,7 +8,7 @@ import { ActivitiesService } from './activities.service';
 })
 export class AlertService {
 
-  constructor(private alertController: AlertController, private activitiesService: ActivitiesService){}
+  constructor(private alertController: AlertController){}
 
   /* alerta informativa con los datos de una actividad */
   async itemDescription(header: string, subHeader: string, message: string){
@@ -49,7 +49,7 @@ export class AlertService {
           id:0,
           name: r.data.name,
           description: r.data.description,
-          time_minutes: r.data.time,
+          timeMinutes: r.data.time,
           custom: true
         };
       }
@@ -62,14 +62,14 @@ export class AlertService {
   finalmente retorna los valores ingresados en una promesa de activity o null si presiona cancelar */
   async editForm(currentActivity: Activity) {
     let newActivity: Activity = null;
-    await this.initAlertForm('Editar Actividad',currentActivity.name,currentActivity.time_minutes.toString(),currentActivity.description)
+    await this.initAlertForm('Editar Actividad',currentActivity.name,currentActivity.timeMinutes.toString(),currentActivity.description)
       .then((r)=> {
         if(r.role !== 'Cancel'){
           newActivity = {
             id:currentActivity.id,
             name: r.data.name,
             description: r.data.description,
-            time_minutes: r.data.time,
+            timeMinutes: r.data.time,
             custom:true
           };
         }
@@ -77,22 +77,19 @@ export class AlertService {
       return newActivity;
   }
 
-  /* back button hardware close alert input previous redirection*/
-  async hideAlert(){
-    try {
-      const element = await this.alertController.getTop();
-      if (element) {
-          element.dismiss();
-          return true;
-      }
-      else{
-        return false;
-      }
-  } catch (error) {
-    throw new error('can\'t hide alert');
+  // cerrar la alerta actual
+  async hideAlert(): Promise<boolean>{
+    const element = await this.alertController.getTop();
+    if (element) {
+      element.dismiss();
+        return true;
+    }
+    else{
+      return false;
+    }
   }
-  }
-
+  
+  // alerta basica con posible autodismiss tras 8s
   async showAlert(title: string ,message: string, autoDismiss: boolean){
     const alert = await this.alertController.create({
       header:title,
@@ -107,6 +104,7 @@ export class AlertService {
     }
   }
 
+  // alerta de error
   async showErrorAlert(title: string ,message: string, autoDismiss: boolean){
     const alert = await this.alertController.create({
       header:title + ' !',
@@ -122,25 +120,23 @@ export class AlertService {
   }
 
   /* inserta los mensajes de error en el dom debajo del correspondiente input */
+  // utilizado en las validaciones  del input alert
   private showError(alert, position: number, message: string) {
     if (!alert.getElementsByClassName('validation-errors').length) {
       const input = alert.getElementsByTagName('input')[position];
-
       const validationErrors = document.createElement('div');
       validationErrors.className = 'validation-errors';
       validationErrors.id = 'validation-errors';
-
       const errorMessage = document.createElement('small');
       errorMessage.classList.add('error-message');
       errorMessage.textContent = message;
-
       validationErrors.appendChild(errorMessage);
-
       input.insertAdjacentElement('afterend', validationErrors);
     }
   }
 
   /* quita del dom el error correspondiente */
+  // utilizado en las validaciones  del input alert
   private hideError() {
     const element = document.getElementById('validation-errors');
     if (element) {
@@ -148,10 +144,11 @@ export class AlertService {
     }
   }
 
+  // formulario de add / edit activity utilizado dentro de un alert
   private async initAlertForm(header: string, name: string = '', time: string = '', description: string = '') {
     const alert = await this.alertController.create({
       header,
-      subHeader:'crea tu propia actividad',
+      subHeader:'Crea tu propia actividad',
       backdropDismiss: false,
       mode: 'ios',
       cssClass: '',
@@ -176,8 +173,8 @@ export class AlertService {
         {
           type: 'textarea',
           name: 'description',
-          label: 'Descripcion',
-          placeholder: 'Descripcion',
+          label: 'Descripción',
+          placeholder: 'Descripción',
           value:description,
           attributes: {
             maxlength: 255,
@@ -193,6 +190,7 @@ export class AlertService {
         },
         {
           text: 'Enviar',
+          role: 'Confirm',
           cssClass:'alert-button-send',
           handler: (formData: { name: string; time: string; description: string }) => {
             if(!formData.name) {
@@ -210,7 +208,7 @@ export class AlertService {
               this.hideError();
             }
             if(Number(formData.time) < 0){
-              this.showError(alert,1,'valor minimo 0');
+              this.showError(alert,1,'valor mínimo 0');
               return false;
             }
             else{

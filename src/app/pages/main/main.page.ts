@@ -16,6 +16,7 @@ export class MainPage implements OnDestroy {
   username: string;
   subscriptionBackButton: Subscription;
 
+  // opciones del menu lateral
   public menuPages = [
     { title: 'Inicio', url: '/main/home', icon: 'home' },
     { title: 'Estimación', url: '/main/estimation', icon: 'calculator' },
@@ -24,16 +25,19 @@ export class MainPage implements OnDestroy {
     { title: 'Historial', url: '/main/history', icon: 'archive' }
   ];
 
-  constructor(private router: Router,
-              private platform: Platform,
-              private navigationService: NavigationService,
-              private authService: AuthService){}
+  constructor(
+    private router: Router,
+    private platform: Platform,
+    private navigationService: NavigationService,
+    private authService: AuthService
+  ){}
 
   ionViewWillEnter(){
+    // email y username del usuario logueado para mostrar en el menu lateral
     this.email = this.authService.getEmail();
     this.username = this.authService.getUsername();
+    // hardware back button android
     this.subscriptionBackButton = this.platform.backButton.subscribeWithPriority(10,async ()=>{
-      console.log(this.platform.backButton.observers.length);
       this.navigationService.back();
     });
   }
@@ -45,11 +49,11 @@ export class MainPage implements OnDestroy {
   logout(){
     this.authService.logout();
     this.navigationService.clear();
-    this.router.navigate(['login']);
+    this.router.navigateByUrl('login');
   }
 
   changePassword(){
-    this.router.navigate(['/main/change/password']);
+    this.router.navigateByUrl('/main/change/password');
   }
 
 }

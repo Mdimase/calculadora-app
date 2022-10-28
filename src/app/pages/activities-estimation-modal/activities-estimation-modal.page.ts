@@ -1,10 +1,9 @@
 import { Component, Input} from '@angular/core';
-import { ModalController, Platform } from '@ionic/angular';
+import { ModalController} from '@ionic/angular';
 import { Activity } from 'src/app/interfaces/activity';
 import { TimePipe } from 'src/app/pipes/time.pipe';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { AlertService } from 'src/app/services/alert.service';
-import { NavigationService } from 'src/app/services/navigation.service';
 import { PopoverService } from 'src/app/services/popover.service';
 
 @Component({
@@ -19,42 +18,28 @@ export class ActivitiesEstimationModalPage{
   searchValue = '';
   alphabeticalMap = [];
 
-  constructor(private popoverService: PopoverService,
+  constructor(
+    private popoverService: PopoverService,
     private alertService: AlertService,
     private activitiesService: ActivitiesService,
-    private modalCtrl: ModalController,
-    private platform: Platform, private navigationService: NavigationService){}
+    private modalCtrl: ModalController
+  ){}
 
   ionViewWillEnter(): void{
-    // ordenar alfabeticamente por nombre
-    this.activitiesService.sortAlphabetically(this.activities);
-    this.initAlphabeticalMap();
-  }
-
-  initAlphabeticalMap(): void{
-    this.alphabeticalMap = [];
-    let last: string = null;
-    this.activities.forEach((a)=>{
-      const activity = a;
-      if(!last || last.toLowerCase() !== activity.name[0].toLowerCase()){
-        last = activity.name[0];
-        this.alphabeticalMap.push({letter: last, activities:[]});
-      }
-      this.alphabeticalMap[this.alphabeticalMap.length - 1].activities.push(activity);
-    });
+    this.activitiesService.sortAlphabetically(this.activities); // ordenar alfabeticamente por nombre
+    this.alphabeticalMap = this.activitiesService.initAlphabeticalMap(this.activities);  // actividades agrupadas la inicial de su nombre
   }
 
   /* popover info page*/
   async showPopover(event: any){
-    const message = 'listado de actividades seleccionadas en la estimacion';
+    const message = 'Listado de actividades seleccionadas en la estimación';
     this.popoverService.simpleMessage(message,event);
   }
 
   /* alert -> informacion extra de una actividad*/
   async presentAlert(activity: Activity){
-    //await this.alertService.itemDescription(activity);
-    const message = `tiempo estimado: ${this.timePipe.transform(activity.time_minutes)} <br><br> cantidad seleccionada: ${activity.amount} 
-    <br><br> tiempo total: ${this.timePipe.transform(activity.time_minutes * activity.amount)}`;
+    const message = `Tiempo estimado: ${this.timePipe.transform(activity.timeMinutes)} <br><br> Cantidad seleccionada: ${activity.amount} 
+    <br><br> Tiempo total: ${this.timePipe.transform(activity.timeMinutes * activity.amount)}`;
     await this.alertService.itemDescription(activity.name,activity.description,message);
   }
 
@@ -63,6 +48,7 @@ export class ActivitiesEstimationModalPage{
     this.searchValue = event.detail.value;
   }
 
+  // cancelar el modal sin retorno
   back(){
     return this.modalCtrl.dismiss([], 'cancel');
   }

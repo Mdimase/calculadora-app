@@ -3,14 +3,13 @@ import { PopoverController } from '@ionic/angular';
 import { PopoverEditOptionsComponent } from '../components/popover-edit-options/popover-edit-options.component';
 import { PopoverHelpIconComponent } from '../components/popover-help-icon/popover-help-icon.component';
 import { Activity } from '../interfaces/activity';
-import { ActivitiesService } from './activities.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PopoverService {
 
-  constructor(private popoverController: PopoverController, private activitiesService: ActivitiesService){}
+  constructor(private popoverController: PopoverController){}
 
   /* mensaje simple unicamente de texto */
   async simpleMessage(message: string, event: any){

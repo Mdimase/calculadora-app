@@ -1,4 +1,4 @@
-<app-header [title]="'Estimacion'">
+<app-header [title]="'Estimación'">
   <ion-icon name="help-circle-sharp" slot="end" class="icon-help" (click)="showPopover($event)"></ion-icon>
 </app-header>
 
@@ -8,7 +8,7 @@
       <form [formGroup]="estimationForm" novalidate (ngSubmit)="onSubmit()" #form>
         <ion-item counter="true">
           <ion-icon slot="start" name="business"></ion-icon>
-          <ion-label position="floating">Institucion</ion-label>
+          <ion-label position="floating">Institución</ion-label>
           <ion-input inputmode="text" formControlName="institute" maxlength="255"></ion-input>
           <div class="error-message" *ngFor="let error of errorMessages.institute">
             <ng-container *ngIf="isInvalid('institute',error)">
@@ -16,7 +16,7 @@
             </ng-container>
           </div>
         </ion-item>
-  
+
         <ion-item counter="true">
           <ion-icon slot="start" name="library"></ion-icon>
           <ion-label position="floating">Materia</ion-label>
@@ -27,10 +27,10 @@
             </ng-container>
           </div>
         </ion-item>
-  
+
         <ion-item>
           <ion-icon slot="start" name="calendar-number"></ion-icon>
-          <ion-label position="floating">Año Academico</ion-label>
+          <ion-label position="floating">Año Académico</ion-label>
           <ion-input inputmode="numeric" type="number" formControlName="year"></ion-input>
           <div class="error-message" *ngFor="let error of errorMessages.year">
             <ng-container *ngIf="isInvalid('year',error)">
@@ -38,9 +38,9 @@
             </ng-container>
           </div>
         </ion-item>
-  
+
         <ion-item>
-          <ion-select placeholder="Seleccionar Periodo Lectivo" formControlName="period" cancelText="Cancelar"
+          <ion-select placeholder="Seleccionar período lectivo" formControlName="period" cancelText="Cancelar"
             okText="Confirmar">
             <ion-select-option *ngFor="let period of period" [value]="period">{{period}}</ion-select-option>
           </ion-select>
@@ -50,45 +50,52 @@
             </ng-container>
           </div>
         </ion-item>
-  
+
         <ion-item>
           <ion-icon slot="start" name="time"></ion-icon>
           <ion-label position="floating">Carga Horaria (Hs)</ion-label>
-          <ion-input debounce="500" inputmode="numeric" type="number" formControlName="workload" (ionChange)="handle()"></ion-input>
-          <ion-icon slot="end" name="information-circle-outline" id="icon-end" (click)="showPopoverInputWorkload($event)"></ion-icon>
-          <div class="error-message" *ngFor="let error of errorMessages.workload">
-            <ng-container *ngIf="isInvalid('workload',error)">
+          <ion-input debounce="500" inputmode="numeric" type="number" formControlName="workloadHs"
+            (ionChange)="handle()">
+          </ion-input>
+          <ion-icon slot="end" name="information-circle-outline" id="icon-end"
+            (click)="showPopoverInputWorkload($event)"></ion-icon>
+          <div class="error-message" *ngFor="let error of errorMessages.workloadHs">
+            <ng-container *ngIf="isInvalid('workloadHs',error)">
               <small>{{error.message}}</small>
             </ng-container>
           </div>
         </ion-item>
-  
+
         <ion-item>
           <ion-icon slot="start" name="calculator"></ion-icon>
-          <ion-label position="floating">Virtualizacion %</ion-label>
-          <ion-input debounce="500" inputmode="numeric" type="number" formControlName="percent" (ionChange)="handle()"></ion-input>
-          <ion-icon slot="end" name="information-circle-outline" id="icon-end" (click)="showPopoverInputVirtualization($event)"></ion-icon>
-          <div class="error-message" *ngFor="let error of errorMessages.percent">
-            <ng-container *ngIf="isInvalid('percent',error)">
+          <ion-label position="floating">Virtualización %</ion-label>
+          <ion-input debounce="500" inputmode="numeric" type="number" formControlName="virtualizationPercent"
+            (ionChange)="handle()">
+          </ion-input>
+          <ion-icon slot="end" name="information-circle-outline" id="icon-end"
+            (click)="showPopoverInputVirtualization($event)"></ion-icon>
+          <div class="error-message" *ngFor="let error of errorMessages.virtualizationPercent">
+            <ng-container *ngIf="isInvalid('virtualizationPercent',error)">
               <small>{{error.message}}</small>
             </ng-container>
           </div>
         </ion-item>
-  
+
         <ion-item detail>
           <ion-label>
             <a (click)="showSelectModal()">Seleccionar Actividades</a>
           </ion-label>
         </ion-item>
-  
+
         <ion-item [ngClass]="{'text-danger': selectedMinutesActivities > minutesObjective}">
           <ion-label slot="end">{{selectedMinutesActivities | time}}{{" / "}}{{minutesObjective | time}}</ion-label>
         </ion-item>
         <div class="button-container">
-          <ion-button shape="round" class="color-gradient" [disabled]="estimationForm.invalid" type="submit">Enviar</ion-button>
+          <ion-button shape="round" class="color-gradient" [disabled]="estimationForm.invalid" type="submit">Enviar
+          </ion-button>
         </div>
       </form>
     </ion-list>
   </div>
-  
+
 </ion-content>

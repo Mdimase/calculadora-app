@@ -8,6 +8,7 @@ export class ToastService {
 
   constructor(private toastController: ToastController){}
 
+  // blue bottom message
   async showMessage(message: string){
     const toast = await this.toastController.create({
       icon:'checkmark-done',
@@ -21,6 +22,7 @@ export class ToastService {
     toast.present();
   }
 
+  // red top message
   async showErrorMessage(message: string){
     const toast = await this.toastController.create({
       icon:'alert-done',
@@ -34,6 +36,7 @@ export class ToastService {
     toast.present();
   }
 
+  // blue top message
   async showWelcomeMessage(message: string){
     const toast = await this.toastController.create({
       message,

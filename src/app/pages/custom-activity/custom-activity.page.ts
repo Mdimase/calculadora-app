@@ -24,14 +24,18 @@ export class CustomActivityPage implements OnDestroy {
   private subscription: Subscription;
   private subscriptionBackButton: Subscription;
 
-  constructor(private popoverService: PopoverService,
-              private alertService: AlertService,
-              private loadingService: LoadingService,
-              private activitiesService: ActivitiesService,
-              private toastService: ToastService, private platform: Platform, private navigationService: NavigationService){
-              }
+  constructor(
+    private popoverService: PopoverService,
+    private alertService: AlertService,
+    private loadingService: LoadingService,
+    private activitiesService: ActivitiesService,
+    private toastService: ToastService,
+    private platform: Platform,
+    private navigationService: NavigationService
+  ){}
 
   async ionViewWillEnter(): Promise<void>{
+    /* hardware back button android*/
     this.subscriptionBackButton =  this.platform.backButton.subscribeWithPriority(10,async ()=>{
       await this.alertService.hideAlert().then((res)=>{
         if(!res){
@@ -44,9 +48,8 @@ export class CustomActivityPage implements OnDestroy {
       next:(activities: Activity[]) =>{
         this.loadingService.dismiss();
         this.activities = activities;
-        // ordenar alfabeticamente por nombre
         this.activitiesService.sortAlphabetically(this.activities);
-        this.initAlphabeticalMap();
+        this.alphabeticalMap = this.activitiesService.initAlphabeticalMap(this.activities);
       }
     });
     this.activitiesService.getActivitiesCustom();
@@ -57,28 +60,15 @@ export class CustomActivityPage implements OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  initAlphabeticalMap(): void{
-    this.alphabeticalMap = [];
-    let last: string = null;
-    this.activities.forEach((a)=>{
-      const activity = a;
-      if(!last || last.toLowerCase() !== activity.name[0].toLowerCase()){
-        last = activity.name[0];
-        this.alphabeticalMap.push({letter: last, activities:[]});
-      }
-      this.alphabeticalMap[this.alphabeticalMap.length - 1].activities.push(activity);
-    });
-  }
-
   /* popover info*/
   async showPopover(event: any){
-    const message = 'actividades academicas creadas por el usuario';
+    const message = 'actividades académicas creadas por el usuario';
     this.popoverService.simpleMessage(message,event);
   }
 
   /* alert -> informacion extra de una actividad*/
   async presentAlert(activity: Activity){
-    const message = `tiempo estimado: ${this.timePipe.transform(activity.time_minutes)}`;
+    const message = `Tiempo estimado: ${this.timePipe.transform(activity.timeMinutes)}`;
     this.alertService.itemDescription(activity.name,activity.description,message);
   }
 
@@ -120,5 +110,5 @@ export class CustomActivityPage implements OnDestroy {
       }
     });
   }
-
+  
 }

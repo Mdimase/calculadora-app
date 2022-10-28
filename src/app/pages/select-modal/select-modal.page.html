@@ -12,7 +12,8 @@
   <ion-list lines="none" mode="md">
     <ion-item *ngFor="let activity of selectedActivities">
       <div class="flex">
-        <ion-label class="full-width ion-text-wrap">{{ activity.name + " (" +activity.time_minutes + "min)"}}</ion-label>
+        <ion-label class="full-width ion-text-wrap">{{ activity.name + " (" +activity.timeMinutes + "min)"}}
+        </ion-label>
         <div class="buttons-container">
           <div class="ion-buttons">
             <ion-button color="transparent" (click)="decrement(activity,input)" [disabled]="activity.amount <= 1">
@@ -43,8 +44,10 @@
 </ion-content>
 
 <ion-buttons class="center">
-  <ion-button mode="md" expand="block" fill="outline" shape="round" color="danger" class="ion-padding-end size-14" (click)="back()">
+  <ion-button mode="md" expand="block" fill="outline" shape="round" color="danger" class="ion-padding-end size-14"
+    (click)="back()">
     Cancelar</ion-button>
-  <ion-button mode="md" expand="block" fill="outline" shape="round" class="ion-padding-start color-gradient size-14" (click)="send()">
+  <ion-button mode="md" expand="block" fill="outline" shape="round" class="ion-padding-start color-gradient size-14"
+    (click)="send()">
     Confirmar</ion-button>
 </ion-buttons>

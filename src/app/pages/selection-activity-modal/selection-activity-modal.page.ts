@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy} from '@angular/core';
 import { IonCheckbox, ModalController, Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Activity } from 'src/app/interfaces/activity';
+import { TimePipe } from 'src/app/pipes/time.pipe';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { AlertService } from 'src/app/services/alert.service';
 import { PopoverService } from 'src/app/services/popover.service';
@@ -19,21 +20,23 @@ export class SelectionActivityModalPage implements OnDestroy{
   alphabeticalMap = [];
   lastCheckBox: IonCheckbox;
   selectedActivity: Activity = null;
+  timePipe = new TimePipe();
 
-  constructor(private popoverService: PopoverService, 
-              private modalCtrl: ModalController, 
-              private activitiesService: ActivitiesService,
-              private alertService: AlertService,
-              private platform: Platform){}
+  constructor(
+    private popoverService: PopoverService, 
+    private modalCtrl: ModalController, 
+    private activitiesService: ActivitiesService,
+    private alertService: AlertService,
+    private platform: Platform
+  ){}
 
   ngOnDestroy(): void {
     this.subscriptionBackButton.unsubscribe();
   }
 
   ionViewWillEnter(){
-    // ordenar alfabeticamente por nombre
     this.activitiesService.sortAlphabetically(this.activities);
-    this.initAlphabeticalMap();
+    this.alphabeticalMap = this.activitiesService.initAlphabeticalMap(this.activities);
     this.subscriptionBackButton =  this.platform.backButton.subscribeWithPriority(300,()=>{
       this.back();
     });
@@ -41,13 +44,13 @@ export class SelectionActivityModalPage implements OnDestroy{
 
    /* popover info page*/
    async showPopover(event: any){
-    const message = 'Selecciona una actividad para incorporarla a tu plan academico';
+    const message = 'Selecciona una actividad para incorporarla a tu plan académico';
     this.popoverService.simpleMessage(message,event);
   }
 
   /* alert -> informacion extra de una actividad*/
   async presentAlert(activity: Activity){
-    const message = `tiempo estimado: ${activity.time_minutes} minuto/s`;
+    const message = `Tiempo estimado: ${this.timePipe.transform(activity.timeMinutes)}`;
     this.alertService.itemDescription(activity.name,activity.description,message);
   }
 
@@ -56,10 +59,12 @@ export class SelectionActivityModalPage implements OnDestroy{
     this.searchValue = event.detail.value;
   }
 
+  // cancelar modal y retornar nada
   back(){
     return this.modalCtrl.dismiss(null, 'cancel');
   }
 
+  // cancelar modal y retornar la actividad seleccionada
   send(){
     return this.modalCtrl.dismiss(this.selectedActivity, 'confirm');
   }
@@ -76,21 +81,6 @@ export class SelectionActivityModalPage implements OnDestroy{
     else{
       this.selectedActivity = null;
     }
-  }
-
-  // map de letra del alfabeto + un arreglo con todas las actividades que comienzan con esa letra
-  // [{letterA, [{activity1, activity2, etc}]}, {letterB, [{activity1, activity2, etc}]} ]
-
-  private initAlphabeticalMap(): void{
-    let last: string = null;
-    this.activities.forEach((a)=>{
-      const activity = a;
-      if(!last || last !== activity.name[0]){
-        last = activity.name[0];
-        this.alphabeticalMap.push({letter: last, activities:[]});
-      }
-      this.alphabeticalMap[this.alphabeticalMap.length - 1].activities.push(activity);
-    });
   }
 
 }

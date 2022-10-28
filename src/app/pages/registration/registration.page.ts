@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoadingController, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { AlertService } from 'src/app/services/alert.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -16,7 +16,7 @@ import { ToastService } from 'src/app/services/toast.service';
 export class RegistrationPage implements OnInit, OnDestroy {
 
   registrationForm!: FormGroup;
-  subcriptionBackButton: Subscription;
+  subscriptionBackButton: Subscription;
 
   public errorMessages = {
     email:[
@@ -34,21 +34,24 @@ export class RegistrationPage implements OnInit, OnDestroy {
     ]
   };
 
-  constructor(private formBuilder: FormBuilder, 
-              private authService: AuthService,
-              private loadingService: LoadingService,
-              private alertService: AlertService,
-              private toastService: ToastService,
-              private router: Router,
-              private platform: Platform){}
+  constructor(
+    private formBuilder: FormBuilder, 
+    private authService: AuthService,
+    private loadingService: LoadingService,
+    private alertService: AlertService,
+    private toastService: ToastService,
+    private router: Router,
+    private platform: Platform
+  ){}
 
   ngOnDestroy(): void {
-    this.subcriptionBackButton.unsubscribe();
+    this.subscriptionBackButton.unsubscribe();
   }
 
   ngOnInit(){
-    this.subcriptionBackButton = this.platform.backButton.subscribeWithPriority(10,()=>{
-      this.router.navigate(['login']);
+    // hardware back button android
+    this.subscriptionBackButton = this.platform.backButton.subscribeWithPriority(10,()=>{
+      this.router.navigateByUrl('login');
     });
     this.registrationForm = this.initForm();
   }
@@ -69,7 +72,7 @@ export class RegistrationPage implements OnInit, OnDestroy {
   }
 
   back(){
-    this.router.navigate(['login']);
+    this.router.navigateByUrl('login');
   }
 
   async onSubmit(){
@@ -81,12 +84,12 @@ export class RegistrationPage implements OnInit, OnDestroy {
       next:()=>{
         this.loadingService.dismiss();
         this.registrationForm.reset();
-        this.router.navigate(['login']);
+        this.router.navigateByUrl('login');
         this.alertService.showAlert('Registro Exitoso','El registro se completó de manera exitosa. Por favor, inicie sesión',false);
       },
-      error:(e)=>{
+      error:(e)=>{  //email ya registrado en una cuenta
         this.loadingService.dismiss();
-        if(e.status !== 0){
+        if(e.status !== 0 && e.status !== 500){
           this.toastService.showErrorMessage('email no disponible');
         }
       }

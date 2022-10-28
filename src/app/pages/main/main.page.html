@@ -17,7 +17,8 @@
       <ion-list class="border" mode="md">
 
         <ion-menu-toggle autoHide="false" *ngFor="let p of menuPages">
-          <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+          <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
+            routerLinkActive="selected">
             <ion-icon slot="start" [name]="p.icon"></ion-icon>
             <ion-label class="ion-text-wrap">{{ p.title }}</ion-label>
           </ion-item>

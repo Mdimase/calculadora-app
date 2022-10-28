@@ -22,9 +22,10 @@ export class ModalService {
     });
     modal.present();
 
-    return (await modal.onWillDismiss()).data; //respuesta del modal
+    return (await modal.onWillDismiss()).data; //respuesta las actividades seleccionadas o []
   }
 
+  /* modal secundario de estimacion donde se selecciona una actividad para agregarla al listado del modal principal*/
   async openSelectionActivityModalPage(activities: Activity[]): Promise<Activity>{
     const modal = await this.modalController.create({
       component: SelectionActivityModalPage,
@@ -32,7 +33,7 @@ export class ModalService {
       cssClass:'fullscreen'
     });
     modal.present();
-    return (await modal.onWillDismiss()).data;
+    return (await modal.onWillDismiss()).data;  // respuesta la actividad seleccionada o null
   }
 
   /* listado de actividades seleccionadas en una estimacion, mostrado en el historial */
@@ -45,7 +46,7 @@ export class ModalService {
     modal.present();
   }
 
-  /* inicializa los atributos checked en false para el checkbox y cantidad en 0 */
+  /* inicializa el atributo cantidad en 0 */
   private initSelectedActivities(activities: Activity[]){
     activities.map((a)=>{
       a.amount = 0;

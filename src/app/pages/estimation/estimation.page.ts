@@ -22,16 +22,16 @@ export class EstimationPage implements OnInit,OnDestroy {
   public errorMessages = {
     subject:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'maxlength', message: 'contenido maximo 255 caracteres'}
+      { type:'maxlength', message: 'contenido máximo 255 caracteres'}
     ],
     institute:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'maxlength', message: 'contenido maximo 255 caracteres'}
+      { type:'maxlength', message: 'contenido máximo 255 caracteres'}
     ],
     year:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'min', message: 'valor minimo 1000'},
-      { type:'max', message: 'valor maximo 2100'}
+      { type:'min', message: 'valor mínimo 1000'},
+      { type:'max', message: 'valor máximo 2100'}
     ],
     period:[
       { type:'required', message: 'campo obligatorio'},
@@ -39,14 +39,14 @@ export class EstimationPage implements OnInit,OnDestroy {
     activities:[
       { type:'required', message: 'campo obligatorio'},
     ],
-    workload:[
+    workloadHs:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'min', message: 'valor minimo 0'},
+      { type:'min', message: 'valor mínimo 0'},
     ],
-    percent:[
+    virtualizationPercent:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'min', message: 'valor minimo 0'},
-      { type:'max', message: 'valor maximo 100'},
+      { type:'min', message: 'valor mínimo 0'},
+      { type:'max', message: 'valor máximo 100'},
     ]
   };
 
@@ -61,40 +61,20 @@ export class EstimationPage implements OnInit,OnDestroy {
   private subscriptionStandard: Subscription;
   private subscriptionCustom: Subscription;
 
-  constructor(private popoverService: PopoverService,
-              private alertService: AlertService,
-              private toastService: ToastService,
-              private modalService: ModalService,
-              private loadingService: LoadingService,
-              private activitiesService: ActivitiesService,
-              private estimationService: EstimationService,
-              private formBuilder: FormBuilder,
-              private router: Router){}
+  constructor(
+    private popoverService: PopoverService,
+    private alertService: AlertService,
+    private toastService: ToastService,
+    private modalService: ModalService,
+    private loadingService: LoadingService,
+    private activitiesService: ActivitiesService,
+    private estimationService: EstimationService,
+    private formBuilder: FormBuilder,
+    private router: Router
+  ){}
 
   ngOnInit(): void {
     this.estimationForm = this.initForm();
-  }
-
-  async ionViewWillEnter(){
-    await this.loadingService.showLoading();
-    this.subscriptionStandard = this.activitiesService.getStandard$().subscribe({
-      next:(activities) =>{
-        this.activitiesStandard = activities;
-        this.activities = this.activitiesStandard;
-        this.activities = [...this.activities,...this.activitiesCustom];
-      }
-    });
-    this.subscriptionCustom = this.activitiesService.getCustom$().subscribe({
-      next:(activitiesCustom) =>{
-        this.loadingService.dismiss();
-        this.activitiesCustom = activitiesCustom;
-        this.activities = this.activitiesStandard;
-        this.activities = [...this.activities,...this.activitiesCustom];
-      }
-    });
-    this.activitiesService.getActivitiesStandard();
-    this.activitiesService.getActivitiesCustom();
-    //this.estimationService.getEstimations$();  //eliminarlo al tener el backend
   }
 
   initForm(): FormGroup {
@@ -103,11 +83,56 @@ export class EstimationPage implements OnInit,OnDestroy {
       institute: ['',[Validators.required, Validators.maxLength(255)],],
       year:['',[Validators.required, Validators.min(1000), Validators.max(2100)]],
       period:['',[Validators.required]],
-      workload:['',[Validators.required,Validators.min(0)]],
-      percent:['',[Validators.required,Validators.min(0),Validators.max(100)]],
+      workloadHs:['',[Validators.required,Validators.min(0)]],
+      virtualizationPercent:['',[Validators.required,Validators.min(0),Validators.max(100)]],
       activities:[[],[Validators.required]],
     });
   }
+
+  async ionViewWillEnter(): Promise<void>{
+    await this.loadingService.showLoading();
+    this.subscriptionStandard = this.activitiesService.getStandard$().subscribe({
+      next:(activities) =>{
+        this.activitiesStandard = activities;
+        this.activities = this.activitiesStandard;
+        this.activities = [...this.activities,...this.activitiesCustom];
+      }
+    });
+    this.activitiesService.getActivitiesStandard();
+    this.subscriptionCustom = this.activitiesService.getCustom$().subscribe({
+      next:(activitiesCustom) =>{
+        this.loadingService.dismiss();
+        this.activitiesCustom = activitiesCustom;
+        this.activities = this.activitiesStandard;
+        this.activities = [...this.activities,...this.activitiesCustom];
+      }
+    });
+    this.activitiesService.getActivitiesCustom();
+    this.estimationService.getEstimations();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionStandard.unsubscribe();
+    this.subscriptionCustom.unsubscribe();
+  }
+
+ /* popover info page*/
+ async showPopover(event: any){
+   const message = 'Herramienta que permite estimar la duración de las actividades académicas que componen su plan';
+   this.popoverService.simpleMessage(message,event);
+ }
+
+ /* popover info form element*/
+ async showPopoverInputWorkload(event: any){
+   const message = 'Carga horaria total asignada a esta materia';
+   this.popoverService.simpleMessage(message,event);
+ }
+
+ /* popover info form element*/
+ async showPopoverInputVirtualization(event: any){
+   const message = 'Porcentaje de horas que desea virtualizar sobre el total de la carga horaria';
+   this.popoverService.simpleMessage(message,event);
+ }
 
   /* determina si un input presenta un determinado tipo de error */
   isInvalid(fieldName: string, error){
@@ -118,13 +143,14 @@ export class EstimationPage implements OnInit,OnDestroy {
   async onSubmit(){
     let message = `las actividades seleccionadas <br> cumplen exitosamente <br> el tiempo deseado a virtualizar`;
     let dialog = '';
+    /* mensajes de confirmacion */
     if(this.selectedMinutesActivities > this.minutesObjective){
       message = `las actividades seleccionadas <br> superan <br> el tiempo deseado a virtualizar`;
-      dialog = 'confirmar el envio igualmente ?';
+      dialog = 'confirmar el envío igualmente ?';
     }
     if(this.minutesObjective > this.selectedMinutesActivities){
       message = `las actividades seleccionadas <br> no alcanzan <br> el tiempo deseado a virtualizar`;
-      dialog = 'confirmar el envio igualmente ?';
+      dialog = 'confirmar el envío igualmente ?';
     }
     if(await this.alertService.confirm(dialog,'Enviar','alert-button-send',message) === 'confirm'){
       let estimationSend: Estimation = this.estimationForm.value;
@@ -133,47 +159,26 @@ export class EstimationPage implements OnInit,OnDestroy {
       this.estimationService.addEstimation(estimationSend).subscribe({
         next: (res: Estimation)=>{
           estimationSend.id = res.id;
-          estimationSend.dateCreation = res.dateCreation;
-          console.log(estimationSend);
+          estimationSend.creation = res.creation;
+          this.estimationService.setActivities(estimationSend);
           this.loadingService.dismiss();
+          this.toastService.showMessage('estimación creada correctamente');
+          this.estimationForm.reset({activities:[]});
+          this.minutesObjective = 0;
+          this.router.navigateByUrl('main/home');
         }
       });
-      this.toastService.showMessage('estimacion creada correctamente');
-      this.estimationForm.reset({activities:[]});
-      this.minutesObjective = 0;
-      this.router.navigate(['main/home']);
     }
   }
 
-  ngOnDestroy(): void {
-     this.subscriptionStandard.unsubscribe();
-     this.subscriptionCustom.unsubscribe();
-   }
-
-  /* popover info page*/
-  async showPopover(event: any){
-    const message = 'herramienta que permite estimar la duracion de las actividades academicas que componen su plan';
-    this.popoverService.simpleMessage(message,event);
-  }
-
-  /* popover info form element*/
-  async showPopoverInputWorkload(event: any){
-    const message = 'carga horaria total asignada a esta materia';
-    this.popoverService.simpleMessage(message,event);
-  }
-
-  /* popover info form element*/
-  async showPopoverInputVirtualization(event: any){
-    const message = 'porcentaje de horas que desea virtualizar sobre el total de la carga horaria';
-    this.popoverService.simpleMessage(message,event);
-  }
-
+  // carga horaria a virtualizar en minutos
   getMinutesObjective(): number{
-    const workload: number = this.estimationForm.get('workload')?.value;
-    const percent: number = this.estimationForm.get('percent')?.value;
-    return this.estimationService.valueOfPercent(this.estimationService.toMinutes(workload),percent);  //carga horaria a virtualizar (min)
+    const workloadHs: number = this.estimationForm.get('workloadHs')?.value;
+    const virtualizationPercent: number = this.estimationForm.get('virtualizationPercent')?.value;
+    return this.estimationService.valueOfPercent(this.estimationService.toMinutes(workloadHs),virtualizationPercent);  
   }
 
+  // minutesObjetive change
   handle(){
     if(this.selectedActivities.length > 0){
       this.handleChange(this.selectedActivities);
@@ -184,14 +189,16 @@ export class EstimationPage implements OnInit,OnDestroy {
     }
   }
 
+  // cambio en las actividades seleccionadas
   handleChange(selectedActivities: Activity[]){
     this.minutesObjective = this.getMinutesObjective();
     this.selectedMinutesActivities = this.estimationService.getMinutesSelected(selectedActivities);
   }
 
+  // modal para seleccionar actividades
   async showSelectModal(){
     if(this.getMinutesObjective() === 0){
-      this.alertService.showErrorAlert('Error','Por favor indique carga horaria y virtualizacion',true);
+      this.alertService.showErrorAlert('Error','Por favor indique carga horaria y virtualización',true);
     }
     else{
       this.selectedActivities = await this.modalService.openSelectModalPage(this.activities, this.minutesObjective);

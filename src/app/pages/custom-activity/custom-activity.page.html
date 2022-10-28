@@ -3,7 +3,8 @@
 </app-header>
 
 <!-- barra de busqueda -->
-<ion-searchbar placeholder="Buscar" mode="md" enterkeyhint="search" type="search" (ionChange)="search($event)"></ion-searchbar>
+<ion-searchbar placeholder="Buscar" mode="md" enterkeyhint="search" type="search" (ionChange)="search($event)">
+</ion-searchbar>
 
 <ion-content>
 
@@ -15,7 +16,8 @@
         </ion-label>
       </ion-item-divider>
       <ion-item *ngFor="let activity of item.activities | filter:searchValue:'name'">
-        <ion-label class="ion-text-wrap ion-text-capitalize" (click)="presentAlert(activity)">{{activity.name}}</ion-label>
+        <ion-label class="ion-text-wrap ion-text-capitalize" (click)="presentAlert(activity)">{{activity.name}}
+        </ion-label>
         <ion-buttons>
           <ion-icon name="ellipsis-vertical-sharp" slot="end" (click)="showEditOptions($event, activity)"></ion-icon>
         </ion-buttons>

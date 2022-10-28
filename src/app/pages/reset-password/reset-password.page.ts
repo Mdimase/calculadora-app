@@ -16,31 +16,34 @@ import { ToastService } from 'src/app/services/toast.service';
 export class ResetPasswordPage implements OnInit, OnDestroy {
 
   resetForm!: FormGroup;
-  suscriptionBackButton: Subscription;
+  subscriptionBackButton: Subscription;
 
   public errorMessages = {
     email:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'maxlength', message: 'contenido maximo 50 caracteres'},
-      { type:'pattern', message: 'ingrese un email valido'}
+      { type:'maxlength', message: 'contenido máximo 50 caracteres'},
+      { type:'pattern', message: 'ingrese un email válido'}
     ]
   };
 
-  constructor(private formBuilder: FormBuilder,
-              private authService: AuthService,
-              private toastService: ToastService,
-              private loadingService: LoadingService,
-              private alertService: AlertService,
-              private router: Router,
-              private platform: Platform){}
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private toastService: ToastService,
+    private loadingService: LoadingService,
+    private alertService: AlertService,
+    private router: Router,
+    private platform: Platform
+  ){}
 
   ngOnDestroy(): void {
-    this.suscriptionBackButton.unsubscribe();
+    this.subscriptionBackButton.unsubscribe();
   }
 
   ngOnInit(){
-    this.suscriptionBackButton = this.platform.backButton.subscribeWithPriority(10,()=>{
-      this.router.navigate(['login']);
+    // hardware back button android
+    this.subscriptionBackButton = this.platform.backButton.subscribeWithPriority(10,()=>{
+      this.router.navigateByUrl('login');
     });
     this.resetForm = this.initForm();
   }
@@ -58,10 +61,9 @@ export class ResetPasswordPage implements OnInit, OnDestroy {
   }
 
   back(){
-    this.router.navigate(['login']);
+    this.router.navigateByUrl('login');
   }
 
-  /* iniciar sesion */
   async onSubmit(){
     const email: string = this.resetForm.get('email')?.value;
     this.resetForm.reset();
@@ -70,11 +72,11 @@ export class ResetPasswordPage implements OnInit, OnDestroy {
       next:()=>{
         this.loadingService.dismiss();
         this.router.navigateByUrl('login');
-        this.alertService.showAlert('Reestablecer Contraseña','Inicie sesion con la contraseña temporal recibida en su casilla de correo electronico',false);
+        this.alertService.showAlert('Reestablecer Contraseña','Inicie sesión con la contraseña temporal recibida en su casilla de correo electrónico',false);
       },
-      error:(e)=>{
+      error:(e)=>{  //email no registrado
         this.loadingService.dismiss();
-        if(e.status !== 0){
+        if(e.status !== 0 && e.status !== 500){
           this.toastService.showErrorMessage('email inexistente. Intente nuevamente');
         }
       }

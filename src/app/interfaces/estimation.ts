@@ -6,9 +6,9 @@ export interface Estimation{
     subject: string;
     year: number;
     period: string;
-    workload: number;
-    percent: number;
-    dateCreation: string;
+    workloadHs: number;    //workloadHs
+    virtualizationPercent: number;    //virtualizationPercent
+    creation: string;    //creation
     estimatedTime?: number;
     activities: Activity[];
 }

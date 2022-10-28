@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Activity } from '../interfaces/activity';
 
@@ -38,7 +37,6 @@ export class ActivitiesService {
   }
 
   getCustom$():Observable<Activity[]>{
-    console.log(this.activitiesCustom$.observers);
     return this.activitiesCustom$.asObservable();
   }
 
@@ -57,7 +55,7 @@ export class ActivitiesService {
   deleteActivity(activity: Activity): void{
     this.http.delete<any>(ACTIVITIES_PATH + '/' + activity.id).subscribe({
       next: ()=>{
-        this.activitiesCustom = this.activitiesCustom.filter((a) => a.id !== activity.id);
+        this.activitiesCustom = this.activitiesCustom.filter((a) => a.id !== activity.id);  //actualizo el arreglo cache
         this.activitiesCustom$.next(this.activitiesCustom);
       }
     });
@@ -68,11 +66,11 @@ export class ActivitiesService {
     const reqBody = {
       name: activity.name,
       description: activity.description,
-      time_minutes: activity.time_minutes
+      timeMinutes: activity.timeMinutes
     };
     this.http.post<Activity>(ACTIVITIES_PATH,reqBody).subscribe({
       next: (res: Activity) =>{
-        this.activitiesCustom.push(res);  //actualizacion del arreglo
+        this.activitiesCustom.push(res);  //actualizacion del arreglo cache
         this.activitiesCustom$.next(this.activitiesCustom);  // notificacion a los subcriptos
       }
     });
@@ -83,14 +81,14 @@ export class ActivitiesService {
     const reqBody = {
       name: modifiedActivity.name,
       description: modifiedActivity.description,
-      time_minutes: modifiedActivity.time_minutes.toString()
+      timeMinutes: modifiedActivity.timeMinutes  // timeMinutes
     };
     this.http.put<any>(ACTIVITIES_PATH + '/' + id,reqBody).subscribe({
       next:() =>{
         this.activitiesCustom.some(a => {
           if(a.id === id){
             a.name = modifiedActivity.name;
-            a.time_minutes = modifiedActivity.time_minutes;
+            a.timeMinutes = modifiedActivity.timeMinutes;
             a.description = modifiedActivity.description;
           }
         });
@@ -104,8 +102,7 @@ export class ActivitiesService {
     if(!act1 && !act2){
       return true;
     }
-    // eslint-disable-next-line max-len
-    if(act1.id === act2.id && act1.name === act2.name && act1.time_minutes === act2.time_minutes && act1.description=== act2.description && act1.custom === act2.custom){
+    if(act1.id === act2.id && act1.name === act2.name && act1.timeMinutes === act2.timeMinutes && act1.description=== act2.description && act1.custom === act2.custom && act1.amount === act2.amount){
       return true;
     }
     return false;
@@ -118,6 +115,24 @@ export class ActivitiesService {
       if(a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
       return 0;
     });
+  }
+
+
+  // map de letra del alfabeto + un arreglo con todas las actividades que comienzan con esa letra
+  // lista de objetos de 2 campos -> letra del alfabeto y todas las activididades que inician con esa letra
+  // [{letterA, [{activity1, activity2, etc}]}, {letterB, [{activity1, activity2, etc}]} ]
+  initAlphabeticalMap(activities: Activity[]){
+    const alphabeticalMap = [];
+    let last: string = null;
+    activities.forEach((a)=>{
+      const activity = a;
+      if(!last || last.toLowerCase() !== activity.name[0].toLowerCase()){
+        last = activity.name[0];
+        alphabeticalMap.push({letter: last, activities:[]});
+      }
+      alphabeticalMap[alphabeticalMap.length - 1].activities.push(activity);
+    });
+    return alphabeticalMap;
   }
 
 

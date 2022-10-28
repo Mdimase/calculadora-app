@@ -5,18 +5,20 @@ import { Estimation } from 'src/app/interfaces/estimation';
 import { AlertService } from 'src/app/services/alert.service';
 import { EstimationService } from 'src/app/services/estimation.service';
 import { ModalService } from 'src/app/services/modal.service';
-import { NavigationService } from 'src/app/services/navigation.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { TimePipe } from 'src/app/pipes/time.pipe';
+import { Activity } from 'src/app/interfaces/activity';
+import { PopoverService } from 'src/app/services/popover.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
+// dependencia para generar el pdf
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
+// dependencia para gestion de archivos locales en native
 import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 import { File } from '@awesome-cordova-plugins/file/ngx';
-import { TimePipe } from 'src/app/pipes/time.pipe';
-import { Activity } from 'src/app/interfaces/activity';
-import { PopoverService } from 'src/app/services/popover.service';
 
 @Component({
   selector: 'app-estimation-history',
@@ -29,25 +31,32 @@ export class EstimationHistoryPage implements OnDestroy{
   timePipe = new TimePipe();
   private subscription: Subscription;
 
-  constructor(private estimationService: EstimationService,
-              private platform: Platform,
-              private modalService: ModalService,
-              private alertService: AlertService,
-              private popoverService: PopoverService,
-              private toastService: ToastService,
-              private file: File,
-              private fileOpener: FileOpener,
-              private navigationService: NavigationService){}
+  constructor(
+    private estimationService: EstimationService,
+    private platform: Platform,
+    private modalService: ModalService,
+    private alertService: AlertService,
+    private popoverService: PopoverService,
+    private loadingService: LoadingService,
+    private toastService: ToastService,
+    private file: File,
+    private fileOpener: FileOpener,
+  ){}
 
-  ionViewWillEnter(): void{
-    this.subscription = this.estimationService.getEstimations$().subscribe((estimations: Estimation[]) =>{
-      this.estimations = estimations;
+  async ionViewWillEnter(): Promise<void>{
+    await this.loadingService.showLoading();
+    this.subscription = this.estimationService.getEstimations$().subscribe({
+      next: (estimations: Estimation[]) =>{
+        this.loadingService.dismiss();
+        this.estimations = estimations;
+      }
     });
+    this.estimationService.getEstimations();
   }
 
   /* popover info*/
   async showPopover(event: any){
-    const message = 'consulte informacion y/o genere reportes de sus estimaciones previas';
+    const message = 'consulte información y/o genere reportes de sus estimaciones previas';
     this.popoverService.simpleMessage(message,event);
   }
 
@@ -55,39 +64,44 @@ export class EstimationHistoryPage implements OnDestroy{
     this.subscription.unsubscribe();
   }
 
-  getMinutesObjective(workload: number, percent: number): number{
-    return this.estimationService.valueOfPercent(this.estimationService.toMinutes(workload),percent);  //carga horaria a virtualizar (min)
+  //carga horaria a virtualizar en minutos
+  getMinutesObjective(workloadHs: number, percent: number): number{
+    return this.estimationService.valueOfPercent(this.estimationService.toMinutes(workloadHs),percent);  
   }
 
+  // mostar actividades de una estimacion
   showActivities(idEstimation: number){
     const activities = this.estimationService.getActivities(idEstimation);
     this.modalService.showActivities(activities);
   }
 
+  // eliminar estimacion
   async remove(estimation: Estimation){
-    const message = '¿ Deseas eliminar de forma permanente la estimacion ?';
+    const message = '¿ Deseas eliminar de forma permanente la estimación ?';
     if( await this.alertService.confirm(message,'Eliminar','alert-button-delete') === 'confirm'){
+      this.loadingService.showLoading();
       this.estimationService.deleteEstimation(estimation);
-      this.toastService.showMessage('Estimacion eliminada correctamente');
+      this.toastService.showMessage('Estimación eliminada correctamente');
     }
   }
 
+  // generar pdf
   generatePDF(estimation: Estimation){
     const docDef = {
-      info:{title:'reporte_estimacion'},
+      info:{title:'reporte_estimación'},
       pageSize: 'A4',
       content:[
-        { text: 'Reporte de estimacion calculadora-app\n', style: 'header' },
+        { text: 'Reporte de Estimación calculadora-app\n', style: 'header' },
         { text: [
-            { text: 'Institucion : ', style: 'subheader'},
+            { text: 'Institución : ', style: 'subheader'},
             { text: estimation.institute + '\n' }
           ],
           style: 'description'
         },
         { columns: [
-            { text: 'Periodo Lectivo : ', style: 'subheader' },
+            { text: 'Período Lectivo : ', style: 'subheader' },
             { text: estimation.period },
-            { text: 'Año Academico : ', style: 'subheader' },
+            { text: 'Año Académico : ', style: 'subheader' },
             { text: estimation.year }
           ],
           style:'description'
@@ -100,16 +114,16 @@ export class EstimationHistoryPage implements OnDestroy{
         },
         { columns: [
             { text: 'Carga Horaria : ', style: 'subheader' },
-            { text: estimation.workload + ' Hs' },
-            { text: 'Virtualizacion (%) : ', style: 'subheader'},
-            { text: estimation.percent}
+            { text: estimation.workloadHs + ' Hs' },
+            { text: 'Virtualización (%) : ', style: 'subheader'},
+            { text: estimation.virtualizationPercent}
           ],
           style: 'description'
         },
         { columns: [
             { text: 'Tiempo Objetivo : ', style: 'subheader'},
-            { text: this.timePipe.transform(this.getMinutesObjective(estimation.workload,estimation.percent))},
-            { text: 'Tiempo estimado : ', style: 'subheader' },
+            { text: this.timePipe.transform(this.getMinutesObjective(estimation.workloadHs,estimation.virtualizationPercent))},
+            { text: 'Tiempo Estimado : ', style: 'subheader' },
             { text: this.timePipe.transform(estimation.estimatedTime)}
           ],
           style: 'description'
@@ -120,9 +134,9 @@ export class EstimationHistoryPage implements OnDestroy{
           { headersRows:1,dontBreakRows:true, widths:['*',180,80,60,80], body: this.initTable(estimation.activities) }
         }
       ],
-      footer: (currentPage, pageCount)=> ({
+      footer: (currentPage: number, pageCount: number)=> ({
             columns: [
-            { text: estimation.dateCreation,  italics: true, color: 'gray', margin:[30,10,0,0]},
+            { text: estimation.creation,  italics: true, color: 'gray', margin:[30,10,0,0]},
             { text: 'Página ' + currentPage.toString() + ' de ' + pageCount,
               alignment: 'right',  italics: true, color: 'gray', margin:[0,10,30,0] }
             ]
@@ -144,9 +158,9 @@ export class EstimationHistoryPage implements OnDestroy{
     }
   }
 
+  // guarda y abre el archivo pdf generado
   private openFile(pdfObj){
     pdfObj.getBlob((blob)=>{
-      //const blob = new Blob([buffer],{type:'application/pdf'});  //generate blob
       // guardar el pdf en el directorio de la app
       this.file.writeFile(this.file.dataDirectory,'reporte_estimacion.pdf',blob,{replace:true}).then(fileEntry =>{
         this.fileOpener.open(this.file.dataDirectory + 'reporte_estimacion.pdf','application/pdf');
@@ -154,11 +168,12 @@ export class EstimationHistoryPage implements OnDestroy{
     });
   }
 
+  /* tabla con actividades en formato para la generacion del pdf */
   private initTable(activities: Activity[]){
     const body = [];
     const header = [];
     header.push({ text:'Nombre', style:'tableHeader'});
-    header.push({ text:'Descripcion', style:'tableHeader'});
+    header.push({ text:'Descripción', style:'tableHeader'});
     header.push({ text:'Tiempo Estimado', style:'tableHeader'});
     header.push({ text:'Cantidad', style:'tableHeader'});
     header.push({ text:'Tiempo Total', style:'tableHeader'});
@@ -167,9 +182,9 @@ export class EstimationHistoryPage implements OnDestroy{
       const row = [];
       row.push(a.name);
       row.push(a.description);
-      row.push({text:this.timePipe.transform(a.time_minutes), alignment:'center'});
+      row.push({text:this.timePipe.transform(a.timeMinutes), alignment:'center'});
       row.push({text:a.amount, alignment:'center'});
-      row.push({text:this.timePipe.transform(a.time_minutes * a.amount), alignment:'center'});
+      row.push({text:this.timePipe.transform(a.timeMinutes * a.amount), alignment:'center'});
       body.push(row);
     });
     return body;

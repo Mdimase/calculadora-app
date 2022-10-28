@@ -18,7 +18,7 @@ import { ToastService } from 'src/app/services/toast.service';
 export class LoginPage implements OnInit,OnDestroy {
 
   loginForm!: FormGroup;
-  suscriptionBackButton: Subscription;
+  subscriptionBackButton: Subscription;
   rememberEmail: string;
   rememberPassword: string;
 
@@ -34,25 +34,29 @@ export class LoginPage implements OnInit,OnDestroy {
     ]
   };
 
-  constructor(private formBuilder: FormBuilder,
-              private toastService: ToastService,
-              private alertService: AlertService,
-              private loadingService: LoadingService,
-              private authService: AuthService,
-              private router: Router, private platform: Platform){}
+  constructor(
+    private formBuilder: FormBuilder,
+    private toastService: ToastService,
+    private alertService: AlertService,
+    private loadingService: LoadingService,
+    private authService: AuthService,
+    private router: Router,
+    private platform: Platform
+  ){}
 
   ngOnDestroy(): void {
-    this.suscriptionBackButton.unsubscribe();
+    this.subscriptionBackButton.unsubscribe();
   }
 
   ngOnInit(){
-    this.suscriptionBackButton = this.platform.backButton.subscribeWithPriority(10,()=>{
+    this.subscriptionBackButton = this.platform.backButton.subscribeWithPriority(10,()=>{
       App.exitApp();
     });
     this.loginForm = this.initForm();
   }
 
   ionViewWillEnter(){
+    // si hay credenciales recordadas, setearlas en el formulario
     this.rememberEmail = this.authService.getRememberEmail();
     this.rememberPassword = this.authService.getRememberPassword();
     if(this.rememberEmail && this.rememberPassword){
@@ -89,23 +93,23 @@ export class LoginPage implements OnInit,OnDestroy {
         this.authService.getUsernameLogged(email).subscribe({
           next:(details: UserDetails)=>{
             this.loadingService.dismiss();
-            if(details.is_tmp_pass){
+            if(details.isTemporalPassword){  // viene de recuperar contraseña por mail
               this.router.navigateByUrl('main/change/password');
               this.alertService.showAlert('Actualiza tu contraseña','Ingrese como contraseña actual la recibida en su casilla de correo electrónico',false);
             }
-            else{
+            else{  //  login normal
               this.rememberEmail = this.authService.getRememberEmail();
               this.rememberPassword = this.authService.getRememberPassword();
               this.loginForm.reset({email: this.rememberEmail, password: this.rememberPassword, remember});
-              this.router.navigate(['main/home']);
-              setTimeout(()=>this.toastService.showWelcomeMessage('Bienvenido ' + email),200);
+              this.router.navigateByUrl('main/home');
+              this.toastService.showWelcomeMessage('Bienvenido ' + email);
             }
           }
         });
       },
-      error:(e) =>{
+      error:(e) =>{  //email/contraseña incorrectos
         this.loadingService.dismiss();
-        if(e.status !== 0){
+        if(e.status !== 0 && e.status !== 500){
           this.toastService.showErrorMessage('email/contraseña incorrecta. Intente nuevamente');
         }
       }

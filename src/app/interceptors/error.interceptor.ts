@@ -1,7 +1,6 @@
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpResponse } from '@capacitor/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
@@ -39,6 +38,11 @@ export class ErrorInterceptor {
         if(e.status === 0){  //server down
           console.log('lost server connection');
           this.toastService.showErrorMessage('Conexion con servidor perdida. Verifique su conexion e intente nuevamente');
+        }
+        if(e.status === 500){
+          console.log('Internal Error Server');
+          this.toastService.showErrorMessage('Conexion con servidor perdida. Verifique su conexion e intente nuevamente');
+          this.router.navigateByUrl('login');
         }
         const error = new Error(e.message);
         console.log('interceptor => ' + error);

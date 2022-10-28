@@ -52,7 +52,7 @@ export class AuthService {
   }
 
   getUsernameLogged(email: string): Observable<UserDetails>{
-    return this.http.post<any>(USERNAME_PATH + '?email=' + email, { observe: 'response' })
+    return this.http.post<UserDetails>(USERNAME_PATH + '?email=' + email,{})
       .pipe(map((details: UserDetails)=>{
         const usernameLogged: string = details.username;
         const usernameEncrypt = CryptoJS.AES.encrypt(usernameLogged, SECRET_KEY);
@@ -61,16 +61,13 @@ export class AuthService {
       }));
   }
 
-  login(email: string, password: string, remember: boolean ): Observable<any>{
-    const reqBody = {
-      email,
-      password
-    };
-    return this.http.post<any>(LOGIN_PATH, reqBody,{observe:'response'})
-      .pipe(map((res:any) => { //mapea la respuesta http a la variable res
-        const token = res.headers.get("Authorization");  
-        // logueo exitoso
-        if(token){
+  // observe:response permite captar la response completa con su header
+  login(email: string, password: string, remember: boolean ){
+    const reqBody = { email, password };
+    return this.http.post<any>(LOGIN_PATH, reqBody, {observe:'response'})
+      .pipe(map((res) => { //mapea la respuesta http a la variable res
+        const token = res.headers.get("Authorization");
+        if(token){  // logueo exitoso
           localStorage.setItem(TOKEN,token);
           const emailEncrypt = CryptoJS.AES.encrypt(email, SECRET_KEY).toString();
           localStorage.setItem('email',emailEncrypt);
@@ -80,7 +77,7 @@ export class AuthService {
             localStorage.setItem('rememberPassword',passwordEncrypt);
           }
           else{
-            this.clearRemember();
+            this.clearRemember();  //limpiar email y password remember
           }
         }
         return res;
@@ -93,8 +90,9 @@ export class AuthService {
     localStorage.removeItem(TOKEN);
   }
 
-  register(email: string, username: string, password: string): Observable<any>{
-    return this.http.post<any>(REGISTER_PATH, {email,username,password})
+  register(email: string, username: string, password: string){
+    const reqBody = { email, username, password };
+    return this.http.post<any>(REGISTER_PATH, reqBody)
       .pipe(map((res)=>{
         this.clearRemember();
         return res;
@@ -109,8 +107,9 @@ export class AuthService {
       }));
   }
 
-  changePassword(oldPassword: string, newPassword: string): Observable<any>{
-    return this.http.post<any>(CHANGE_PASSWORD_PATH,{oldPassword,newPassword})
+  changePassword(oldPassword: string, newPassword: string){
+    const reqBody = { oldPassword, newPassword };
+    return this.http.post<any>(CHANGE_PASSWORD_PATH,reqBody)
       .pipe(map((res)=>{
         this.clearRemember();
         return res;

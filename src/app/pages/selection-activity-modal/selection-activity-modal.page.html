@@ -4,7 +4,8 @@
 </app-header-back>
 
 <!--search bar-->
-<ion-searchbar placeholder="Buscar" mode="md" enterkeyhint="search" type="search" (ionChange)="search($event)"></ion-searchbar>
+<ion-searchbar placeholder="Buscar" mode="md" enterkeyhint="search" type="search" (ionChange)="search($event)">
+</ion-searchbar>
 
 <ion-content>
 
@@ -15,17 +16,20 @@
           {{ item.letter }}
         </ion-label>
       </ion-item-divider>
-        <ion-item *ngFor="let activity of item.activities | filter:searchValue:'name'">
-          <ion-checkbox #checkBox slot="start" mode="md" (ionChange)="check(checkBox,activity)"></ion-checkbox>
-          <ion-label class="ion-text-wrap ion-text-capitalize" (click)="presentAlert(activity)">{{activity.name}}</ion-label>
-        </ion-item>
+      <ion-item *ngFor="let activity of item.activities | filter:searchValue:'name'">
+        <ion-checkbox #checkBox slot="start" mode="md" (ionChange)="check(checkBox,activity)"></ion-checkbox>
+        <ion-label class="ion-text-wrap ion-text-capitalize" (click)="presentAlert(activity)">{{activity.name}}
+        </ion-label>
+      </ion-item>
     </ion-item-group>
   </ion-list>
 </ion-content>
 
 <ion-buttons class="center">
-  <ion-button expand="block" mode="md" fill="outline" shape="round" color="danger" class="ion-padding-end size-14" (click)="back()">
+  <ion-button expand="block" mode="md" fill="outline" shape="round" color="danger" class="ion-padding-end size-14"
+    (click)="back()">
     Cancelar</ion-button>
-  <ion-button expand="block" mode="md" fill="outline" shape="round" class="ion-padding-start color-gradient size-14" (click)="send()">
+  <ion-button expand="block" mode="md" fill="outline" shape="round" class="ion-padding-start color-gradient size-14"
+    (click)="send()">
     Confirmar</ion-button>
 </ion-buttons>

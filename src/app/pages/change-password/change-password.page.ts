@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { LoadingService } from 'src/app/services/loading.service';
-import { NavigationService } from 'src/app/services/navigation.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
@@ -19,24 +17,27 @@ export class ChangePasswordPage implements OnInit {
   public errorMessages = {
     current:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'maxlength', message: 'contenido maximo 50 caracteres'}
+      { type:'maxlength', message: 'contenido máximo 50 caracteres'}
     ],
     password:[
       { type:'required', message: 'campo obligatorio'},
-      { type:'minlength', message: 'contenido minimo 6 caracteres'},
+      { type:'minlength', message: 'contenido mínimo 6 caracteres'},
     ]
   };
 
-  constructor(private formBuilder: FormBuilder,
-              private authService: AuthService,
-              private toastService: ToastService,
-              private loadingService: LoadingService,
-              private router: Router,private navigationService: NavigationService ,private platform: Platform){}
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private toastService: ToastService,
+    private loadingService: LoadingService,
+    private router: Router
+  ){}
 
   ngOnInit() {
     this.changePasswordForm = this.initForm();
   }
 
+  // inicializacion del formulario con valores por defecto y validaciones
   initForm(): FormGroup {
     return this.formBuilder.group({
       current: ['', [Validators.required,Validators.maxLength(50)],],
@@ -60,18 +61,19 @@ export class ChangePasswordPage implements OnInit {
         this.loadingService.dismiss();
         this.toastService.showMessage('Cambio de contraseña exitoso');
         this.authService.logout();
-        this.router.navigate(['login']);
+        this.router.navigateByUrl('login');
       },
       error: (e)=>{
         this.loadingService.dismiss();
-        if(e.status !== 0){
+        if(e.status !== 0 && e.status !== 500){
           this.toastService.showErrorMessage('contraseña actual incorrecta. Intente nuevamente');
         }
       }
     });
   }
 
-  /* validator custom => si son iguales retorna null, sino retorna {notEqual:true}*/
+  /* validator custom verifica igualdad de contraseñas
+  => si son iguales retorna null, sino retorna {notEqual:true}*/
   private checkPasswords(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const formGroup = control as FormGroup;
