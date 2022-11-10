@@ -66,7 +66,7 @@ export class AuthService {
     const reqBody = { email, password };
     return this.http.post<any>(LOGIN_PATH, reqBody, {observe:'response'})
       .pipe(map((res) => { //mapea la respuesta http a la variable res
-        const token = res.headers.get("Authorization");
+        const token = res.headers.get('Authorization');
         if(token){  // logueo exitoso
           localStorage.setItem(TOKEN,token);
           const emailEncrypt = CryptoJS.AES.encrypt(email, SECRET_KEY).toString();
