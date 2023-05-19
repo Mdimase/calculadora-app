@@ -21,7 +21,7 @@ export class ActivitiesService {
 
   constructor(private http: HttpClient){}
 
-  getStandard$():Observable<Activity[]>{
+  getStandard$(): Observable<Activity[]>{
     return this.activitiesStandard$.asObservable();
   }
 
@@ -36,7 +36,7 @@ export class ActivitiesService {
     }
   }
 
-  getCustom$():Observable<Activity[]>{
+  getCustom$(): Observable<Activity[]>{
     return this.activitiesCustom$.asObservable();
   }
 
@@ -76,12 +76,12 @@ export class ActivitiesService {
     });
   }
 
-  // editar una actividad 
+  // editar una actividad
   editActivity(id: number, modifiedActivity: Activity): void{
     const reqBody = {
       name: modifiedActivity.name,
       description: modifiedActivity.description,
-      timeMinutes: modifiedActivity.timeMinutes  // timeMinutes
+      timeMinutes: modifiedActivity.timeMinutes
     };
     this.http.put<any>(ACTIVITIES_PATH + '/' + id,reqBody).subscribe({
       next:() =>{

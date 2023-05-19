@@ -110,5 +110,4 @@ export class CustomActivityPage implements OnDestroy {
       }
     });
   }
-  
 }

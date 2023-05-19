@@ -49,7 +49,7 @@ export class AlertService {
           id:0,
           name: r.data.name,
           description: r.data.description,
-          timeMinutes: r.data.time,
+          timeMinutes: Number(r.data.time),
           custom: true
         };
       }
@@ -69,7 +69,7 @@ export class AlertService {
             id:currentActivity.id,
             name: r.data.name,
             description: r.data.description,
-            timeMinutes: r.data.time,
+            timeMinutes: Number(r.data.time),
             custom:true
           };
         }
@@ -88,7 +88,7 @@ export class AlertService {
       return false;
     }
   }
-  
+
   // alerta basica con posible autodismiss tras 8s
   async showAlert(title: string ,message: string, autoDismiss: boolean){
     const alert = await this.alertController.create({
@@ -192,7 +192,7 @@ export class AlertService {
           text: 'Enviar',
           role: 'Confirm',
           cssClass:'alert-button-send',
-          handler: (formData: { name: string; time: string; description: string }) => {
+          handler: (formData: { name: string; time: number; description: string }) => {
             if(!formData.name) {
               this.showError(alert, 0,'Campo obligatorio');
               return false;
@@ -207,7 +207,7 @@ export class AlertService {
             else{
               this.hideError();
             }
-            if(Number(formData.time) < 0){
+            if(formData.time < 0){
               this.showError(alert,1,'valor mínimo 0');
               return false;
             }
