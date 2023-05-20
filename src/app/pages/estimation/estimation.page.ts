@@ -153,7 +153,7 @@ export class EstimationPage implements OnInit,OnDestroy {
       dialog = 'confirmar el envío igualmente ?';
     }
     if(await this.alertService.confirm(dialog,'Enviar','alert-button-send',message) === 'confirm'){
-      let estimationSend: Estimation = this.estimationForm.value;
+      const estimationSend: Estimation = this.estimationForm.value;
       estimationSend.estimatedTime = this.selectedMinutesActivities;
       await this.loadingService.showLoading();
       this.estimationService.addEstimation(estimationSend).subscribe({
@@ -165,6 +165,7 @@ export class EstimationPage implements OnInit,OnDestroy {
           this.toastService.showMessage('estimación creada correctamente');
           this.estimationForm.reset({activities:[]});
           this.minutesObjective = 0;
+          this.selectedMinutesActivities = 0;
           this.router.navigateByUrl('main/home');
         }
       });
@@ -175,7 +176,7 @@ export class EstimationPage implements OnInit,OnDestroy {
   getMinutesObjective(): number{
     const workloadHs: number = this.estimationForm.get('workloadHs')?.value;
     const virtualizationPercent: number = this.estimationForm.get('virtualizationPercent')?.value;
-    return this.estimationService.valueOfPercent(this.estimationService.toMinutes(workloadHs),virtualizationPercent);  
+    return this.estimationService.valueOfPercent(this.estimationService.toMinutes(workloadHs),virtualizationPercent);
   }
 
   // minutesObjetive change
